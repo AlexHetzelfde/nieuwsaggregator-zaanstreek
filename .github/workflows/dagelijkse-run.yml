@@ -1,0 +1,51 @@
+name: Dagelijkse nieuwsrun
+
+# Deze workflow heeft GEEN eigen 'schedule' meer — hij wordt getriggerd door
+# een externe cron-job (cron-job.org) die elke avond een workflow_dispatch-
+# call doet naar de GitHub API. Reden: GitHub's eigen schedule-cron kan bij
+# drukte flink vertragen, en wordt na 60 dagen inactiviteit van de repo
+# automatisch uitgezet. Een externe, betrouwbare trigger lost dat op.
+#
+# Je kunt 'm ook nog altijd gewoon handmatig starten via de Actions-tab
+# ("Run workflow") — handig om te testen.
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write # nodig om de data/*.json bestanden terug te committen
+
+jobs:
+  scrape-en-beoordeel:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Node.js instellen
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+          cache-dependency-path: scraper/package-lock.json
+
+      - name: Dependencies installeren
+        working-directory: scraper
+        run: npm install
+
+      - name: Playwright-browser installeren (voor de iBabs-scraper)
+        working-directory: scraper
+        run: npx playwright install --with-deps chromium
+
+      - name: Scraper draaien
+        working-directory: scraper
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: npm start
+
+      - name: Resultaten committen
+        run: |
+          git config user.name "nieuwsaggregator-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/*.json
+          git diff --quiet --cached || git commit -m "Dagelijkse update: $(TZ='Europe/Amsterdam' date '+%Y-%m-%d %H:%M')"
+          git push
