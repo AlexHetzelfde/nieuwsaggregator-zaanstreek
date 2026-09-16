@@ -124,6 +124,27 @@ h2 {
   font-style: italic;
 }
 
+.bron-titel {
+  font-size: 0.8rem;
+  color: #777;
+  margin: -0.25rem 0 0.5rem;
+}
+
+.bron-titel a {
+  color: inherit;
+}
+
+.vervolgstappen {
+  margin: 0.5rem 0 0;
+  padding-left: 1.1rem;
+  font-size: 0.8rem;
+  color: #444;
+}
+
+.vervolgstappen li {
+  margin-bottom: 0.2rem;
+}
+
 .score {
   font-size: 0.75rem;
   color: #777;
