@@ -1,5 +1,137 @@
 {
-  "gegenereerdOp": "2026-09-16T07:41:07.787Z",
-  "aantalBerichtenTotaal": 0,
-  "top5": []
+  "gegenereerdOp": "2026-09-16T07:50:34.602Z",
+  "aantalBerichtenTotaal": 290,
+  "top5": [
+    {
+      "bronId": "nos-binnenland",
+      "bronNaam": "NOS — Binnenland",
+      "categorie": "landelijk",
+      "titel": "Jongeren uitgebuit en opgesloten in buitenlandse tehuizen, toezicht 'lege huls'",
+      "url": "https://nos.nl/l/2631024",
+      "samenvatting": "De overheid heeft geen zicht op jongeren in Nederlandse jeugdzorglocaties in het buitenland. De risico's van buitenlandplaatsingen zijn al vijftien jaar bekend, maar duren nog altijd voort, blijkt uit onderzoek van Nieuwsuur. De Inspectie Gezondheidszorg en Jeugd (IGJ) krijgt meldingen dat jongeren moeten werken zonder betaling, niet naar school gaan en worden opgesloten. De inspectie is bezorgd over de buitenlandplaatsingen, maar ziet voor zichzelf geen rol om in te grijpen. Al in 2009 signalen Gemeenten en jeugdbeschermingsorganisaties sturen jongeren met gedragsproblemen soms naar het buite",
+      "gepubliceerdOp": "2026-09-15T05:00:01.000Z",
+      "opgehaaldOp": "2026-09-16T07:46:56.003Z",
+      "score": 7,
+      "scoreToelichting": [
+        "raakt gemeentelijk beleidsterrein (+4)",
+        "raakt lokaal vertegenwoordigde sector (+3)"
+      ],
+      "aiBeoordeling": {
+        "lokaleInvalshoek": "ja",
+        "aanleiding": "Gemeenten in Zaanstreek-Waterland zijn verantwoordelijk voor de jeugdzorg en besteden deze uit aan gecertificeerde instellingen die jongeren mogelijk doorplaatsen naar buitenlandse tehuizen.",
+        "voorgesteldeKop": "Sturen gemeenten in Zaanstreek-Waterland jeugdzorgjongeren naar buitenlandse tehuizen?",
+        "pitchUitleg": "Uit landelijk onderzoek blijkt dat de overheid en inspecties geen zicht hebben op kwetsbare jeugdzorgjongeren die naar het buitenland worden gestuurd, waar risico's op uitbuiting en opsluiting spelen. Aangezien gemeenten in Zaanstreek-Waterland (zoals Zaanstad en Purmerend) via de Jeugdwet verantwoordelijk zijn voor zware jeugdzorgtrajecten, is de vraag relevant of en hoe vaak lokale jeugdbeschermingsorganisaties (zoals de William Schrikker Groep of Jeugdbescherming Regio Amsterdam) deze maatregelen inzetten.",
+        "vervolgstappen": [
+          "Vraag bij de gemeenten in Zaanstreek-Waterland (Zaanstad, Purmerend, Wormerland, Oostzaan, Edam-Volendam, Waterland) op of zij in de afgelopen jaren jeugdzorgjongeren hebben geplaatst in instellingen in het buitenland.",
+          "Benader lokale jeugdzorginstellingen en gecertificeerde instellingen actief in de regio om te reageren op de landelijke bevindingen over gebrekkig toezicht.",
+          "Pas hoor- en wederhoor toe bij wethouders Jeugd van de betreffende gemeenten over hun beleid en verantwoordelijkheid rondom buitenlandse jeugdzorgplaatsingen."
+        ],
+        "onderbouwing": ""
+      },
+      "aiFout": null
+    },
+    {
+      "bronId": "ibabs-collegeberichten",
+      "bronNaam": "Zaanstad — Collegeberichten (iBabs)",
+      "categorie": "lokaal",
+      "titel": "Kennisgeving Wethouder De Boer: Openbaarmaking voorgenomen besluit Gedeputeerde Staten voorkeursvariant Variantenstudie N203 Krommenie",
+      "url": "https://zaanstad.bestuurlijkeinformatie.nl/Reports/Item//469b84d7-7b38-46ef-9680-4af8cbf192a7",
+      "samenvatting": "09-09-2026 — 09-09-2026 — Doeves - de Boer, M. — Kennisgeving — Ter kennisname",
+      "gepubliceerdOp": "2026-09-09T00:00:00.000Z",
+      "opgehaaldOp": "2026-09-16T07:46:50.920Z",
+      "score": 6,
+      "scoreToelichting": [
+        "belang (+4)",
+        "nabijheid (+4)",
+        "ouder dan een week (-2)"
+      ],
+      "aiBeoordeling": {
+        "oppakbaar": "ja",
+        "onderbouwing": "Het bericht heeft een hoge nabijheid (Krommenie) en een groot belang omdat het gaat om een voorgenomen besluit over de N203 dat inwoners concreet raakt. Het is zeer actueel gelet op de publicatiedatum en valt onder de categorie 'nieuws van morgen' als bestuurlijke vooraankondiging.",
+        "invalshoek": "Wat betekent de gekozen voorkeursvariant voor de N203 in Krommenie voor de bereikbaarheid en leefbaarheid van de omgeving?",
+        "teCheckenBronnen": [
+          "Gedeputeerde Staten Provincie Noord-Holland",
+          "Gemeente Zaanstad"
+        ]
+      },
+      "aiFout": null
+    },
+    {
+      "bronId": "nos-binnenland",
+      "bronNaam": "NOS — Binnenland",
+      "categorie": "landelijk",
+      "titel": "Boerenacties vanwege Prinsjesdag: hooi in brand langs verschillende wegen",
+      "url": "https://nos.nl/l/2631089",
+      "samenvatting": "Op verschillende plaatsen in het land woedt er brand langs een snelweg, onder meer naast de A2 bij Breukelen en de A28 bij Putten en Dwingeloo. Op beelden is te zien dat er hooi in brand staat. RTV Noord meldt een vergelijkbare actie langs de A7 bij Scheemda. Ook langs andere wegen worden branden gemeld. Op beelden van Rijkswaterstaat is te zien dat het verkeer bij Breukelen door de rook wordt gehinderd. \"Waar nodig zullen we rijstroken of complete rijbanen afsluiten\", zegt Rijkswaterstaat. De brandweer moest op meerdere plaatsen brandjes blussen: Het gaat om acties van boerenactivisten. Die h",
+      "gepubliceerdOp": "2026-09-15T11:04:12.000Z",
+      "opgehaaldOp": "2026-09-16T07:46:56.002Z",
+      "score": 3,
+      "scoreToelichting": [
+        "raakt lokaal vertegenwoordigde sector (+3)"
+      ],
+      "aiBeoordeling": {
+        "lokaleInvalshoek": "ja",
+        "aanleiding": "Boerenacties met hooibranden langs snelwegen rond Prinsjesdag, waarbij de A7 al specifiek in het nieuws is (Scheemda), wat ook relevant kan zijn voor de A7 en A8 in Zaanstreek-Waterland.",
+        "voorgesteldeKop": "Ook overlast of acties door boeren in Zaanstreek-Waterland rond Prinsjesdag?",
+        "pitchUitleg": "Het landelijke nieuws over boerenacties en branden langs snelwegen roept de vraag op of er in de regio Zaanstreek-Waterland, met belangrijke snelwegen zoals de A7 en A8, ook acties hebben plaatsgevonden of te verwachten zijn. Rijkswaterstaat en lokale eenheden van de veiligheidsregio kunnen hierover geïnformeerd worden. Dit biedt lezers een lokaal perspectief op een landelijke ontwrichting.",
+        "vervolgstappen": [
+          "Neem contact op met Rijkswaterstaat Noord-Holland om te controleren of er ook branden of vertragingen zijn gemeld op de A7, A8 of A10 binnen de regio Zaanstreek-Waterland.",
+          "Bel de regionale brandweer (Veiligheidsregio Zaanstreek-Waterland) om te vragen of zij zijn uitgerukt voor hooibranden langs de wegen.",
+          "Vraag LTO Noord (afdeling Zaanstreek-Waterland) om een reactie op de acties en of hun leden hierbij betrokken zijn."
+        ],
+        "onderbouwing": ""
+      },
+      "aiFout": null
+    },
+    {
+      "bronId": "nos-binnenland",
+      "bronNaam": "NOS — Binnenland",
+      "categorie": "landelijk",
+      "titel": "'Weinig beelden en geen idee over daders sabotage', zegt ProRail-baas",
+      "url": "https://nos.nl/l/2631181",
+      "samenvatting": "\"Ik vind het echt verschrikkelijk wat er gebeurt\", zegt Mirjam van Velthuizen, bestuursvoorzitter van ProRail tegen Nieuwsuur over de sabotageacties op het spoor. Hoewel de spoorbeheerder na de sabotages van dinsdag extra camera's en surveillance langs het spoor inzet, is ze er niet gerust op. \"Laten we eerlijk zijn, we hebben 7000 kilometer spoor. Die houd je niet zomaar helemaal in beeld. Het is ontzettend gevaarlijk wat mensen vandaag gedaan hebben en ik wil ze ook oproepen: doe dat niet. Een trein kan ontsporen als er iets op het spoor ligt.\" Van Velthuizen geeft aan dat nog altijd niet be",
+      "gepubliceerdOp": "2026-09-15T21:27:46.000Z",
+      "opgehaaldOp": "2026-09-16T07:46:56.002Z",
+      "score": 0,
+      "scoreToelichting": [],
+      "aiBeoordeling": {
+        "lokaleInvalshoek": "ja",
+        "aanleiding": "Recente landelijke sabotageacties op het spoor waarbij ProRail extra camera's en surveillance inzet, relevant voor de drukke spoorlijnen door Zaanstreek-Waterland.",
+        "voorgesteldeKop": "Extra waakzaamheid op het spoor in Zaanstreek-Waterland na landelijke sabotage",
+        "pitchUitleg": "Het landelijke nieuws over spoorwegsabotage en de kwetsbaarheid van het 7000 kilometer lange spoornetwerk roept de vraag op hoe het gesteld is met de beveiliging van de trajecten door Zaanstreek-Waterland, zoals de drukke lijn Amsterdam-Zaandam-Uitgeest en de Purmerend-lijn. Lokale machinisten, reizigers en ProRail worden geconfronteerd met dezelfde risico's. Onderzoek of er in de regio sprake is geweest van verdachte situaties of dat er extra maatregelen zijn getroffen.",
+        "vervolgstappen": [
+          "Neem contact op met de persvoorlichting van ProRail met de vraag of er op de trajecten door Zaanstreek-Waterland extra camera's of surveillance zijn ingezet.",
+          "Vraag de lokale politie of er in de regio meldingen zijn binnengekomen van sabotage of pogingen daartoe op het spoor.",
+          "Interview een woordvoerder van reizigersvereniging Maatschappij Voor Beter ÖV (MVBV) of FNV Spoor over de veiligheidsbeleving van machinisten en conducteurs op de lijnen in deze regio."
+        ],
+        "onderbouwing": ""
+      },
+      "aiFout": null
+    },
+    {
+      "bronId": "nos-binnenland",
+      "bronNaam": "NOS — Binnenland",
+      "categorie": "landelijk",
+      "titel": "NS start dienstregeling weer op, wie achter sabotage zit nog onduidelijk",
+      "url": "https://nos.nl/l/2631076",
+      "samenvatting": "De NS is voorzichtig begonnen met hervatting van de dienstregeling na de sabotageactie van vanochtend. Onbekenden legden op meerdere plekken door het land buizen op het spoor, waardoor het treinverkeer ernstig ontregeld raakte. Vooral tussen Utrecht en het noorden en oosten van het land was er overlast. Op sommige plaatsen werden ook startkabels aangetroffen. Die waren bedoeld om kortsluiting te veroorzaken op het tracé. Liveblog over de spoorsabotage: Volg in ons liveblog de laatste ontwikkelingen. Halverwege de ochtend had ProRail het spoor op verschillende tracés gecontroleerd en op zeker 2",
+      "gepubliceerdOp": "2026-09-15T09:58:45.000Z",
+      "opgehaaldOp": "2026-09-16T07:46:56.002Z",
+      "score": 0,
+      "scoreToelichting": [],
+      "aiBeoordeling": {
+        "lokaleInvalshoek": "ja",
+        "aanleiding": "Landelijk treinverkeer ontregeld door sabotageactie met buizen en startkabels op het spoor, wat ook impact kan hebben op trajecten door Zaanstreek-Waterland zoals Zaandam - Amsterdam.",
+        "voorgesteldeKop": "Spoorsabotage raakt ook treinreizigers in Zaanstreek-Waterland: 'Controles op het spoor gaande'",
+        "pitchUitleg": "De landelijke sabotageactie op het spoor kan directe gevolgen hebben gehad voor forenzen uit Zaanstreek-Waterland die via Zaandam of Purmerend reizen. Onderzocht moet worden of er op spoorlijnen in onze regio ook verdachte objecten zoals buizen of startkabels zijn aangetroffen en wat de lokale vertragingen waren. Dit raakt direct de duizenden dagelijkse treinreizigers in de Zaanstreek en Waterland.",
+        "vervolgstappen": [
+          "Neem contact op met de persvoorlichting van ProRail om te vragen of er in Zaanstreek-Waterland (bijvoorbeeld rond Zaandam of Purmerend) ook sporen of objecten zijn aangetroffen of gecontroleerd.",
+          "Vraag bij de NS na hoeveel reizigers in de regio last hebben gehad van de ontregelde dienstregeling en of er specifieke trajecten uitvielen.",
+          "Interview lokale forenzen op station Zaandam over de ervaren overlast en de impact op hun ochtendspits."
+        ],
+        "onderbouwing": ""
+      },
+      "aiFout": null
+    }
+  ]
 }
