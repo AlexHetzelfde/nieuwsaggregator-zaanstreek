@@ -15,6 +15,7 @@ const bronnen = require("./bronnen");
 const { scrapeWordpress } = require("./scrapers/wordpress-html");
 const { scrapeIbabs } = require("./scrapers/ibabs");
 const { scrapeRss } = require("./scrapers/rss");
+const { scrapeGeneriekeLijst } = require("./scrapers/generieke-lijst");
 const { scoorBericht } = require("./score");
 const { beoordeelBerichten } = require("./gemini");
 
@@ -25,6 +26,7 @@ const SCRAPER_PER_TYPE = {
   "wordpress-html": scrapeWordpress,
   ibabs: scrapeIbabs,
   rss: scrapeRss,
+  "generieke-lijst": scrapeGeneriekeLijst,
 };
 
 async function scrapeAlleBronnen() {
@@ -50,18 +52,31 @@ async function scrapeAlleBronnen() {
   return alleBerichten;
 }
 
-function filterOpVandaag(berichten) {
-  // "De scraper hoeft alleen alles van die dag te scrapen": we filteren hier
-  // op berichten van vandaag OF zonder betrouwbare datum (fallback — beter
-  // een bericht te veel meenemen dan een echt nieuw bericht missen omdat een
-  // bron geen datum meegeeft).
-  const vandaag = new Date();
-  vandaag.setHours(0, 0, 0, 0);
+const GEZIENE_URLS_BESTAND = path.join(DATA_MAP, "geziene-urls.json");
 
-  return berichten.filter((b) => {
-    if (!b.gepubliceerdOp) return true; // geen datum bekend -> voorzichtigheidshalve meenemen
-    return new Date(b.gepubliceerdOp) >= vandaag;
-  });
+async function laadGezieneUrls() {
+  try {
+    const inhoud = await fs.readFile(GEZIENE_URLS_BESTAND, "utf-8");
+    return new Set(JSON.parse(inhoud));
+  } catch {
+    return new Set(); // eerste keer draaien, of bestand nog niet aanwezig
+  }
+}
+
+async function schrijfGezieneUrls(set) {
+  await fs.mkdir(DATA_MAP, { recursive: true });
+  // Cap op 5000 URL's zodat dit bestand niet oneindig blijft groeien —
+  // de oudste worden simpelweg niet meer bijgehouden (Set behoudt invoegvolgorde).
+  const array = Array.from(set).slice(-5000);
+  await fs.writeFile(GEZIENE_URLS_BESTAND, JSON.stringify(array, null, 2), "utf-8");
+}
+
+function filterOpNieuw(berichten, gezieneUrls) {
+  // "Nieuw" = URL nog niet eerder gezien in een vorige run. Dit werkt beter
+  // dan een datumfilter voor bronnen die onregelmatig posten (zoals
+  // zaanschemolen.nl, die soms weken niks plaatst) en voor de iBabs-lijsten,
+  // die geen betrouwbare "gepubliceerd vandaag"-datum hebben.
+  return berichten.filter((b) => b.url && !gezieneUrls.has(b.url));
 }
 
 function verwijderDubbelen(berichten) {
@@ -92,12 +107,19 @@ async function main() {
   // Stap 1: scrapen
   const ruweBerichten = await scrapeAlleBronnen();
 
-  // Stap 1b: dedupliceren + alleen vandaag (per bron al een "nieuw vandaag"-
-  // proxy via URL-dedup, plus een datumfilter als extra check)
-  const berichtenVanVandaag = verwijderDubbelen(filterOpVandaag(ruweBerichten));
+  // Stap 1b: dedupliceren binnen deze run + alleen berichten die we nog
+  // niet eerder (in een vorige run) hebben gezien.
+  const gezieneUrls = await laadGezieneUrls();
+  const berichtenVanVandaag = filterOpNieuw(verwijderDubbelen(ruweBerichten), gezieneUrls);
 
   // Stap 2: tellen, vóórdat de AI wordt aangeroepen
   console.log(`Totaal aantal nieuwe berichten vandaag: ${berichtenVanVandaag.length}`);
+
+  // Meteen bijwerken welke URL's we nu gezien hebben, zodat een eventuele
+  // latere fout in dit script niet leidt tot het dubbel verwerken van
+  // dezelfde berichten bij de volgende run.
+  berichtenVanVandaag.forEach((b) => gezieneUrls.add(b.url));
+  await schrijfGezieneUrls(gezieneUrls);
 
   // Stap 3: scoren
   const gescoordeBerichten = berichtenVanVandaag.map(scoorBericht);
