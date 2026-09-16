@@ -41,15 +41,18 @@ function renderPitches(data) {
 
 function renderPitchKaart(bericht) {
   const beoordeling = bericht.aiBeoordeling || {};
-  const invalshoek =
-    bericht.categorie === "lokaal" ? beoordeling.invalshoek : beoordeling.aanleiding;
+  const isLandelijk = bericht.categorie === "landelijk";
+  const kop = isLandelijk ? beoordeling.voorgesteldeKop : null;
+  const invalshoek = isLandelijk ? beoordeling.pitchUitleg || beoordeling.aanleiding : beoordeling.invalshoek;
+  const stappen = isLandelijk && Array.isArray(beoordeling.vervolgstappen) ? beoordeling.vervolgstappen : [];
 
   return `
     <article class="pitch-kaart">
       <span class="badge ${bericht.categorie}">${bericht.categorie}</span>
-      <h3><a href="${escapeHtml(bericht.url)}" target="_blank" rel="noopener">${escapeHtml(bericht.titel)}</a></h3>
+      ${kop ? `<h3>${escapeHtml(kop)}</h3><p class="bron-titel">Origineel: <a href="${escapeHtml(bericht.url)}" target="_blank" rel="noopener">${escapeHtml(bericht.titel)}</a></p>` : `<h3><a href="${escapeHtml(bericht.url)}" target="_blank" rel="noopener">${escapeHtml(bericht.titel)}</a></h3>`}
       <div class="bericht-meta">${escapeHtml(bericht.bronNaam)} · ${formatteerDatum(bericht.gepubliceerdOp)}</div>
       ${invalshoek ? `<p class="invalshoek">${escapeHtml(invalshoek)}</p>` : ""}
+      ${stappen.length > 0 ? `<ul class="vervolgstappen">${stappen.map((s) => `<li>${escapeHtml(s)}</li>`).join("")}</ul>` : ""}
       <div class="score">score: ${bericht.score}</div>
     </article>
   `;
