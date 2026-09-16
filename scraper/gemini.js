@@ -5,7 +5,7 @@
 // omgevingsvariabele GEMINI_API_KEY (zie README voor hoe je die als GitHub
 // Secret instelt — nooit hardcoded in dit bestand of ergens anders in de repo!).
 
-const GEMINI_MODEL = "gemini-2.5-flash"; // snel en goedkoop genoeg voor dagelijkse triage
+const GEMINI_MODEL = "gemini-flash-latest"; // alias die Google zelf actueel houdt — voorkomt dat dit breekt bij elke nieuwe modelgeneratie
 const GEMINI_URL = (apiKey) =>
   `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`;
 
