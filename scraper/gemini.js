@@ -156,7 +156,7 @@ function nieuweWacht(ms) {
  */
 const PAUZE_TUSSEN_CALLS_MS = 4500; // ~13 aanvragen/minuut, ruim onder de gratis-tier-limiet
 
-async function beoordeelBerichten(berichten, apiKey, maxAantal = 40) {
+async function beoordeelBerichten(berichten, apiKey, maxAantal = 18) {
   const teBeoordelen = berichten.slice(0, maxAantal);
   const overgeslagen = berichten.slice(maxAantal).map((b) => ({ ...b, aiBeoordeling: null, aiFout: "dagcap bereikt" }));
 
