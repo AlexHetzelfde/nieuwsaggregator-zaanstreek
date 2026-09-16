@@ -5,7 +5,7 @@
 // omgevingsvariabele GEMINI_API_KEY (zie README voor hoe je die als GitHub
 // Secret instelt — nooit hardcoded in dit bestand of ergens anders in de repo!).
 
-const GEMINI_MODEL = "gemini-flash-latest"; // alias die Google zelf actueel houdt — voorkomt dat dit breekt bij elke nieuwe modelgeneratie
+const GEMINI_MODEL = "gemini-flash-lite-latest"; // hogere gratis rate-limit dan gewone flash — belangrijk bij tientallen calls per run
 const GEMINI_URL = (apiKey) =>
   `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`;
 
@@ -107,14 +107,17 @@ async function beoordeelMetGemini(bericht, apiKey, pogingen = 3) {
       );
 
       if (!response.ok) {
-        // 503/429 zijn tijdelijke overbelastings-/ratelimitfouten bij Google —
-        // die lonen een paar keer opnieuw proberen. Een 404 (verkeerd modelnaam,
-        // bijvoorbeeld) of 400 (foute aanvraag) lost zichzelf niet op door te
-        // wachten, dus die geven we meteen door zonder te herhalen.
-        const magOpnieuw = response.status === 503 || response.status === 429;
-        if (magOpnieuw && poging < pogingen) {
-          console.warn(`[${bericht.bronId}] Gemini HTTP ${response.status} (poging ${poging}/${pogingen}), opnieuw proberen...`);
-          await nieuweWacht(1500 * poging);
+        // 503 = tijdelijke serveroverbelasting bij Google, lost vaak binnen
+        // een paar seconden op. 429 = je zit over de rate-limit-venster van
+        // het gratis tier (~10-15 aanvragen/minuut) — dat venster is grofweg
+        // een minuut, dus daar helpt een paar seconden wachten niets; die
+        // krijgt een veel langere back-off.
+        const is429 = response.status === 429;
+        const is503 = response.status === 503;
+        if ((is429 || is503) && poging < pogingen) {
+          const wachttijd = is429 ? 20_000 * poging : 1500 * poging;
+          console.warn(`[${bericht.bronId}] Gemini HTTP ${response.status} (poging ${poging}/${pogingen}), ${wachttijd / 1000}s wachten...`);
+          await nieuweWacht(wachttijd);
           continue;
         }
         throw new Error(`Gemini HTTP ${response.status}`);
@@ -144,7 +147,15 @@ function nieuweWacht(ms) {
  * we in één keer tegen rate limits aanlopen). `maxAantal` is de dagcap: bij
  * veel berichten worden alleen de hoogst scorende (de lijst moet dus al
  * gesorteerd zijn op score) daadwerkelijk naar Gemini gestuurd.
+ *
+ * Tussen elke aanroep zit een vaste pauze (PAUZE_TUSSEN_CALLS_MS) zodat we
+ * structureel onder de gratis-tier rate-limit (~10-15 aanvragen/minuut)
+ * blijven, in plaats van er telkens tegenaan te lopen en daarna te moeten
+ * herstellen met een lange back-off — dat laatste kostte de vorige run bijna
+ * 10 minuten voor uiteindelijk 0 geslaagde beoordelingen.
  */
+const PAUZE_TUSSEN_CALLS_MS = 4500; // ~13 aanvragen/minuut, ruim onder de gratis-tier-limiet
+
 async function beoordeelBerichten(berichten, apiKey, maxAantal = 40) {
   const teBeoordelen = berichten.slice(0, maxAantal);
   const overgeslagen = berichten.slice(maxAantal).map((b) => ({ ...b, aiBeoordeling: null, aiFout: "dagcap bereikt" }));
@@ -152,6 +163,7 @@ async function beoordeelBerichten(berichten, apiKey, maxAantal = 40) {
   const resultaten = [];
   for (const bericht of teBeoordelen) {
     resultaten.push(await beoordeelMetGemini(bericht, apiKey));
+    await nieuweWacht(PAUZE_TUSSEN_CALLS_MS);
   }
   return [...resultaten, ...overgeslagen];
 }
