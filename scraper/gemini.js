@@ -57,16 +57,28 @@ Denk hierbij aan mogelijke aanknopingspunten:
   arbeidsmigranten, studenten, ouderen, zzp'ers)?
 - Bestaat er een lokale/regionale uitsplitsing van de genoemde cijfers?
 
+Als je een "ja" of "twijfel" geeft, werk de pitch dan verder uit: een voorgestelde
+kop, een korte uitleg van de invalshoek (2-4 zinnen), en concrete
+vervolgstappen voor de journalist — wie te interviewen of welke lokale
+instantie te bellen, en welke feiten nog gecheckt moeten worden voordat dit
+gepubliceerd kan worden. Dat laatste is niet optioneel: een journalist mag een
+gesuggereerde invalshoek nooit ongecheckt overnemen, en moet altijd
+hoor-wederhoor toepassen bij de partijen die het aangaat.
+
 Geef ALLEEN geldig JSON terug, in dit exacte formaat, zonder markdown-fences of andere tekst:
 {
   "lokaleInvalshoek": "ja" | "twijfel" | "nee",
   "aanleiding": "concrete, controleerbare aanleiding die logisch uit het bericht volgt, anders leeg",
+  "voorgesteldeKop": "een pakkende, feitelijk onderbouwde kop voor het lokale artikel, anders leeg",
+  "pitchUitleg": "2-4 zinnen die de invalshoek uitwerken tot een bruikbare pitch, anders leeg",
+  "vervolgstappen": ["concrete actie 1, bijv. wie te interviewen", "concrete actie 2, bijv. welk feit te checken"],
   "onderbouwing": "bij twijfel/nee: waarom geen onderbouwde invalshoek te vinden is"
 }
 
 Doe nooit een aanname om tot een invalshoek te komen. Een journalist moet elke
 gesuggereerde invalshoek nog zelf kunnen checken met feiten en hoor-wederhoor.
-Als je geen concreet aanknopingspunt hebt, zeg dat expliciet — verzin er geen bij.`;
+Als je geen concreet aanknopingspunt hebt, zeg dat expliciet — verzin er geen bij,
+en laat voorgesteldeKop, pitchUitleg en vervolgstappen dan leeg.`;
 
 /**
  * Beoordeelt één bericht met Gemini. Faalt een call (timeout, rate limit,
@@ -74,38 +86,57 @@ Als je geen concreet aanknopingspunt hebt, zeg dat expliciet — verzin er geen 
  * in plaats van de hele batch te laten crashen — zoals besproken: liever één
  * gemiste pitch dan een mislukte dagelijkse cyclus.
  */
-async function beoordeelMetGemini(bericht, apiKey) {
+async function beoordeelMetGemini(bericht, apiKey, pogingen = 3) {
   const prompt = bericht.categorie === "lokaal" ? PROMPT_LOKAAL : PROMPT_LANDELIJK;
   const volledigePrompt = `${prompt}\n\n---\nBERICHT\nTitel: ${bericht.titel}\nSamenvatting: ${bericht.samenvatting}\nBron: ${bericht.bronNaam}\nURL: ${bericht.url}\nGepubliceerd: ${bericht.gepubliceerdOp || "onbekend"}`;
 
-  try {
-    const response = await fetchMetTimeout(
-      GEMINI_URL(apiKey),
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: volledigePrompt }] }],
-          generationConfig: { temperature: 0.2, responseMimeType: "application/json" },
-        }),
-      },
-      25_000
-    );
+  let laatsteFout;
+  for (let poging = 1; poging <= pogingen; poging++) {
+    try {
+      const response = await fetchMetTimeout(
+        GEMINI_URL(apiKey),
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: volledigePrompt }] }],
+            generationConfig: { temperature: 0.2, responseMimeType: "application/json" },
+          }),
+        },
+        25_000
+      );
 
-    if (!response.ok) {
-      throw new Error(`Gemini HTTP ${response.status}`);
+      if (!response.ok) {
+        // 503/429 zijn tijdelijke overbelastings-/ratelimitfouten bij Google —
+        // die lonen een paar keer opnieuw proberen. Een 404 (verkeerd modelnaam,
+        // bijvoorbeeld) of 400 (foute aanvraag) lost zichzelf niet op door te
+        // wachten, dus die geven we meteen door zonder te herhalen.
+        const magOpnieuw = response.status === 503 || response.status === 429;
+        if (magOpnieuw && poging < pogingen) {
+          console.warn(`[${bericht.bronId}] Gemini HTTP ${response.status} (poging ${poging}/${pogingen}), opnieuw proberen...`);
+          await nieuweWacht(1500 * poging);
+          continue;
+        }
+        throw new Error(`Gemini HTTP ${response.status}`);
+      }
+
+      const data = await response.json();
+      const tekst = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (!tekst) throw new Error("Geen tekst in Gemini-respons");
+
+      const beoordeling = JSON.parse(tekst);
+      return { ...bericht, aiBeoordeling: beoordeling, aiFout: null };
+    } catch (fout) {
+      laatsteFout = fout;
     }
-
-    const data = await response.json();
-    const tekst = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-    if (!tekst) throw new Error("Geen tekst in Gemini-respons");
-
-    const beoordeling = JSON.parse(tekst);
-    return { ...bericht, aiBeoordeling: beoordeling, aiFout: null };
-  } catch (fout) {
-    console.warn(`[${bericht.bronId}] Gemini-beoordeling overgeslagen: ${fout.message}`);
-    return { ...bericht, aiBeoordeling: null, aiFout: fout.message };
   }
+
+  console.warn(`[${bericht.bronId}] Gemini-beoordeling overgeslagen: ${laatsteFout.message}`);
+  return { ...bericht, aiBeoordeling: null, aiFout: laatsteFout.message };
+}
+
+function nieuweWacht(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 /**
