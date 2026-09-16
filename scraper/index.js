@@ -20,7 +20,7 @@ const { scoorBericht } = require("./score");
 const { beoordeelBerichten } = require("./gemini");
 
 const DATA_MAP = path.join(__dirname, "..", "data");
-const DAGCAP_GEMINI = Number(process.env.DAGCAP_GEMINI || 40);
+const DAGCAP_GEMINI = Number(process.env.DAGCAP_GEMINI || 18);
 
 const SCRAPER_PER_TYPE = {
   "wordpress-html": scrapeWordpress,
