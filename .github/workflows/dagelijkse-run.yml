@@ -32,10 +32,6 @@ jobs:
         working-directory: scraper
         run: npm install
 
-      - name: Playwright-browser installeren (voor de iBabs-scraper)
-        working-directory: scraper
-        run: npx playwright install --with-deps chromium
-
       - name: Scraper draaien
         working-directory: scraper
         env:
