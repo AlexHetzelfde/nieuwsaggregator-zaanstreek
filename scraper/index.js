@@ -1,12 +1,12 @@
 // index.js — hoofdscript van de dagelijkse run
 //
-// Volgorde (zoals besproken):
+// Volgorde:
 // 1. Alles scrapen (per bron, met eigen scraper-type)
 // 2. Tellen hoeveel berichten er zijn, VOORDAT Gemini wordt aangeroepen
 // 3. Scoren (score.js) — puntensysteem als sorteersignaal, geen filter
 // 4. Splitsen in lokaal/landelijk en sorteren op score
 // 5. Per bericht een Gemini-call met de juiste prompt (met dagcap)
-// 6. Top-5 pitches bepalen en alles wegschrijven naar /data voor de front-end
+// 6. Top-pitches bepalen (met voorkeur voor lokaal) en wegschrijven naar /data
 
 const fs = require("fs/promises");
 const path = require("path");
@@ -21,6 +21,12 @@ const { beoordeelBerichten } = require("./gemini");
 
 const DATA_MAP = path.join(__dirname, "..", "data");
 const DAGCAP_GEMINI = Number(process.env.DAGCAP_GEMINI || 18);
+const AANTAL_PITCHES = Number(process.env.AANTAL_PITCHES || 10);
+// Hoeveel punten een landelijk bericht moet "inleveren" bij het samenstellen
+// van de pitches — lokaal nieuws krijgt zo voorrang, tenzij een landelijk
+// bericht ook ná aftrek van deze marge nog steeds hoger scoort (d.w.z. het
+// lokale aanbod die dag merkbaar zwakker is).
+const LOKALE_VOORKEURSMARGE = Number(process.env.LOKALE_VOORKEURSMARGE || 5);
 
 const SCRAPER_PER_TYPE = {
   "wordpress-html": scrapeWordpress,
@@ -29,23 +35,37 @@ const SCRAPER_PER_TYPE = {
   "generieke-lijst": scrapeGeneriekeLijst,
 };
 
+// --- Kleine logging-helpers, zodat elke fase duidelijk zichtbaar is in de
+// Actions-log: een kopregel, en aan het eind hoelang die fase duurde. ---
+function logFase(titel) {
+  console.log(`\n=== ${titel} — ${new Date().toISOString()} ===`);
+}
+
+function logDuur(startMs, label) {
+  const duurSec = ((Date.now() - startMs) / 1000).toFixed(1);
+  console.log(`${label} klaar in ${duurSec}s`);
+}
+
 async function scrapeAlleBronnen() {
   const alleBerichten = [];
 
   for (const bron of bronnen) {
     const scraper = SCRAPER_PER_TYPE[bron.type];
     if (!scraper) {
-      console.warn(`Onbekend brontype "${bron.type}" voor bron ${bron.id} — overgeslagen.`);
+      console.warn(`[${bron.id}] Onbekend brontype "${bron.type}" — overgeslagen.`);
       continue;
     }
 
+    const startBron = Date.now();
     try {
       const berichten = await scraper(bron);
-      console.log(`[${bron.id}] ${berichten.length} bericht(en) gevonden.`);
+      const duurSec = ((Date.now() - startBron) / 1000).toFixed(1);
+      console.log(`[${bron.id}] ${berichten.length} bericht(en) gevonden (${duurSec}s).`);
       alleBerichten.push(...berichten);
     } catch (fout) {
       // Eén kapotte bron mag de hele dagelijkse run niet laten crashen.
-      console.error(`[${bron.id}] Scrapen mislukt: ${fout.message}`);
+      const duurSec = ((Date.now() - startBron) / 1000).toFixed(1);
+      console.error(`[${bron.id}] Scrapen mislukt na ${duurSec}s: ${fout.message}`);
     }
   }
 
@@ -65,17 +85,11 @@ async function laadGezieneUrls() {
 
 async function schrijfGezieneUrls(set) {
   await fs.mkdir(DATA_MAP, { recursive: true });
-  // Cap op 5000 URL's zodat dit bestand niet oneindig blijft groeien —
-  // de oudste worden simpelweg niet meer bijgehouden (Set behoudt invoegvolgorde).
   const array = Array.from(set).slice(-5000);
   await fs.writeFile(GEZIENE_URLS_BESTAND, JSON.stringify(array, null, 2), "utf-8");
 }
 
 function filterOpNieuw(berichten, gezieneUrls) {
-  // "Nieuw" = URL nog niet eerder gezien in een vorige run. Dit werkt beter
-  // dan een datumfilter voor bronnen die onregelmatig posten (zoals
-  // zaanschemolen.nl, die soms weken niks plaatst) en voor de iBabs-lijsten,
-  // die geen betrouwbare "gepubliceerd vandaag"-datum hebben.
   return berichten.filter((b) => b.url && !gezieneUrls.has(b.url));
 }
 
@@ -93,8 +107,30 @@ async function schrijfJson(bestandsnaam, data) {
   await fs.writeFile(path.join(DATA_MAP, bestandsnaam), JSON.stringify(data, null, 2), "utf-8");
 }
 
+/**
+ * Combineert kansrijke lokale en landelijke berichten tot de uiteindelijke
+ * pitchlijst, met voorkeur voor lokaal: een landelijk bericht wordt alleen
+ * boven een lokaal bericht gerangschikt als het, ná aftrek van
+ * LOKALE_VOORKEURSMARGE, nog steeds hoger scoort. Dat betekent: bij een
+ * "normale" dag wint lokaal bijna altijd; alleen als het lokale aanbod die
+ * dag merkbaar zwakker scoort dan het landelijke, komt landelijk hoger.
+ */
+function stelPitchesSamen(kansrijkeLokaal, kansrijkLandelijk, aantal) {
+  const gecombineerd = [
+    ...kansrijkeLokaal.map((b) => ({ bericht: b, vergelijkingsscore: b.score })),
+    ...kansrijkLandelijk.map((b) => ({ bericht: b, vergelijkingsscore: b.score - LOKALE_VOORKEURSMARGE })),
+  ];
+
+  return gecombineerd
+    .sort((a, b) => b.vergelijkingsscore - a.vergelijkingsscore)
+    .slice(0, aantal)
+    .map((x) => x.bericht);
+}
+
 async function main() {
-  console.log("Start dagelijkse run:", new Date().toISOString());
+  const startRun = Date.now();
+  console.log(`Start dagelijkse run: ${new Date().toISOString()}`);
+  console.log(`Instellingen: dagcap=${DAGCAP_GEMINI}/lijst, pitches=${AANTAL_PITCHES}, lokale voorkeursmarge=${LOKALE_VOORKEURSMARGE}`);
 
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
@@ -105,7 +141,11 @@ async function main() {
   }
 
   // Stap 1: scrapen
+  logFase("STAP 1 — Scrapen");
+  const startScrapen = Date.now();
   const ruweBerichten = await scrapeAlleBronnen();
+  logDuur(startScrapen, `Scrapen van ${bronnen.length} bronnen`);
+  console.log(`Ruw aantal berichten (vóór dedup/filter): ${ruweBerichten.length}`);
 
   // Stap 1b: dedupliceren binnen deze run + alleen berichten die we nog
   // niet eerder (in een vorige run) hebben gezien.
@@ -115,13 +155,11 @@ async function main() {
   // Stap 2: tellen, vóórdat de AI wordt aangeroepen
   console.log(`Totaal aantal nieuwe berichten vandaag: ${berichtenVanVandaag.length}`);
 
-  // Meteen bijwerken welke URL's we nu gezien hebben, zodat een eventuele
-  // latere fout in dit script niet leidt tot het dubbel verwerken van
-  // dezelfde berichten bij de volgende run.
   berichtenVanVandaag.forEach((b) => gezieneUrls.add(b.url));
   await schrijfGezieneUrls(gezieneUrls);
 
   // Stap 3: scoren
+  logFase("STAP 2 — Scoren");
   const gescoordeBerichten = berichtenVanVandaag.map(scoorBericht);
 
   // Stap 4: splitsen + sorteren op score (hoog naar laag)
@@ -132,10 +170,9 @@ async function main() {
     .filter((b) => b.categorie === "landelijk")
     .sort((a, b) => b.score - a.score);
 
-  console.log(`Lokaal: ${lokaal.length} berichten. Landelijk: ${landelijk.length} berichten.`);
+  console.log(`Lokaal: ${lokaal.length} berichten (hoogste score: ${lokaal[0]?.score ?? "-"}).`);
+  console.log(`Landelijk: ${landelijk.length} berichten (hoogste score: ${landelijk[0]?.score ?? "-"}).`);
 
-  // Altijd de volledige (gescoorde, niet-beoordeelde) lijsten wegschrijven,
-  // ook als er geen Gemini-key is — zodat de front-end nooit leeg staat.
   await schrijfJson("nieuws-lokaal.json", lokaal);
   await schrijfJson("nieuws-landelijk.json", landelijk);
 
@@ -145,29 +182,38 @@ async function main() {
   }
 
   // Stap 5: Gemini-beoordeling, met dagcap per lijst
-  const lokaalBeoordeeld = await beoordeelBerichten(lokaal, apiKey, DAGCAP_GEMINI);
-  const landelijkBeoordeeld = await beoordeelBerichten(landelijk, apiKey, DAGCAP_GEMINI);
+  logFase("STAP 3 — Gemini-beoordeling");
+  const startGemini = Date.now();
+
+  console.log(`Lokaal: ${Math.min(lokaal.length, DAGCAP_GEMINI)} van ${lokaal.length} berichten gaan naar Gemini.`);
+  const lokaalBeoordeeld = await beoordeelBerichten(lokaal, apiKey, DAGCAP_GEMINI, "lokaal");
+
+  console.log(`Landelijk: ${Math.min(landelijk.length, DAGCAP_GEMINI)} van ${landelijk.length} berichten gaan naar Gemini.`);
+  const landelijkBeoordeeld = await beoordeelBerichten(landelijk, apiKey, DAGCAP_GEMINI, "landelijk");
+
+  logDuur(startGemini, "Gemini-beoordeling");
 
   await schrijfJson("nieuws-lokaal.json", lokaalBeoordeeld);
   await schrijfJson("nieuws-landelijk.json", landelijkBeoordeeld);
 
-  // Stap 6: top-5 pitches bepalen voor de voorkant van de site.
-  // "Oppakbaar" telt als: lokaal -> aiBeoordeling.oppakbaar === "ja";
-  // landelijk -> aiBeoordeling.lokaleInvalshoek === "ja".
+  // Stap 6: pitches samenstellen, met voorkeur voor lokaal nieuws.
+  logFase("STAP 4 — Pitches samenstellen");
   const kansrijkeLokaal = lokaalBeoordeeld.filter((b) => b.aiBeoordeling?.oppakbaar === "ja");
   const kansrijkLandelijk = landelijkBeoordeeld.filter((b) => b.aiBeoordeling?.lokaleInvalshoek === "ja");
+  console.log(`Kansrijk: ${kansrijkeLokaal.length} lokaal, ${kansrijkLandelijk.length} landelijk (vóór voorkeursmarge-sortering).`);
 
-  const top5Pitches = [...kansrijkeLokaal, ...kansrijkLandelijk]
-    .sort((a, b) => b.score - a.score)
-    .slice(0, 5);
+  const pitches = stelPitchesSamen(kansrijkeLokaal, kansrijkLandelijk, AANTAL_PITCHES);
+  const aantalLokaalInPitches = pitches.filter((p) => p.categorie === "lokaal").length;
+  console.log(`Pitches samengesteld: ${aantalLokaalInPitches} lokaal, ${pitches.length - aantalLokaalInPitches} landelijk.`);
 
   await schrijfJson("pitches.json", {
     gegenereerdOp: new Date().toISOString(),
     aantalBerichtenTotaal: berichtenVanVandaag.length,
-    top5: top5Pitches,
+    topPitches: pitches,
   });
 
-  console.log(`Klaar. ${top5Pitches.length} pitch(es) klaargezet.`);
+  logDuur(startRun, "\nVolledige run");
+  console.log(`Klaar. ${pitches.length} pitch(es) klaargezet.`);
 }
 
 main().catch((fout) => {
