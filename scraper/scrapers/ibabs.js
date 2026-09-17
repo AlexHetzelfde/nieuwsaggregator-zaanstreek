@@ -5,10 +5,20 @@
 // zelf met een browser te laten renderen. Deze aanpak — inclusief de
 // tussenstap om via de detailpagina eerst de documentId te vinden voordat de
 // pdf gedownload kan worden — is overgenomen uit een al werkend Python-
-// scraper-script voor hetzelfde iBabs-systeem; dit bestand is de
-// Node-vertaling daarvan. Vereist GEEN Playwright/browser meer.
+// scraper-script voor hetzelfde iBabs-systeem. Vereist GEEN Playwright/browser.
+//
+// BELANGRIJK VOOR SNELHEID: het ophalen van de volledige documentinhoud (een
+// extra pagina-load + pdf-download per bericht) is duur. Daarom wordt dat
+// alleen gedaan voor berichten die (a) niet ouder zijn dan MAX_LEEFTIJD_DAGEN
+// en (b) nog niet eerder gezien zijn (via de gezieneUrls-set die index.js
+// meegeeft). Zonder die twee filters zou elke dagelijkse run opnieuw de
+// documentinhoud van alle ~100 berichten per rapport ophalen, ook van
+// berichten die al weken geleden al eens verwerkt zijn — dat duurde in de
+// praktijk 30+ minuten voor niets.
 
 const MAX_DOCUMENT_TEKST_LENGTE = 3000; // cap zodat de Gemini-prompt niet buitensporig groot wordt
+const MAX_LEEFTIJD_DAGEN = 7;
+const REQUEST_TIMEOUT_MS = 15_000; // voorkomt dat één tragere/hangende iBabs-pagina de hele run ophoudt
 
 let pdfParse;
 try {
@@ -32,7 +42,7 @@ const KOLOMMEN = [
 const GEBRUIKERSAGENT =
   "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36";
 
-async function scrapeIbabs(bron) {
+async function scrapeIbabs(bron, gezieneUrls = new Set()) {
   const guidMatch = bron.url.match(/Reports\/Details\/([a-f0-9-]{36})/i);
   if (!guidMatch) {
     console.warn(`[${bron.id}] Kon geen rapport-GUID uit de URL halen: ${bron.url}`);
@@ -42,12 +52,9 @@ async function scrapeIbabs(bron) {
   const lijstPageUrl = bron.url;
   const lijstDataUrl = `${BASE_URL}/Reports/GetReportData/${guid}`;
 
-  // Sessie/cookies ophalen — sommige iBabs-installaties vereisen een geldige
-  // sessie voor de DataTables-call, andere niet. We proberen het en gaan
-  // gewoon door zonder cookie als dit mislukt.
   let cookie = "";
   try {
-    const sessieResponse = await fetch(lijstPageUrl, { headers: { "User-Agent": GEBRUIKERSAGENT } });
+    const sessieResponse = await fetchMetTimeout(lijstPageUrl, { headers: { "User-Agent": GEBRUIKERSAGENT } });
     cookie = verzamelCookies(sessieResponse);
   } catch (fout) {
     console.warn(`[${bron.id}] Sessie ophalen mislukt (${fout.message}) — doorgaan zonder cookie.`);
@@ -55,7 +62,7 @@ async function scrapeIbabs(bron) {
 
   let rijen;
   try {
-    const response = await fetch(lijstDataUrl, {
+    const response = await fetchMetTimeout(lijstDataUrl, {
       method: "POST",
       headers: {
         "User-Agent": GEBRUIKERSAGENT,
@@ -76,23 +83,54 @@ async function scrapeIbabs(bron) {
     return [];
   }
 
-  const basisBerichten = rijen.map((rij) => normaliseerRij(rij, bron)).filter((b) => b.titel);
+  const alleBerichten = rijen.map((rij) => normaliseerRij(rij, bron)).filter((b) => b.titel);
 
-  // Voor elk bericht de documentinhoud erbij ophalen. Bewust ná elkaar, niet
-  // parallel — dat is vriendelijker voor de iBabs-server en voorkomt dat we
-  // per ongeluk als misbruik/aanval worden aangemerkt.
+  // Filter 1: niet ouder dan MAX_LEEFTIJD_DAGEN. Berichten zonder
+  // herkenbare datum nemen we voorzichtigheidshalve wél mee (beter een
+  // bericht te veel dan een nieuw bericht missen door een datum die de
+  // scraper niet kon lezen).
+  const grens = Date.now() - MAX_LEEFTIJD_DAGEN * 24 * 60 * 60 * 1000;
+  const recenteBerichten = alleBerichten.filter(
+    (b) => !b.gepubliceerdOp || new Date(b.gepubliceerdOp).getTime() >= grens
+  );
+  const aantalTeOud = alleBerichten.length - recenteBerichten.length;
+  if (aantalTeOud > 0) {
+    console.log(`[${bron.id}] ${aantalTeOud} bericht(en) ouder dan ${MAX_LEEFTIJD_DAGEN} dagen overgeslagen.`);
+  }
+
+  // Filter 2: al eerder geziene berichten hoeven geen nieuwe documentinhoud —
+  // die worden dan ook door index.js's dedup weggefilterd, dus we besparen
+  // onszelf hier alvast de dure ophaalstap.
+  const nieuweBerichten = recenteBerichten.filter((b) => !gezieneUrls.has(b.url));
+  const aantalAlGezien = recenteBerichten.length - nieuweBerichten.length;
+  if (aantalAlGezien > 0) {
+    console.log(`[${bron.id}] ${aantalAlGezien} al eerder gezien bericht(en) overgeslagen (geen nieuwe documentinhoud nodig).`);
+  }
+
+  console.log(`[${bron.id}] ${nieuweBerichten.length} bericht(en) waarvoor documentinhoud wordt opgehaald.`);
+
   const compleetBerichten = [];
   let teller = 0;
-  for (const bericht of basisBerichten) {
+  for (const bericht of nieuweBerichten) {
     teller++;
     const berichtMetInhoud = await voegDocumentInhoudToe(bericht, cookie);
     if (teller % 10 === 0) {
-      console.log(`[${bron.id}] documentinhoud opgehaald: ${teller}/${basisBerichten.length}`);
+      console.log(`[${bron.id}] documentinhoud opgehaald: ${teller}/${nieuweBerichten.length}`);
     }
     compleetBerichten.push(berichtMetInhoud);
   }
 
   return compleetBerichten;
+}
+
+async function fetchMetTimeout(url, opties = {}) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT_MS);
+  try {
+    return await fetch(url, { ...opties, signal: controller.signal });
+  } finally {
+    clearTimeout(timeoutId);
+  }
 }
 
 function verzamelCookies(response) {
@@ -153,14 +191,16 @@ function parseerNlDatum(tekst) {
  * Volgt dezelfde tweestapsroute als het werkende Python-script: eerst de
  * detailpagina van het item ophalen om de documentId te vinden, dan pas de
  * pdf zelf downloaden. Faalt dit, dan blijft het bericht gewoon staan met
- * alleen de tabelgegevens — geen crash voor de rest van de run.
+ * alleen de tabelgegevens — geen crash voor de rest van de run. Elke
+ * netwerkaanvraag heeft een timeout, zodat één trage pagina niet de hele
+ * run kan ophouden.
  */
 async function voegDocumentInhoudToe(bericht, cookie) {
   if (!bericht.itemId) return { ...bericht, documentInhoudOpgehaald: false };
 
   try {
     const itemUrl = `${BASE_URL}/Reports/Item/${bericht.itemId}`;
-    const itemResponse = await fetch(itemUrl, {
+    const itemResponse = await fetchMetTimeout(itemUrl, {
       headers: {
         "User-Agent": GEBRUIKERSAGENT,
         Accept: "text/html",
@@ -179,7 +219,7 @@ async function voegDocumentInhoudToe(bericht, cookie) {
     const documentId = documentIdMatch[1];
 
     const pdfUrl = `${BASE_URL}/Document/View/${documentId}`;
-    const pdfResponse = await fetch(pdfUrl, {
+    const pdfResponse = await fetchMetTimeout(pdfUrl, {
       headers: {
         "User-Agent": GEBRUIKERSAGENT,
         Referer: itemUrl,
