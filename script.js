@@ -31,12 +31,12 @@ function renderPitches(data) {
     updateEl.textContent = `Laatst bijgewerkt: ${formatteerDatum(data.gegenereerdOp)} · ${data.aantalBerichtenTotaal ?? "?"} berichten verwerkt vandaag`;
   }
 
-  if (!data.top5 || data.top5.length === 0) {
+  if (!data.topPitches || data.topPitches.length === 0) {
     container.innerHTML = '<p class="leeg">Nog geen pitches vandaag — kom later terug of bekijk de volledige lijsten hieronder.</p>';
     return;
   }
 
-  container.innerHTML = data.top5.map(renderPitchKaart).join("");
+  container.innerHTML = data.topPitches.map(renderPitchKaart).join("");
 }
 
 function renderPitchKaart(bericht) {
