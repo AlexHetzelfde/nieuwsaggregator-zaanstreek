@@ -156,15 +156,22 @@ function nieuweWacht(ms) {
  */
 const PAUZE_TUSSEN_CALLS_MS = 4500; // ~13 aanvragen/minuut, ruim onder de gratis-tier-limiet
 
-async function beoordeelBerichten(berichten, apiKey, maxAantal = 18) {
+async function beoordeelBerichten(berichten, apiKey, maxAantal = 18, label = "") {
   const teBeoordelen = berichten.slice(0, maxAantal);
   const overgeslagen = berichten.slice(maxAantal).map((b) => ({ ...b, aiBeoordeling: null, aiFout: "dagcap bereikt" }));
 
   const resultaten = [];
+  let teller = 0;
   for (const bericht of teBeoordelen) {
+    teller++;
+    console.log(`[gemini${label ? " " + label : ""}] beoordeling ${teller}/${teBeoordelen.length}: "${bericht.titel.slice(0, 60)}"`);
     resultaten.push(await beoordeelMetGemini(bericht, apiKey));
     await nieuweWacht(PAUZE_TUSSEN_CALLS_MS);
   }
+
+  const geslaagd = resultaten.filter((r) => r.aiBeoordeling !== null).length;
+  console.log(`[gemini${label ? " " + label : ""}] ${geslaagd}/${teBeoordelen.length} beoordelingen geslaagd.`);
+
   return [...resultaten, ...overgeslagen];
 }
 
