@@ -1,95 +1,215 @@
 // scrapers/ibabs.js
 //
-// De rapportpagina's op *.bestuurlijkeinformatie.nl (iBabs) laden hun tabel
-// via JavaScript op — een gewone HTTP-fetch krijgt alleen een lege tabel met
-// een "Loading..."-plaatje terug. Daarom gebruiken we hier Playwright: een
-// echte (headless) browser die de pagina opent, wacht tot de tabel gevuld is,
-// en dan de rijen uitleest. Dit is trager dan de andere scrapers, maar het is
-// de enige betrouwbare manier om bij deze data te komen zonder een privé-API
-// te reverse-engineeren die zonder waarschuwing kan veranderen.
-//
-// LET OP: dit bestand heeft het pakket "playwright" nodig (zie package.json)
-// en de GitHub Actions-workflow installeert de bijbehorende browserbinaries
-// via `npx playwright install --with-deps chromium`.
+// Haalt raadsinformatie op uit iBabs (*.bestuurlijkeinformatie.nl) via de
+// onderliggende DataTables-API van de rapportpagina, in plaats van de pagina
+// zelf met een browser te laten renderen. Deze aanpak — inclusief de
+// tussenstap om via de detailpagina eerst de documentId te vinden voordat de
+// pdf gedownload kan worden — is overgenomen uit een al werkend Python-
+// scraper-script voor hetzelfde iBabs-systeem; dit bestand is de
+// Node-vertaling daarvan. Vereist GEEN Playwright/browser meer.
 
-const { chromium } = require("playwright");
+const MAX_DOCUMENT_TEKST_LENGTE = 3000; // cap zodat de Gemini-prompt niet buitensporig groot wordt
 
-async function scrapeIbabs(bron) {
-  const browser = await chromium.launch();
-  try {
-    const page = await browser.newPage();
-    await page.goto(bron.url, { waitUntil: "networkidle", timeout: 30_000 });
-
-    // Wacht tot de tabel echte rijen heeft (niet meer alleen de throbber-rij).
-    // Als er na 15s nog niets staat, nemen we aan dat de lijst voor dit
-    // rapport leeg is (kan gebeuren, bijvoorbeeld in een rustige week) en
-    // geven we gewoon een lege lijst terug in plaats van te crashen.
-    try {
-      await page.waitForFunction(
-        () => {
-          const rijen = document.querySelectorAll("table tbody tr");
-          if (rijen.length === 0) return false;
-          // De throbber-rij bevat een <img> en geen tekstcellen met inhoud.
-          return Array.from(rijen).some((rij) => rij.innerText.trim().length > 0 && !rij.querySelector("img"));
-        },
-        { timeout: 15_000 }
-      );
-    } catch {
-      console.warn(`[${bron.id}] Geen gevulde tabel binnen 15s gevonden — vermoedelijk lege lijst.`);
-      return [];
-    }
-
-    const ruweRijen = await page.$$eval("table tbody tr", (rijen) =>
-      rijen
-        .filter((rij) => !rij.querySelector("img")) // throbber-rij eruit filteren
-        .map((rij) => {
-          const cellen = Array.from(rij.querySelectorAll("td")).map((cel) => cel.innerText.trim());
-          const link = rij.querySelector("a");
-          return {
-            cellen,
-            href: link ? link.href : null,
-          };
-        })
-    );
-
-    return ruweRijen
-      .filter((rij) => rij.cellen.some((c) => c.length > 0))
-      .map((rij) => normaliseerIbabsRij(rij, bron));
-  } finally {
-    await browser.close();
-  }
+let pdfParse;
+try {
+  pdfParse = require("pdf-parse");
+} catch {
+  pdfParse = null; // ontbreekt pdf-parse (bv. niet geïnstalleerd) — pdf's worden dan overgeslagen, geen crash
 }
 
-/**
- * De kolomvolgorde in iBabs-rapporten is meestal:
- * [Onderwerp, Datum publicatie, Datum bericht, Portefeuillehouder, Type document, Afhandeling]
- * maar dit kan per gemeente/rapport verschillen. We pakken daarom de eerste
- * kolom als titel en zoeken zelf naar iets wat op een datum lijkt, in plaats
- * van blind op kolomindex te vertrouwen.
- */
-function normaliseerIbabsRij(rij, bron) {
-  const titel = rij.cellen[0] || "(geen onderwerp)";
-  const datumKolom = rij.cellen.find((c) => /^\d{1,2}-\d{1,2}-\d{4}/.test(c));
+const BASE_URL = "https://zaanstad.bestuurlijkeinformatie.nl";
+const PAGE_SIZE = 100;
 
+const KOLOMMEN = [
+  ["title", false],
+  ["datumbericht", true],
+  ["portefeuillehouderselectie", true],
+  ["typeselectie", true],
+  ["afhandelingselectie", true],
+  ["registrationdate", true],
+];
+
+const GEBRUIKERSAGENT =
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36";
+
+async function scrapeIbabs(bron) {
+  const guidMatch = bron.url.match(/Reports\/Details\/([a-f0-9-]{36})/i);
+  if (!guidMatch) {
+    console.warn(`[${bron.id}] Kon geen rapport-GUID uit de URL halen: ${bron.url}`);
+    return [];
+  }
+  const guid = guidMatch[1];
+  const lijstPageUrl = bron.url;
+  const lijstDataUrl = `${BASE_URL}/Reports/GetReportData/${guid}`;
+
+  // Sessie/cookies ophalen — sommige iBabs-installaties vereisen een geldige
+  // sessie voor de DataTables-call, andere niet. We proberen het en gaan
+  // gewoon door zonder cookie als dit mislukt.
+  let cookie = "";
+  try {
+    const sessieResponse = await fetch(lijstPageUrl, { headers: { "User-Agent": GEBRUIKERSAGENT } });
+    cookie = verzamelCookies(sessieResponse);
+  } catch (fout) {
+    console.warn(`[${bron.id}] Sessie ophalen mislukt (${fout.message}) — doorgaan zonder cookie.`);
+  }
+
+  let rijen;
+  try {
+    const response = await fetch(lijstDataUrl, {
+      method: "POST",
+      headers: {
+        "User-Agent": GEBRUIKERSAGENT,
+        Accept: "application/json, text/javascript, */*; q=0.01",
+        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+        "X-Requested-With": "XMLHttpRequest",
+        Origin: BASE_URL,
+        Referer: lijstPageUrl,
+        ...(cookie ? { Cookie: cookie } : {}),
+      },
+      body: bouwLijstBody(0, 1),
+    });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
+    const data = await response.json();
+    rijen = data.data || [];
+  } catch (fout) {
+    console.error(`[${bron.id}] Lijst ophalen mislukt: ${fout.message}`);
+    return [];
+  }
+
+  const basisBerichten = rijen.map((rij) => normaliseerRij(rij, bron)).filter((b) => b.titel);
+
+  // Voor elk bericht de documentinhoud erbij ophalen. Bewust ná elkaar, niet
+  // parallel — dat is vriendelijker voor de iBabs-server en voorkomt dat we
+  // per ongeluk als misbruik/aanval worden aangemerkt.
+  const compleetBerichten = [];
+  let teller = 0;
+  for (const bericht of basisBerichten) {
+    teller++;
+    const berichtMetInhoud = await voegDocumentInhoudToe(bericht, cookie);
+    if (teller % 10 === 0) {
+      console.log(`[${bron.id}] documentinhoud opgehaald: ${teller}/${basisBerichten.length}`);
+    }
+    compleetBerichten.push(berichtMetInhoud);
+  }
+
+  return compleetBerichten;
+}
+
+function verzamelCookies(response) {
+  const ruw =
+    typeof response.headers.getSetCookie === "function"
+      ? response.headers.getSetCookie()
+      : [response.headers.get("set-cookie")].filter(Boolean);
+  return ruw.map((c) => c.split(";")[0]).join("; ");
+}
+
+function bouwLijstBody(start, draw) {
+  const params = new URLSearchParams();
+  params.set("draw", String(draw));
+  KOLOMMEN.forEach(([naam, heeftPipe], i) => {
+    params.set(`columns[${i}][data]`, naam);
+    params.set(`columns[${i}][name]`, naam);
+    params.set(`columns[${i}][searchable]`, "true");
+    params.set(`columns[${i}][orderable]`, "true");
+    params.set(`columns[${i}][search][value]`, heeftPipe ? "|" : "");
+    params.set(`columns[${i}][search][regex]`, "false");
+  });
+  params.set("order[0][column]", "5");
+  params.set("order[0][dir]", "desc");
+  params.set("order[0][name]", "registrationdate");
+  params.set("start", String(start));
+  params.set("length", String(PAGE_SIZE));
+  params.set("search[value]", "");
+  params.set("search[regex]", "false");
+  return params.toString();
+}
+
+function normaliseerRij(rij, bron) {
   return {
     bronId: bron.id,
     bronNaam: bron.naam,
     categorie: bron.categorie,
-    titel,
-    url: rij.href || bron.url,
-    samenvatting: rij.cellen.slice(1).filter(Boolean).join(" — "),
-    gepubliceerdOp: parseerNlDatum(datumKolom),
+    titel: (rij.title || "").trim(),
+    itemId: rij.DT_RowId,
+    url: rij.DT_RowId ? `${BASE_URL}/Reports/Item/${rij.DT_RowId}` : bron.url,
+    samenvatting: [rij.typeselectie, rij.portefeuillehouderselectie, rij.afhandelingselectie]
+      .filter(Boolean)
+      .join(" — "),
+    gepubliceerdOp: parseerNlDatum(rij.datumbericht) || parseerNlDatum(rij.registrationdate),
     opgehaaldOp: new Date().toISOString(),
   };
 }
 
 function parseerNlDatum(tekst) {
   if (!tekst) return null;
-  const match = tekst.match(/(\d{1,2})-(\d{1,2})-(\d{4})/);
+  const match = String(tekst).match(/(\d{1,2})-(\d{1,2})-(\d{4})/);
   if (!match) return null;
   const [, dag, maand, jaar] = match;
-  const iso = new Date(Number(jaar), Number(maand) - 1, Number(dag)).toISOString();
-  return iso;
+  const datum = new Date(Number(jaar), Number(maand) - 1, Number(dag));
+  return isNaN(datum.getTime()) ? null : datum.toISOString();
+}
+
+/**
+ * Volgt dezelfde tweestapsroute als het werkende Python-script: eerst de
+ * detailpagina van het item ophalen om de documentId te vinden, dan pas de
+ * pdf zelf downloaden. Faalt dit, dan blijft het bericht gewoon staan met
+ * alleen de tabelgegevens — geen crash voor de rest van de run.
+ */
+async function voegDocumentInhoudToe(bericht, cookie) {
+  if (!bericht.itemId) return { ...bericht, documentInhoudOpgehaald: false };
+
+  try {
+    const itemUrl = `${BASE_URL}/Reports/Item/${bericht.itemId}`;
+    const itemResponse = await fetch(itemUrl, {
+      headers: {
+        "User-Agent": GEBRUIKERSAGENT,
+        Accept: "text/html",
+        ...(cookie ? { Cookie: cookie } : {}),
+      },
+    });
+    if (!itemResponse.ok) throw new Error(`detailpagina HTTP ${itemResponse.status}`);
+    const html = await itemResponse.text();
+
+    const documentIdMatch =
+      html.match(new RegExp(`/Reports/Document/${bericht.itemId}\\?documentId=([a-f0-9-]{36})`)) ||
+      html.match(/documentId=([a-f0-9-]{36})/);
+    if (!documentIdMatch) {
+      return { ...bericht, documentInhoudOpgehaald: false };
+    }
+    const documentId = documentIdMatch[1];
+
+    const pdfUrl = `${BASE_URL}/Document/View/${documentId}`;
+    const pdfResponse = await fetch(pdfUrl, {
+      headers: {
+        "User-Agent": GEBRUIKERSAGENT,
+        Referer: itemUrl,
+        ...(cookie ? { Cookie: cookie } : {}),
+      },
+    });
+    if (!pdfResponse.ok) throw new Error(`pdf HTTP ${pdfResponse.status}`);
+
+    const buffer = Buffer.from(await pdfResponse.arrayBuffer());
+    if (buffer.subarray(0, 4).toString() !== "%PDF") {
+      return { ...bericht, documentInhoudOpgehaald: false };
+    }
+    if (!pdfParse) {
+      console.warn(`[${bericht.bronId}] pdf-parse niet beschikbaar — pdf overgeslagen voor "${bericht.titel}".`);
+      return { ...bericht, documentInhoudOpgehaald: false };
+    }
+
+    const data = await pdfParse(buffer);
+    const documentTekst = (data.text || "").replace(/\s+/g, " ").trim().slice(0, MAX_DOCUMENT_TEKST_LENGTE);
+
+    return {
+      ...bericht,
+      url: pdfUrl,
+      samenvatting: [bericht.samenvatting, documentTekst].filter(Boolean).join(" — "),
+      documentInhoudOpgehaald: documentTekst.length > 0,
+    };
+  } catch (fout) {
+    console.warn(`[${bericht.bronId}] Kon documentinhoud niet ophalen voor "${bericht.titel}": ${fout.message}`);
+    return { ...bericht, documentInhoudOpgehaald: false };
+  }
 }
 
 module.exports = { scrapeIbabs };
