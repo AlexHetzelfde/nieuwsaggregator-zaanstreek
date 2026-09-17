@@ -46,7 +46,7 @@ function logDuur(startMs, label) {
   console.log(`${label} klaar in ${duurSec}s`);
 }
 
-async function scrapeAlleBronnen() {
+async function scrapeAlleBronnen(gezieneUrls) {
   const alleBerichten = [];
 
   for (const bron of bronnen) {
@@ -58,7 +58,10 @@ async function scrapeAlleBronnen() {
 
     const startBron = Date.now();
     try {
-      const berichten = await scraper(bron);
+      // gezieneUrls wordt alleen door de iBabs-scraper gebruikt (om dure
+      // documentinhoud-ophaal-stappen over te slaan voor berichten die al
+      // eerder verwerkt zijn) — andere scraper-types negeren dit argument.
+      const berichten = await scraper(bron, gezieneUrls);
       const duurSec = ((Date.now() - startBron) / 1000).toFixed(1);
       console.log(`[${bron.id}] ${berichten.length} bericht(en) gevonden (${duurSec}s).`);
       alleBerichten.push(...berichten);
@@ -140,16 +143,18 @@ async function main() {
     );
   }
 
-  // Stap 1: scrapen
+  // Stap 1: scrapen — geziene-urls wordt eerst geladen zodat scrapers die
+  // dat willen (zoals iBabs, waar het ophalen van documentinhoud duur is)
+  // al eerder verwerkte berichten meteen kunnen overslaan.
   logFase("STAP 1 — Scrapen");
+  const gezieneUrls = await laadGezieneUrls();
   const startScrapen = Date.now();
-  const ruweBerichten = await scrapeAlleBronnen();
+  const ruweBerichten = await scrapeAlleBronnen(gezieneUrls);
   logDuur(startScrapen, `Scrapen van ${bronnen.length} bronnen`);
   console.log(`Ruw aantal berichten (vóór dedup/filter): ${ruweBerichten.length}`);
 
   // Stap 1b: dedupliceren binnen deze run + alleen berichten die we nog
   // niet eerder (in een vorige run) hebben gezien.
-  const gezieneUrls = await laadGezieneUrls();
   const berichtenVanVandaag = filterOpNieuw(verwijderDubbelen(ruweBerichten), gezieneUrls);
 
   // Stap 2: tellen, vóórdat de AI wordt aangeroepen
