@@ -50,8 +50,8 @@ module.exports = [
     id: "pascal-zuid",
     naam: "Pascal Zuid",
     categorie: "lokaal",
-    type: "generieke-lijst",
-    url: "https://pascalzuid.nl/",
+    type: "wordpress-html",
+    url: "https://pascalzuid.nl/pascal-zuid/nieuws/",
   },
   {
     id: "zaans-museum",
