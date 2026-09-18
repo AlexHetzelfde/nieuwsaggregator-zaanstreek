@@ -39,6 +39,7 @@ async function scrapeWordpress(bron) {
     if (!titel || !link) return;
 
     const datumTekst = $(el).find("time").attr("datetime") || $(el).find("time").text().trim();
+    const gepubliceerdOp = parseerDatum(datumTekst) || datumUitPermalink($, el);
 
     berichten.push({
       bronId: bron.id,
@@ -47,7 +48,7 @@ async function scrapeWordpress(bron) {
       titel,
       url: link,
       samenvatting: "",
-      gepubliceerdOp: parseerDatum(datumTekst),
+      gepubliceerdOp,
       opgehaaldOp: new Date().toISOString(),
     });
   });
@@ -58,6 +59,39 @@ async function scrapeWordpress(bron) {
   }
 
   return berichten;
+}
+
+/**
+ * WordPress zet de publicatiedatum vaak ook gewoon in de permalink-URL zelf
+ * (bv. .../2025/04/23/artikel-titel/), soms als een los datum-linkje met de
+ * tijd in het title-attribuut (zoals bij zaanschemolen.nl: <a
+ * href=".../2025/04/23/" title="10:22 am">apr232025</a>) in plaats van in een
+ * <time>-element. Dit is een betrouwbare extra bron voor de datum die geen
+ * enkele aanname doet over het thema — puur de standaard WordPress-URL-opbouw.
+ */
+function datumUitPermalink($, el) {
+  let gevonden = null;
+  $(el)
+    .find("a")
+    .each((_, a) => {
+      if (gevonden) return;
+      const href = $(a).attr("href") || "";
+      const match = href.match(/\/(\d{4})\/(\d{2})\/(\d{2})\//);
+      if (!match) return;
+      const [, jaar, maand, dag] = match;
+      const tijdTekst = $(a).attr("title") || "";
+      const tijdMatch = tijdTekst.match(/(\d{1,2}):(\d{2})\s*(am|pm)?/i);
+      let uur = 0;
+      let minuut = 0;
+      if (tijdMatch) {
+        uur = Number(tijdMatch[1]) % 12;
+        minuut = Number(tijdMatch[2]);
+        if ((tijdMatch[3] || "").toLowerCase() === "pm") uur += 12;
+      }
+      const datum = new Date(Number(jaar), Number(maand) - 1, Number(dag), uur, minuut);
+      if (!isNaN(datum.getTime())) gevonden = datum.toISOString();
+    });
+  return gevonden;
 }
 
 function parseerDatum(tekst) {
