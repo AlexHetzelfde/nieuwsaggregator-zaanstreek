@@ -47,6 +47,38 @@ function logDuur(startMs, label) {
   console.log(`${label} klaar in ${duurSec}s`);
 }
 
+/**
+ * Drukt een duidelijk per-bron statusoverzicht af: hoeveel berichten een
+ * bron opleverde, hoeveel daarvan de leeftijdsfilter overleefden, en een
+ * status-label — zodat een kapotte of stilvallende bron in één oogopslag
+ * opvalt tussen de rest van de run-log, zonder dat je de losse regels per
+ * bron hoeft na te lopen.
+ */
+function logBronOverzicht(ruweBerichten, recenteBerichten) {
+  const gevondenPerBron = {};
+  const overPerBron = {};
+  for (const b of ruweBerichten) gevondenPerBron[b.bronId] = (gevondenPerBron[b.bronId] || 0) + 1;
+  for (const b of recenteBerichten) overPerBron[b.bronId] = (overPerBron[b.bronId] || 0) + 1;
+
+  console.log("\n--- Bronoverzicht (gevonden → binnen leeftijdsgrens) ---");
+  for (const bron of bronnen) {
+    const gevonden = gevondenPerBron[bron.id] || 0;
+    const over = overPerBron[bron.id] || 0;
+
+    let status;
+    if (gevonden === 0) {
+      status = "❌ GEEN BERICHTEN GEVONDEN — scraper/selector waarschijnlijk kapot";
+    } else if (over === 0) {
+      status = "⚠️  0 na leeftijdsfilter — check datumherkenning voor deze bron";
+    } else {
+      status = "✅ OK";
+    }
+
+    console.log(`  ${bron.id.padEnd(28)} ${String(gevonden).padStart(3)} → ${String(over).padStart(3)}   ${status}`);
+  }
+  console.log("---\n");
+}
+
 async function scrapeAlleBronnen(gezieneUrls) {
   const alleBerichten = [];
 
@@ -171,6 +203,7 @@ async function main() {
   for (const [bronId, aantal] of Object.entries(perBronZonderDatum)) {
     console.warn(`[${bronId}] ${aantal} bericht(en) geweerd door leeftijdsfilter (te oud of geen betrouwbare datum).`);
   }
+  logBronOverzicht(ruweBerichten, recenteBerichten);
 
   // Stap 1b: dedupliceren binnen deze run + alleen berichten die we nog
   // niet eerder (in een vorige run) hebben gezien.
