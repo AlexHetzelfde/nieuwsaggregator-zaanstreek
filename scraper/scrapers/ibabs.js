@@ -17,8 +17,9 @@
 // praktijk 30+ minuten voor niets.
 
 const MAX_DOCUMENT_TEKST_LENGTE = 3000; // cap zodat de Gemini-prompt niet buitensporig groot wordt
-const MAX_LEEFTIJD_DAGEN = 7;
 const REQUEST_TIMEOUT_MS = 15_000; // voorkomt dat één tragere/hangende iBabs-pagina de hele run ophoudt
+
+const { binnenLeeftijdsgrens, MAX_LEEFTIJD_DAGEN } = require("../hulpmiddelen");
 
 let pdfParse;
 try {
@@ -85,14 +86,15 @@ async function scrapeIbabs(bron, gezieneUrls = new Set()) {
 
   const alleBerichten = rijen.map((rij) => normaliseerRij(rij, bron)).filter((b) => b.titel);
 
-  // Filter 1: niet ouder dan MAX_LEEFTIJD_DAGEN. Berichten zonder
-  // herkenbare datum nemen we voorzichtigheidshalve wél mee (beter een
-  // bericht te veel dan een nieuw bericht missen door een datum die de
-  // scraper niet kon lezen).
-  const grens = Date.now() - MAX_LEEFTIJD_DAGEN * 24 * 60 * 60 * 1000;
-  const recenteBerichten = alleBerichten.filter(
-    (b) => !b.gepubliceerdOp || new Date(b.gepubliceerdOp).getTime() >= grens
-  );
+  const zonderDatum = alleBerichten.filter((b) => !b.gepubliceerdOp).length;
+  if (zonderDatum > 0) {
+    console.warn(`[${bron.id}] ${zonderDatum} van ${alleBerichten.length} berichten hadden geen herkenbare datum (datumbericht/registrationdate kon niet geparsed worden) — die tellen mee als "te oud" en worden overgeslagen.`);
+  }
+
+  // Filter 1: niet ouder dan MAX_LEEFTIJD_DAGEN, via de centrale functie in
+  // hulpmiddelen.js — dus ook hier geldt: geen betrouwbare datum = eruit,
+  // niet uit voorzichtigheid meegenomen.
+  const recenteBerichten = alleBerichten.filter((b) => binnenLeeftijdsgrens(b.gepubliceerdOp));
   const aantalTeOud = alleBerichten.length - recenteBerichten.length;
   if (aantalTeOud > 0) {
     console.log(`[${bron.id}] ${aantalTeOud} bericht(en) ouder dan ${MAX_LEEFTIJD_DAGEN} dagen overgeslagen.`);
