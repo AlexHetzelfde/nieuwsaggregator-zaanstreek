@@ -7,6 +7,43 @@ const rssParser = new Parser();
 const GEBRUIKERSAGENT =
   "NieuwsaggregatorZaanstreekBot/1.0 (+journalistiek studentenproject; contact via github repo)";
 
+// Centrale leeftijdsgrens: berichten ouder dan dit worden nergens meegenomen.
+// Dit staat hier, op ÉÉN plek, en wordt door zowel index.js (als centrale,
+// gezaghebbende filter voor ALLE bronnen) als door ibabs.js (als vroege
+// filter, vóór het dure documentinhoud-ophalen) gebruikt — nooit los
+// gedupliceerd per scraper.
+const MAX_LEEFTIJD_DAGEN = 7;
+
+/**
+ * True als een datum binnen de leeftijdsgrens valt. Een bericht ZONDER
+ * betrouwbaar herkende datum telt hier bewust als "te oud"/niet toegestaan —
+ * niet als "onbekend dus maar meenemen". Dat laatste zorgde er in de praktijk
+ * voor dat een kapotte datumherkenning van een bron (zoals gebeurde bij de
+ * WordPress-fallback en bij één van de iBabs-rapporten) onopgemerkt bleef en
+ * alle historische berichten liet doorsijpelen in plaats van alleen recente.
+ * Een bron waarvan structureel geen datum wordt herkend, levert nu dus 0
+ * berichten op — zichtbaar fout, in plaats van onzichtbaar fout.
+ */
+function binnenLeeftijdsgrens(gepubliceerdOpIso) {
+  if (!gepubliceerdOpIso) return false;
+  const datum = new Date(gepubliceerdOpIso);
+  if (isNaN(datum.getTime())) return false;
+  const grens = Date.now() - MAX_LEEFTIJD_DAGEN * 24 * 60 * 60 * 1000;
+  return datum.getTime() >= grens;
+}
+
+/**
+ * Leeftijd van een bericht in dagen (kan een fractie zijn), of null als er
+ * geen betrouwbare datum is. Wordt door score.js gebruikt voor de
+ * recency-bonus.
+ */
+function leeftijdInDagen(gepubliceerdOpIso) {
+  if (!gepubliceerdOpIso) return null;
+  const datum = new Date(gepubliceerdOpIso);
+  if (isNaN(datum.getTime())) return null;
+  return (Date.now() - datum.getTime()) / (24 * 60 * 60 * 1000);
+}
+
 /**
  * Haalt een URL op met een nette user-agent en duidelijke timeout/foutmelding.
  * Wordt door alle scrapers gebruikt zodat we op één plek retry-/timeoutlogica
@@ -67,4 +104,11 @@ function schoonmakenSamenvatting(tekst) {
   return tekst.replace(/\s+/g, " ").trim().slice(0, 600);
 }
 
-module.exports = { haalOp, parseerRssTekst, GEBRUIKERSAGENT };
+module.exports = {
+  haalOp,
+  parseerRssTekst,
+  GEBRUIKERSAGENT,
+  MAX_LEEFTIJD_DAGEN,
+  binnenLeeftijdsgrens,
+  leeftijdInDagen,
+};
