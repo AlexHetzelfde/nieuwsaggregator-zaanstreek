@@ -18,6 +18,7 @@ const { scrapeRss } = require("./scrapers/rss");
 const { scrapeGeneriekeLijst } = require("./scrapers/generieke-lijst");
 const { scoorBericht } = require("./score");
 const { beoordeelBerichten } = require("./gemini");
+const { binnenLeeftijdsgrens, MAX_LEEFTIJD_DAGEN } = require("./hulpmiddelen");
 
 const DATA_MAP = path.join(__dirname, "..", "data");
 const DAGCAP_GEMINI = Number(process.env.DAGCAP_GEMINI || 18);
@@ -151,11 +152,29 @@ async function main() {
   const startScrapen = Date.now();
   const ruweBerichten = await scrapeAlleBronnen(gezieneUrls);
   logDuur(startScrapen, `Scrapen van ${bronnen.length} bronnen`);
-  console.log(`Ruw aantal berichten (vóór dedup/filter): ${ruweBerichten.length}`);
+  console.log(`Ruw aantal berichten (vóór leeftijdsfilter/dedup): ${ruweBerichten.length}`);
+
+  // Centrale leeftijdsgrens — geldt voor ALLE bronnen tegelijk, hier op één
+  // plek, in plaats van los per scraper (dat leidde er eerder toe dat de
+  // grens alleen bij iBabs was toegepast en nergens anders). Een bericht
+  // zonder betrouwbare datum wordt hier ook geweerd, niet uit voorzichtigheid
+  // meegenomen — zie de toelichting bij binnenLeeftijdsgrens() in
+  // hulpmiddelen.js voor waarom dat bewust zo is.
+  const recenteBerichten = ruweBerichten.filter((b) => binnenLeeftijdsgrens(b.gepubliceerdOp));
+  const perBronZonderDatum = {};
+  for (const b of ruweBerichten) {
+    if (!binnenLeeftijdsgrens(b.gepubliceerdOp)) {
+      perBronZonderDatum[b.bronId] = (perBronZonderDatum[b.bronId] || 0) + 1;
+    }
+  }
+  console.log(`Na leeftijdsfilter (max ${MAX_LEEFTIJD_DAGEN} dagen): ${recenteBerichten.length} van ${ruweBerichten.length} berichten.`);
+  for (const [bronId, aantal] of Object.entries(perBronZonderDatum)) {
+    console.warn(`[${bronId}] ${aantal} bericht(en) geweerd door leeftijdsfilter (te oud of geen betrouwbare datum).`);
+  }
 
   // Stap 1b: dedupliceren binnen deze run + alleen berichten die we nog
   // niet eerder (in een vorige run) hebben gezien.
-  const berichtenVanVandaag = filterOpNieuw(verwijderDubbelen(ruweBerichten), gezieneUrls);
+  const berichtenVanVandaag = filterOpNieuw(verwijderDubbelen(recenteBerichten), gezieneUrls);
 
   // Stap 2: tellen, vóórdat de AI wordt aangeroepen
   console.log(`Totaal aantal nieuwe berichten vandaag: ${berichtenVanVandaag.length}`);
