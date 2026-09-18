@@ -42,14 +42,18 @@ async function scrapeGeneriekeLijst(bron) {
       const feedUrl = new URL(feedHref, bron.url).toString();
       try {
         const feedTekst = await haalOp(feedUrl);
-        const items = parseerRssTekst(feedTekst, bron);
-        if (items.length > 0) return items;
+        const items = await parseerRssTekst(feedTekst, bron);
+        if (items.length > 0) {
+          console.log(`[${bron.id}] Feed gevonden en gebruikt (${feedUrl}), ${items.length} bericht(en).`);
+          return items;
+        }
       } catch (fout) {
         console.warn(`[${bron.id}] Gevonden feed (${feedUrl}) kon niet geladen worden: ${fout.message}.`);
       }
     }
 
     // Stap 2: HTML-scrape met de bredere patronenset.
+    console.log(`[${bron.id}] Geen feed gevonden/bruikbaar, generieke HTML-scrape gebruikt.`);
     return scrapeHtml($, bron);
   } catch (fout) {
     console.error(`[${bron.id}] Generieke lijst-scraper mislukt: ${fout.message}`);
@@ -86,6 +90,10 @@ function scrapeHtml($, bron) {
     // Zodra een selector minstens een paar bruikbare berichten oplevert,
     // gaan we daarvan uit — anders proberen we de volgende, bredere selector.
     if (berichten.length >= 3) {
+      const zonderDatum = berichten.filter((b) => !b.gepubliceerdOp).length;
+      if (zonderDatum > 0) {
+        console.warn(`[${bron.id}] ${zonderDatum} van ${berichten.length} berichten (selector "${selector}") hadden geen herkenbare datum — die tellen nu mee als "te oud" bij de leeftijdsfilter.`);
+      }
       return dedupliceerOpUrl(berichten);
     }
   }
