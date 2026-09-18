@@ -14,8 +14,9 @@ async function scrapeWordpress(bron) {
   const feedUrl = bron.url.replace(/\/?$/, "/feed/");
   try {
     const feedTekst = await haalOp(feedUrl);
-    const items = parseerRssTekst(feedTekst, bron);
+    const items = await parseerRssTekst(feedTekst, bron);
     if (items.length > 0) {
+      console.log(`[${bron.id}] RSS-feed gebruikt (${feedUrl}), ${items.length} bericht(en).`);
       return items;
     }
   } catch (fout) {
@@ -23,6 +24,7 @@ async function scrapeWordpress(bron) {
   }
 
   // Stap 2: fallback — scrape de HTML van de nieuwsoverzichtspagina zelf.
+  console.log(`[${bron.id}] Geen bruikbare RSS-feed, HTML-fallback gebruikt.`);
   const html = await haalOp(bron.url);
   const $ = cheerio.load(html);
   const berichten = [];
@@ -49,6 +51,11 @@ async function scrapeWordpress(bron) {
       opgehaaldOp: new Date().toISOString(),
     });
   });
+
+  const zonderDatum = berichten.filter((b) => !b.gepubliceerdOp).length;
+  if (zonderDatum > 0) {
+    console.warn(`[${bron.id}] ${zonderDatum} van ${berichten.length} berichten (HTML-fallback) hadden geen herkenbare datum — deze site heeft waarschijnlijk maatwerk-selectors nodig voor de datum.`);
+  }
 
   return berichten;
 }
