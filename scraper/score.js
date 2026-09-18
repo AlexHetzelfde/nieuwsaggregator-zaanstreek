@@ -12,6 +12,8 @@
 // TREFWOORDEN_LOKAAL / TREFWOORDEN_LANDELIJK naarmate je merkt dat bepaalde
 // woorden vaker relevant nieuws voorspellen.
 
+const { leeftijdInDagen, MAX_LEEFTIJD_DAGEN } = require("./hulpmiddelen");
+
 const ZAANSTREEK_PLAATSNAMEN = [
   "zaandam", "zaanstad", "koog aan de zaan", "zaandijk", "wormerveer",
   "krommenie", "assendelft", "westzaan", "wormerland", "oostzaan",
@@ -76,19 +78,6 @@ function scoorLokaalBericht(bericht) {
     toelichting.push("nabijheid (+4)");
   }
 
-  // Actualiteit op basis van publicatiedatum: bonus als het bericht van
-  // vandaag of gisteren is, aftrek als het duidelijk ouder is.
-  if (bericht.gepubliceerdOp) {
-    const leeftijdInDagen = (Date.now() - new Date(bericht.gepubliceerdOp).getTime()) / 86_400_000;
-    if (leeftijdInDagen <= 1) {
-      score += 2;
-      toelichting.push("recent gepubliceerd (+2)");
-    } else if (leeftijdInDagen > 7) {
-      score -= 2;
-      toelichting.push("ouder dan een week (-2)");
-    }
-  }
-
   if (NEGATIEVE_TREFWOORDEN_LOKAAL.some((w) => tekst.includes(w))) {
     score -= 2;
     toelichting.push("agenda-item zonder inhoud (-2)");
@@ -129,18 +118,38 @@ function scoorLandelijkBericht(bericht) {
   return { score, toelichting };
 }
 
+// Maximale recency-bonus, toegekend aan een bericht van precies vandaag.
+// Schaalt lineair af naar 0 op de leeftijdsgrens (MAX_LEEFTIJD_DAGEN) — dus
+// hoe dichter een bericht bij de dag van scrapen zit, hoe relevanter het
+// wordt geacht, en dat weegt voortaan voor lokaal én landelijk even zwaar
+// mee (voorheen zat dit alleen, en als grove bonus/aftrek, in het lokale
+// scoresysteem).
+const MAX_RECENCY_BONUS = 8;
+
+function berekenRecencyBonus(bericht) {
+  const dagen = leeftijdInDagen(bericht.gepubliceerdOp);
+  if (dagen === null) return { bonus: 0, toelichting: null }; // zou hier niet moeten voorkomen (index.js filtert dit al weg), maar geen crash als het toch gebeurt
+  const factor = Math.max(0, 1 - dagen / MAX_LEEFTIJD_DAGEN);
+  const bonus = Math.round(MAX_RECENCY_BONUS * factor);
+  return { bonus, toelichting: bonus > 0 ? `recency (+${bonus}, ${dagen.toFixed(1)} dag(en) oud)` : null };
+}
+
 /**
- * Past het juiste scoresysteem toe op basis van bericht.categorie en
- * retourneert een nieuw object (het origineel wordt niet gemuteerd).
+ * Past het juiste scoresysteem toe op basis van bericht.categorie, telt daar
+ * de centrale recency-bonus bovenop, en retourneert een nieuw object (het
+ * origineel wordt niet gemuteerd).
  */
 function scoorBericht(bericht) {
   const resultaat =
     bericht.categorie === "lokaal" ? scoorLokaalBericht(bericht) : scoorLandelijkBericht(bericht);
 
+  const recency = berekenRecencyBonus(bericht);
+  const toelichting = recency.toelichting ? [...resultaat.toelichting, recency.toelichting] : resultaat.toelichting;
+
   return {
     ...bericht,
-    score: resultaat.score,
-    scoreToelichting: resultaat.toelichting,
+    score: resultaat.score + recency.bonus,
+    scoreToelichting: toelichting,
   };
 }
 
