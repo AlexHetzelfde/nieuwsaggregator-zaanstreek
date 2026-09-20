@@ -1,0 +1,57 @@
+name: Bron toevoegen
+
+# Handmatig te starten vanuit de Actions-tab, met invulvelden voor de URL,
+# een zelfgekozen bron-id en de categorie. Draait volledig op GitHub —
+# geen lokale computer, Terminal of git-kennis nodig.
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: "URL van de nieuwe nieuwspagina"
+        required: true
+        type: string
+      bron_id:
+        description: "Korte naam voor deze bron, geen spaties (bv. voorbeeld-nieuws)"
+        required: true
+        type: string
+      categorie:
+        description: "Categorie"
+        required: true
+        type: choice
+        options:
+          - lokaal
+          - landelijk
+        default: lokaal
+
+permissions:
+  contents: write # nodig om bronnen.js terug te committen
+
+jobs:
+  voeg-bron-toe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Node.js instellen
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Dependencies installeren
+        working-directory: scraper
+        run: npm install
+
+      - name: Bron ophalen, analyseren en testen
+        working-directory: scraper
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: node voeg-bron-toe.js "${{ inputs.url }}" "${{ inputs.bron_id }}" "${{ inputs.categorie }}"
+
+      - name: bronnen.js committen
+        run: |
+          git config user.name "nieuwsaggregator-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add scraper/bronnen.js
+          git diff --quiet --cached || git commit -m "Nieuwe bron toegevoegd via workflow: ${{ inputs.bron_id }}"
+          git push
