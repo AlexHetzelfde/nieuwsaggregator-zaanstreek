@@ -174,6 +174,52 @@ async function probeerKetenTeRepareren(url) {
 }
 
 /**
+ * Sommige sites (vaak sessie-gebaseerde overheidsportalen of anti-bot-
+ * bescherming, zo blijkt ook bij loket.zaanstad.nl) sturen bij het eerste
+ * bezoek een sessie-cookie mee en blijven doorverwijzen totdat die cookie
+ * wordt teruggestuurd. Een browser doet dat automatisch; Node's fetch() heeft
+ * geen ingebouwde cookie-jar en blijft daardoor eindeloos heen-en-weer
+ * gestuurd worden, tot hij opgeeft met "redirect count exceeded".
+ *
+ * Deze functie volgt redirects zelf (net als een browser doet — dus ook
+ * bruikbaar in combinatie met een `dispatcher` van probeerKetenTeRepareren,
+ * via de optionele `opties`), houdt cookies bij tussen de hops in, en geeft
+ * de uiteindelijke pagina-inhoud terug.
+ */
+async function haalOpMetCookies(url, opties = {}, maxHops = 20) {
+  const cookieJar = new Map();
+  let huidigeUrl = url;
+
+  for (let hop = 0; hop < maxHops; hop++) {
+    const headers = { ...opties.headers };
+    if (cookieJar.size > 0) {
+      headers["Cookie"] = [...cookieJar].map(([naam, waarde]) => `${naam}=${waarde}`).join("; ");
+    }
+    const response = await fetch(huidigeUrl, { ...opties, headers, redirect: "manual" });
+
+    const nieuweCookies = typeof response.headers.getSetCookie === "function" ? response.headers.getSetCookie() : [];
+    for (const regel of nieuweCookies) {
+      const [naamWaarde] = regel.split(";");
+      const gelijkteken = naamWaarde.indexOf("=");
+      if (gelijkteken > 0) {
+        cookieJar.set(naamWaarde.slice(0, gelijkteken).trim(), naamWaarde.slice(gelijkteken + 1).trim());
+      }
+    }
+
+    if ([301, 302, 303, 307, 308].includes(response.status)) {
+      const locatie = response.headers.get("location");
+      if (!locatie) throw new Error(`Redirect (${response.status}) zonder Location-header op ${huidigeUrl}`);
+      huidigeUrl = new URL(locatie, huidigeUrl).toString();
+      continue;
+    }
+
+    if (!response.ok) throw new Error(`HTTP ${response.status} voor ${huidigeUrl}`);
+    return await response.text();
+  }
+  throw new Error(`Ook mét cookies nog steeds meer dan ${maxHops} redirects — vermoedelijk een echte lus, geen sessieprobleem`);
+}
+
+/**
  * Haalt een URL op met een nette user-agent en duidelijke timeout/foutmelding.
  * Wordt door alle scrapers gebruikt zodat we op één plek retry-/timeoutlogica
  * kunnen aanpassen.
@@ -207,6 +253,18 @@ async function haalOp(url, pogingen = 3) {
           console.warn(`Ontbrekend tussencertificaat gevonden via ${reparatie.issuerUrl}, opnieuw proberen.`);
           dispatcher = reparatie.dispatcher;
           continue; // meteen opnieuw fetchen met de gerepareerde keten
+        }
+      }
+
+      if (fout.cause && fout.cause.message === "redirect count exceeded") {
+        console.warn(`${url} stuurt eindeloos door (waarschijnlijk is een sessie-cookie vereist) — probeer met cookie-ondersteuning...`);
+        try {
+          const cookieOpties = { headers: { "User-Agent": GEBRUIKERSAGENT } };
+          if (dispatcher) cookieOpties.dispatcher = dispatcher;
+          return await haalOpMetCookies(url, cookieOpties);
+        } catch (cookieFout) {
+          laatsteFout = cookieFout;
+          console.warn(`Cookie-ondersteuning hielp niet: ${cookieFout.message}`);
         }
       }
 
@@ -252,6 +310,7 @@ module.exports = {
   parseerRssTekst,
   oorzaakTekst,
   probeerKetenTeRepareren,
+  haalOpMetCookies,
   GEBRUIKERSAGENT,
   MAX_LEEFTIJD_DAGEN,
   binnenLeeftijdsgrens,
