@@ -110,4 +110,11 @@ module.exports = [
     url: "https://loket.zaanstad.nl/mozard/!suite16.scherm1168?mGmr=2168",
     selectors: {"itemSelector":".zaakregel","titelSelector":"h3","linkSelector":"a.zaakregel__verwijzing","datumSelector":null,"datumAttribuut":null},
   },
+  {
+    id: "zaandijk-leeft",
+    naam: "zaandijk-leeft",
+    categorie: "lokaal",
+    type: "wordpress-html",
+    url: "https://zaandijkleeft.nl/",
+  },
 ];
