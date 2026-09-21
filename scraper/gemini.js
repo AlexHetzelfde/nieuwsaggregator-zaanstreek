@@ -5,6 +5,8 @@
 // omgevingsvariabele GEMINI_API_KEY (zie README voor hoe je die als GitHub
 // Secret instelt — nooit hardcoded in dit bestand of ergens anders in de repo!).
 
+const { oorzaakTekst } = require("./hulpmiddelen");
+
 const GEMINI_MODEL = "gemini-flash-lite-latest"; // hogere gratis rate-limit dan gewone flash — belangrijk bij tientallen calls per run
 const GEMINI_URL = (apiKey) =>
   `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`;
@@ -134,7 +136,7 @@ async function beoordeelMetGemini(bericht, apiKey, pogingen = 3) {
     }
   }
 
-  console.warn(`[${bericht.bronId}] Gemini-beoordeling overgeslagen: ${laatsteFout.message}`);
+  console.warn(`[${bericht.bronId}] Gemini-beoordeling overgeslagen: ${laatsteFout.message}${oorzaakTekst(laatsteFout)}`);
   return { ...bericht, aiBeoordeling: null, aiFout: laatsteFout.message };
 }
 
