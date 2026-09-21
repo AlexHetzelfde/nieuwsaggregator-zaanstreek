@@ -51,11 +51,9 @@ async function main() {
   console.log(`Bron ophalen: ${url}`);
   let html;
   try {
-    html = await haalOpMetRetry(url);
+    html = await fetch(url, { headers: { "User-Agent": GEBRUIKERSAGENT } }).then((r) => r.text());
   } catch (fout) {
     console.error(`Kon de pagina niet ophalen: ${fout.message}`);
-    if (fout.cause) console.error(`Onderliggende oorzaak: ${fout.cause.message || fout.cause}`);
-    console.error("Dit kan betekenen dat deze site geautomatiseerd verkeer vanaf GitHub's servers blokkeert (bekend bij sommige gemeentelijke systemen). Probeer de bron eventueel handmatig te laten uitzoeken.");
     process.exit(1);
   }
 
