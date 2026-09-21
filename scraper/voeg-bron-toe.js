@@ -24,7 +24,7 @@
 const fs = require("fs/promises");
 const path = require("path");
 const cheerio = require("cheerio");
-const { oorzaakTekst, probeerKetenTeRepareren, haalOpMetCookies } = require("./hulpmiddelen");
+const { oorzaakTekst, probeerKetenTeRepareren, haalOpMetCookies, haalDatumUitTekst } = require("./hulpmiddelen");
 
 const GEMINI_MODEL = "gemini-flash-lite-latest";
 const GEBRUIKERSAGENT =
@@ -225,6 +225,12 @@ function testRecept($, recept, baseUrl) {
       const datumEl = $(el).find(recept.datumSelector).first();
       datum = recept.datumAttribuut ? datumEl.attr(recept.datumAttribuut) : datumEl.text().trim();
     }
+    // Zelfde fallback als de dagelijkse scraper (gemini-recept.js): als er
+    // geen los datum-element is, kijk of de titel/item-tekst zelf een datum
+    // bevat. Zonder dit zou de test hier "geen datum" laten zien terwijl de
+    // dagelijkse run 'm straks wél vindt — dan testen we niet wat we later
+    // echt draaien.
+    datum = datum || haalDatumUitTekst(titel) || haalDatumUitTekst($(el).text());
 
     resultaten.push({ titel, link: new URL(link, baseUrl).toString(), datum });
   });
