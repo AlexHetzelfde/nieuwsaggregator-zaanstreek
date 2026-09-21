@@ -6,7 +6,7 @@
 // puur met cheerio, geen Gemini-aanroep per dag nodig.
 
 const cheerio = require("cheerio");
-const { haalOp } = require("../hulpmiddelen");
+const { haalOp, haalDatumUitTekst } = require("../hulpmiddelen");
 
 async function scrapeGeminiRecept(bron) {
   if (!bron.selectors) {
@@ -37,6 +37,12 @@ async function scrapeGeminiRecept(bron) {
       const datumEl = $(el).find(datumSelector).first();
       datumTekst = datumAttribuut ? datumEl.attr(datumAttribuut) : datumEl.text().trim();
     }
+    // Val terug op de titel/item-tekst zelf als er geen los datum-element is
+    // (of dat niets opleverde) — sommige sites (zoals de Zaanstad-
+    // hoorzittingen) hebben de datum in de titeltekst gebakken in plaats van
+    // in een apart element.
+    const gepubliceerdOp =
+      parseerDatum(datumTekst) || haalDatumUitTekst(titel) || haalDatumUitTekst($(el).text());
 
     berichten.push({
       bronId: bron.id,
@@ -45,7 +51,7 @@ async function scrapeGeminiRecept(bron) {
       titel,
       url: new URL(link, bron.url).toString(),
       samenvatting: "",
-      gepubliceerdOp: parseerDatum(datumTekst),
+      gepubliceerdOp,
       opgehaaldOp: new Date().toISOString(),
     });
   });
