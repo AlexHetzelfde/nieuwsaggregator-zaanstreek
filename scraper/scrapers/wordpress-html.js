@@ -7,7 +7,7 @@
 // scrapen van de HTML-lijst zelf.
 
 const cheerio = require("cheerio");
-const { haalOp, parseerRssTekst } = require("../hulpmiddelen");
+const { haalOp, parseerRssTekst, oorzaakTekst } = require("../hulpmiddelen");
 
 async function scrapeWordpress(bron) {
   // Stap 1: probeer de standaard WordPress RSS-feed.
@@ -20,7 +20,7 @@ async function scrapeWordpress(bron) {
       return items;
     }
   } catch (fout) {
-    console.warn(`[${bron.id}] RSS-feed niet bruikbaar (${feedUrl}): ${fout.message}. Val terug op HTML-scrape.`);
+    console.warn(`[${bron.id}] RSS-feed niet bruikbaar (${feedUrl}): ${fout.message}${oorzaakTekst(fout)}. Val terug op HTML-scrape.`);
   }
 
   // Stap 2: fallback — scrape de HTML van de nieuwsoverzichtspagina zelf.
