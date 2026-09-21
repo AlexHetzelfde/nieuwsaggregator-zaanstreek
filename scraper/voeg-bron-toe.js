@@ -24,6 +24,7 @@
 const fs = require("fs/promises");
 const path = require("path");
 const cheerio = require("cheerio");
+const { oorzaakTekst } = require("./hulpmiddelen");
 
 const GEMINI_MODEL = "gemini-flash-lite-latest";
 const GEBRUIKERSAGENT =
@@ -53,7 +54,7 @@ async function main() {
   try {
     html = await fetch(url, { headers: { "User-Agent": GEBRUIKERSAGENT } }).then((r) => r.text());
   } catch (fout) {
-    console.error(`Kon de pagina niet ophalen: ${fout.message}`);
+    console.error(`Kon de pagina niet ophalen: ${fout.message}${oorzaakTekst(fout)}`);
     process.exit(1);
   }
 
@@ -143,7 +144,7 @@ ${html}`;
       }
     );
   } catch (fout) {
-    console.error(`Gemini-aanroep mislukt: ${fout.message}`);
+    console.error(`Gemini-aanroep mislukt: ${fout.message}${oorzaakTekst(fout)}`);
     return null;
   }
 
