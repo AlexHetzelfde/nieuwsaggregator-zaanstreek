@@ -17,7 +17,7 @@
 // heeft is het signaal om deze scraper voor die specifieke bron te verfijnen.
 
 const cheerio = require("cheerio");
-const { haalOp, parseerRssTekst } = require("../hulpmiddelen");
+const { haalOp, parseerRssTekst, oorzaakTekst } = require("../hulpmiddelen");
 
 // Volgorde van kandidaat-selectors voor één nieuwsitem-blok, breed naar smal.
 const ITEM_SELECTORS = [
@@ -48,7 +48,7 @@ async function scrapeGeneriekeLijst(bron) {
           return items;
         }
       } catch (fout) {
-        console.warn(`[${bron.id}] Gevonden feed (${feedUrl}) kon niet geladen worden: ${fout.message}.`);
+        console.warn(`[${bron.id}] Gevonden feed (${feedUrl}) kon niet geladen worden: ${fout.message}${oorzaakTekst(fout)}.`);
       }
     }
 
@@ -56,7 +56,7 @@ async function scrapeGeneriekeLijst(bron) {
     console.log(`[${bron.id}] Geen feed gevonden/bruikbaar, generieke HTML-scrape gebruikt.`);
     return scrapeHtml($, bron);
   } catch (fout) {
-    console.error(`[${bron.id}] Generieke lijst-scraper mislukt: ${fout.message}`);
+    console.error(`[${bron.id}] Generieke lijst-scraper mislukt: ${fout.message}${oorzaakTekst(fout)}`);
     return [];
   }
 }
