@@ -220,6 +220,42 @@ async function haalOpMetCookies(url, opties = {}, maxHops = 20) {
 }
 
 /**
+ * Fallback voor als er géén los datum-element op de pagina staat, maar de
+ * datum wel ergens in de tekst zelf verstopt zit — zoals bij de Zaanstad-
+ * hoorzittingen, waar de titel letterlijk begint met "2026-09-22 Dinsdag 22
+ * september 2026 om 17.15 uur - ...". Gemini herkent dat soort titels dan
+ * terecht niet als een apart datum-element (dat is het ook niet), maar we
+ * kunnen de datum alsnog uit de tekst zelf halen.
+ *
+ * Probeert eerst een ISO-datum (YYYY-MM-DD, vaak als machine-leesbare
+ * sorteersleutel vooraan de tekst), en anders een Nederlandse "22 september
+ * 2026"-vorm. Geeft null terug als niets herkend wordt.
+ */
+const NEDERLANDSE_MAANDEN = {
+  januari: 0, februari: 1, maart: 2, april: 3, mei: 4, juni: 5,
+  juli: 6, augustus: 7, september: 8, oktober: 9, november: 10, december: 11,
+};
+
+function haalDatumUitTekst(tekst) {
+  if (!tekst) return null;
+
+  const iso = tekst.match(/\b(\d{4})-(\d{2})-(\d{2})\b/);
+  if (iso) {
+    const d = new Date(`${iso[1]}-${iso[2]}-${iso[3]}T00:00:00`);
+    if (!isNaN(d.getTime())) return d.toISOString();
+  }
+
+  const nl = tekst.match(/\b(\d{1,2})\s+(januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december)\s+(\d{4})\b/i);
+  if (nl) {
+    const maand = NEDERLANDSE_MAANDEN[nl[2].toLowerCase()];
+    const d = new Date(Number(nl[3]), maand, Number(nl[1]));
+    if (!isNaN(d.getTime())) return d.toISOString();
+  }
+
+  return null;
+}
+
+/**
  * Haalt een URL op met een nette user-agent en duidelijke timeout/foutmelding.
  * Wordt door alle scrapers gebruikt zodat we op één plek retry-/timeoutlogica
  * kunnen aanpassen.
@@ -311,6 +347,7 @@ module.exports = {
   oorzaakTekst,
   probeerKetenTeRepareren,
   haalOpMetCookies,
+  haalDatumUitTekst,
   GEBRUIKERSAGENT,
   MAX_LEEFTIJD_DAGEN,
   binnenLeeftijdsgrens,
