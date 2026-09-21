@@ -102,4 +102,12 @@ module.exports = [
     type: "generieke-lijst",
     url: "https://www.noord-holland.nl/Onderwerpen/Cultuur_en_Erfgoed",
   },
+  {
+    id: "zaanstad-hoorzittingen",
+    naam: "zaanstad-hoorzittingen",
+    categorie: "lokaal",
+    type: "gemini-recept",
+    url: "https://loket.zaanstad.nl/mozard/!suite16.scherm1168?mGmr=2168",
+    selectors: {"itemSelector":".zaakregel","titelSelector":"h3","linkSelector":"a.zaakregel__verwijzing","datumSelector":null,"datumAttribuut":null},
+  },
 ];
