@@ -24,13 +24,49 @@
 const fs = require("fs/promises");
 const path = require("path");
 const cheerio = require("cheerio");
-const { oorzaakTekst, probeerKetenTeRepareren } = require("./hulpmiddelen");
+const { oorzaakTekst, probeerKetenTeRepareren, haalOpMetCookies } = require("./hulpmiddelen");
 
 const GEMINI_MODEL = "gemini-flash-lite-latest";
 const GEBRUIKERSAGENT =
   "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36";
 const MAX_HTML_TEKENS_VOOR_GEMINI = 25_000;
 const MINIMUM_GEVONDEN_BERICHTEN = 3;
+
+/**
+ * Haalt de pagina op en probeert onderweg twee bekende, specifieke
+ * problemen automatisch te repareren (net als een browser stilzwijgend
+ * doet), in plaats van meteen op te geven:
+ *   - een onvolledige TLS-certificaatketen (UNABLE_TO_VERIFY_LEAF_SIGNATURE)
+ *   - een eindeloze sessie-cookie-redirect (redirect count exceeded)
+ * Beide kunnen ook na elkaar nodig zijn voor dezelfde site (zoals bleek bij
+ * loket.zaanstad.nl). Andere fouten worden ongewijzigd doorgegeven.
+ */
+async function haalBronPagina(url) {
+  let dispatcher;
+  for (let poging = 0; poging < 4; poging++) {
+    const opties = { headers: { "User-Agent": GEBRUIKERSAGENT } };
+    if (dispatcher) opties.dispatcher = dispatcher;
+    try {
+      return await fetch(url, opties).then((r) => r.text());
+    } catch (fout) {
+      if (fout.cause && fout.cause.code === "UNABLE_TO_VERIFY_LEAF_SIGNATURE" && !dispatcher) {
+        console.warn("Certificaatketen van de server is onvolledig — probeer het ontbrekende tussencertificaat zelf op te halen (zoals een browser doet)...");
+        const reparatie = await probeerKetenTeRepareren(url).catch(() => null);
+        if (reparatie) {
+          console.warn(`Ontbrekend tussencertificaat gevonden via ${reparatie.issuerUrl}, opnieuw proberen.`);
+          dispatcher = reparatie.dispatcher;
+          continue;
+        }
+      }
+      if (fout.cause && fout.cause.message === "redirect count exceeded") {
+        console.warn("De site stuurt eindeloos door (waarschijnlijk is een sessie-cookie vereist) — probeer met cookie-ondersteuning zoals een browser dat doet...");
+        return await haalOpMetCookies(url, opties);
+      }
+      throw fout;
+    }
+  }
+  throw new Error(`Kon ${url} niet ophalen na meerdere reparatiepogingen`);
+}
 
 async function main() {
   const [, , url, bronId, categorie = "lokaal"] = process.argv;
@@ -52,28 +88,10 @@ async function main() {
   console.log(`Bron ophalen: ${url}`);
   let html;
   try {
-    html = await fetch(url, { headers: { "User-Agent": GEBRUIKERSAGENT } }).then((r) => r.text());
+    html = await haalBronPagina(url);
   } catch (fout) {
-    if (fout.cause && fout.cause.code === "UNABLE_TO_VERIFY_LEAF_SIGNATURE") {
-      console.warn("Certificaatketen van de server is onvolledig — probeer het ontbrekende tussencertificaat zelf op te halen (zoals een browser doet)...");
-      const reparatie = await probeerKetenTeRepareren(url).catch(() => null);
-      if (reparatie) {
-        console.warn(`Ontbrekend tussencertificaat gevonden via ${reparatie.issuerUrl}, opnieuw proberen.`);
-        try {
-          html = await fetch(url, { headers: { "User-Agent": GEBRUIKERSAGENT }, dispatcher: reparatie.dispatcher }).then((r) => r.text());
-          console.log("Gelukt na automatische ketenreparatie.");
-        } catch (tweedeFout) {
-          console.error(`Kon de pagina ook na reparatiepoging niet ophalen: ${tweedeFout.message}${oorzaakTekst(tweedeFout)}`);
-          process.exit(1);
-        }
-      } else {
-        console.error(`Kon de pagina niet ophalen: ${fout.message}${oorzaakTekst(fout)} (automatische reparatie van de certificaatketen is niet gelukt)`);
-        process.exit(1);
-      }
-    } else {
-      console.error(`Kon de pagina niet ophalen: ${fout.message}${oorzaakTekst(fout)}`);
-      process.exit(1);
-    }
+    console.error(`Kon de pagina niet ophalen: ${fout.message}${oorzaakTekst(fout)}`);
+    process.exit(1);
   }
 
   // Stap 1: is er een RSS/Atom-feed? Dat is betrouwbaarder dan Gemini-
