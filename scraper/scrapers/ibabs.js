@@ -19,7 +19,7 @@
 const MAX_DOCUMENT_TEKST_LENGTE = 3000; // cap zodat de Gemini-prompt niet buitensporig groot wordt
 const REQUEST_TIMEOUT_MS = 15_000; // voorkomt dat één tragere/hangende iBabs-pagina de hele run ophoudt
 
-const { binnenLeeftijdsgrens, MAX_LEEFTIJD_DAGEN } = require("../hulpmiddelen");
+const { binnenLeeftijdsgrens, MAX_LEEFTIJD_DAGEN, oorzaakTekst } = require("../hulpmiddelen");
 
 let pdfParse;
 try {
@@ -58,7 +58,7 @@ async function scrapeIbabs(bron, gezieneUrls = new Set()) {
     const sessieResponse = await fetchMetTimeout(lijstPageUrl, { headers: { "User-Agent": GEBRUIKERSAGENT } });
     cookie = verzamelCookies(sessieResponse);
   } catch (fout) {
-    console.warn(`[${bron.id}] Sessie ophalen mislukt (${fout.message}) — doorgaan zonder cookie.`);
+    console.warn(`[${bron.id}] Sessie ophalen mislukt (${fout.message}${oorzaakTekst(fout)}) — doorgaan zonder cookie.`);
   }
 
   let rijen;
@@ -80,7 +80,7 @@ async function scrapeIbabs(bron, gezieneUrls = new Set()) {
     const data = await response.json();
     rijen = data.data || [];
   } catch (fout) {
-    console.error(`[${bron.id}] Lijst ophalen mislukt: ${fout.message}`);
+    console.error(`[${bron.id}] Lijst ophalen mislukt: ${fout.message}${oorzaakTekst(fout)}`);
     return [];
   }
 
@@ -249,7 +249,7 @@ async function voegDocumentInhoudToe(bericht, cookie) {
       documentInhoudOpgehaald: documentTekst.length > 0,
     };
   } catch (fout) {
-    console.warn(`[${bericht.bronId}] Kon documentinhoud niet ophalen voor "${bericht.titel}": ${fout.message}`);
+    console.warn(`[${bericht.bronId}] Kon documentinhoud niet ophalen voor "${bericht.titel}": ${fout.message}${oorzaakTekst(fout)}`);
     return { ...bericht, documentInhoudOpgehaald: false };
   }
 }
