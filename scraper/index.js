@@ -18,7 +18,7 @@ const { scrapeRss } = require("./scrapers/rss");
 const { scrapeGeneriekeLijst } = require("./scrapers/generieke-lijst");
 const { scoorBericht } = require("./score");
 const { beoordeelBerichten } = require("./gemini");
-const { binnenLeeftijdsgrens, MAX_LEEFTIJD_DAGEN } = require("./hulpmiddelen");
+const { binnenLeeftijdsgrens, MAX_LEEFTIJD_DAGEN, oorzaakTekst } = require("./hulpmiddelen");
 
 const DATA_MAP = path.join(__dirname, "..", "data");
 const DAGCAP_GEMINI = Number(process.env.DAGCAP_GEMINI || 18);
@@ -101,7 +101,7 @@ async function scrapeAlleBronnen(gezieneUrls) {
     } catch (fout) {
       // Eén kapotte bron mag de hele dagelijkse run niet laten crashen.
       const duurSec = ((Date.now() - startBron) / 1000).toFixed(1);
-      console.error(`[${bron.id}] Scrapen mislukt na ${duurSec}s: ${fout.message}`);
+      console.error(`[${bron.id}] Scrapen mislukt na ${duurSec}s: ${fout.message}${oorzaakTekst(fout)}`);
     }
   }
 
