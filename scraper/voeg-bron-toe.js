@@ -24,7 +24,7 @@
 const fs = require("fs/promises");
 const path = require("path");
 const cheerio = require("cheerio");
-const { oorzaakTekst } = require("./hulpmiddelen");
+const { oorzaakTekst, probeerKetenTeRepareren } = require("./hulpmiddelen");
 
 const GEMINI_MODEL = "gemini-flash-lite-latest";
 const GEBRUIKERSAGENT =
@@ -54,8 +54,26 @@ async function main() {
   try {
     html = await fetch(url, { headers: { "User-Agent": GEBRUIKERSAGENT } }).then((r) => r.text());
   } catch (fout) {
-    console.error(`Kon de pagina niet ophalen: ${fout.message}${oorzaakTekst(fout)}`);
-    process.exit(1);
+    if (fout.cause && fout.cause.code === "UNABLE_TO_VERIFY_LEAF_SIGNATURE") {
+      console.warn("Certificaatketen van de server is onvolledig — probeer het ontbrekende tussencertificaat zelf op te halen (zoals een browser doet)...");
+      const reparatie = await probeerKetenTeRepareren(url).catch(() => null);
+      if (reparatie) {
+        console.warn(`Ontbrekend tussencertificaat gevonden via ${reparatie.issuerUrl}, opnieuw proberen.`);
+        try {
+          html = await fetch(url, { headers: { "User-Agent": GEBRUIKERSAGENT }, dispatcher: reparatie.dispatcher }).then((r) => r.text());
+          console.log("Gelukt na automatische ketenreparatie.");
+        } catch (tweedeFout) {
+          console.error(`Kon de pagina ook na reparatiepoging niet ophalen: ${tweedeFout.message}${oorzaakTekst(tweedeFout)}`);
+          process.exit(1);
+        }
+      } else {
+        console.error(`Kon de pagina niet ophalen: ${fout.message}${oorzaakTekst(fout)} (automatische reparatie van de certificaatketen is niet gelukt)`);
+        process.exit(1);
+      }
+    } else {
+      console.error(`Kon de pagina niet ophalen: ${fout.message}${oorzaakTekst(fout)}`);
+      process.exit(1);
+    }
   }
 
   // Stap 1: is er een RSS/Atom-feed? Dat is betrouwbaarder dan Gemini-
