@@ -45,6 +45,23 @@ function leeftijdInDagen(gepubliceerdOpIso) {
 }
 
 /**
+ * Node's ingebouwde fetch (undici) gooit bij netwerkproblemen bijna altijd
+ * alleen de generieke `TypeError: fetch failed` als `.message` — de échte
+ * reden (DNS, timeout, connectie geweigerd, TLS-probleem, ...) zit dan in
+ * `.cause`, die door Node zelf NIET wordt meegeprint met `fout.message`.
+ * Deze helper haalt die oorzaak eruit zodat we hem overal waar we een
+ * fetch-fout loggen ook echt kunnen zien, in plaats van alleen "fetch
+ * failed" zonder verdere context.
+ */
+function oorzaakTekst(fout) {
+  const oorzaak = fout && fout.cause;
+  if (!oorzaak) return "";
+  const code = oorzaak.code ? ` [${oorzaak.code}]` : "";
+  const tekst = oorzaak.message || String(oorzaak);
+  return ` — oorzaak: ${tekst}${code}`;
+}
+
+/**
  * Haalt een URL op met een nette user-agent en duidelijke timeout/foutmelding.
  * Wordt door alle scrapers gebruikt zodat we op één plek retry-/timeoutlogica
  * kunnen aanpassen.
@@ -67,7 +84,7 @@ async function haalOp(url, pogingen = 3) {
       return await response.text();
     } catch (fout) {
       laatsteFout = fout;
-      console.warn(`Poging ${poging}/${pogingen} mislukt voor ${url}: ${fout.message}`);
+      console.warn(`Poging ${poging}/${pogingen} mislukt voor ${url}: ${fout.message}${oorzaakTekst(fout)}`);
       if (poging < pogingen) {
         await nieuweWacht(1000 * poging); // simpele backoff: 1s, 2s, 3s...
       }
@@ -107,6 +124,7 @@ function schoonmakenSamenvatting(tekst) {
 module.exports = {
   haalOp,
   parseerRssTekst,
+  oorzaakTekst,
   GEBRUIKERSAGENT,
   MAX_LEEFTIJD_DAGEN,
   binnenLeeftijdsgrens,
