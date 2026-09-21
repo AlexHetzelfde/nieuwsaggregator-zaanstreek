@@ -3,6 +3,9 @@
 
 const Parser = require("rss-parser");
 const rssParser = new Parser();
+const tls = require("tls");
+const crypto = require("crypto");
+const { Agent } = require("undici");
 
 const GEBRUIKERSAGENT =
   "NieuwsaggregatorZaanstreekBot/1.0 (+journalistiek studentenproject; contact via github repo)";
@@ -62,20 +65,132 @@ function oorzaakTekst(fout) {
 }
 
 /**
+ * Sommige servers (met name kleinere overheids-/instellingshosting, zo blijkt
+ * bij loket.zaanstad.nl) sturen bij het TLS-handshaken niet hun volledige
+ * certificaatketen mee — ze vergeten het tussencertificaat. Een browser merkt
+ * dit nooit, want die repareert het stilzwijgend zelf: hij haalt het
+ * ontbrekende tussencertificaat op via een link die IN het certificaat zelf
+ * staat (de "Authority Information Access"-extensie, "AIA-fetching"). Node
+ * doet dat niet, en faalt dan met UNABLE_TO_VERIFY_LEAF_SIGNATURE.
+ *
+ * Deze functie doet precies wat de browser doet:
+ *   1. Verbindt zonder verificatie, puur om het certificaat te lezen.
+ *   2. Leest daaruit de CA-Issuers-URL.
+ *   3. Haalt het ontbrekende certificaat daar op (bij de CA zelf, niet bij de
+ *      oorspronkelijke server — dát certificaat kunnen we dus wél vertrouwen).
+ *   4. Geeft een fetch-optie ({ dispatcher }) terug die dat certificaat
+ *      toevoegt aan de normale vertrouwde root-certificaten (niet in de
+ *      plaats daarvan), zodat verder niets aan vertrouwen inlevert.
+ *
+ * Geeft null terug als het niet lukt (bv. geen AIA-extensie aanwezig, of de
+ * download zelf faalt) — dan blijft de oorspronkelijke fout gewoon staan en
+ * verandert er niets aan het bestaande gedrag.
+ */
+async function probeerKetenTeRepareren(url) {
+  const { hostname, port, protocol } = new URL(url);
+  const tlsPoort = Number(port) || (protocol === "http:" ? 80 : 443);
+
+  let leafCertRaw;
+  try {
+    leafCertRaw = await new Promise((resolve, reject) => {
+      const socket = tls.connect(
+        { host: hostname, port: tlsPoort, servername: hostname, rejectUnauthorized: false, timeout: 10_000 },
+        () => {
+          const cert = socket.getPeerCertificate(false);
+          socket.end();
+          resolve(cert && cert.raw);
+        }
+      );
+      socket.on("error", reject);
+      socket.on("timeout", () => {
+        socket.destroy();
+        reject(new Error("TLS-verbinding voor ketenreparatie liep vast op een timeout"));
+      });
+    });
+  } catch {
+    return null;
+  }
+  if (!leafCertRaw) return null;
+
+  // Volg de "CA Issuers"-link net zoals een browser dat doet: van het
+  // certificaat naar zijn uitgever, en van díé weer naar zíjn uitgever,
+  // net zo lang tot er geen link meer is (dan zijn we vermoedelijk bij de
+  // root aanbeland, die zichzelf ondertekent en dus geen uitgever-link
+  // heeft). Zo repareren we niet alleen een ontbrekend tussencertificaat,
+  // maar ook het geval waarin zelfs de root nog niet in Node's eigen
+  // meegeleverde lijst zit (bijvoorbeeld bij een overheids-PKI).
+  const extraCertificaten = [];
+  const gebruikteUrls = [];
+  let huidigCertRaw = leafCertRaw;
+  const MAX_STAPPEN = 5;
+
+  for (let stap = 0; stap < MAX_STAPPEN; stap++) {
+    let x509;
+    try {
+      x509 = new crypto.X509Certificate(huidigCertRaw);
+    } catch {
+      break;
+    }
+
+    const infoAccess = x509.infoAccess || "";
+    const match = infoAccess.match(/CA Issuers - URI:(\S+)/);
+    if (!match) break; // geen verdere link meer -- keten is klaar
+    const issuerUrl = match[1];
+
+    let issuerBuffer;
+    try {
+      const response = await fetch(issuerUrl);
+      if (!response.ok) break;
+      issuerBuffer = Buffer.from(await response.arrayBuffer());
+    } catch {
+      break;
+    }
+
+    let issuerPem;
+    let issuerRaw;
+    try {
+      const tekst = issuerBuffer.toString("utf-8");
+      if (tekst.includes("BEGIN CERTIFICATE")) {
+        issuerPem = tekst;
+        issuerRaw = new crypto.X509Certificate(tekst).raw;
+      } else {
+        const x = new crypto.X509Certificate(issuerBuffer); // DER-formaat
+        issuerPem = x.toString();
+        issuerRaw = issuerBuffer;
+      }
+    } catch {
+      break;
+    }
+
+    extraCertificaten.push(issuerPem);
+    gebruikteUrls.push(issuerUrl);
+    huidigCertRaw = issuerRaw;
+  }
+
+  if (extraCertificaten.length === 0) return null;
+
+  const agent = new Agent({ connect: { ca: [...tls.rootCertificates, ...extraCertificaten] } });
+  return { dispatcher: agent, issuerUrl: gebruikteUrls.join(" -> ") };
+}
+
+/**
  * Haalt een URL op met een nette user-agent en duidelijke timeout/foutmelding.
  * Wordt door alle scrapers gebruikt zodat we op één plek retry-/timeoutlogica
  * kunnen aanpassen.
  */
 async function haalOp(url, pogingen = 3) {
   let laatsteFout;
+  let dispatcher; // blijft gezet zodra een reparatie eenmaal gelukt is voor deze host
   for (let poging = 1; poging <= pogingen; poging++) {
     try {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 20_000);
-      const response = await fetch(url, {
+      const opties = {
         headers: { "User-Agent": GEBRUIKERSAGENT },
         signal: controller.signal,
-      });
+      };
+      if (dispatcher) opties.dispatcher = dispatcher;
+      const response = await fetch(url, opties);
       clearTimeout(timeoutId);
 
       if (!response.ok) {
@@ -84,6 +199,17 @@ async function haalOp(url, pogingen = 3) {
       return await response.text();
     } catch (fout) {
       laatsteFout = fout;
+
+      if (fout.cause && fout.cause.code === "UNABLE_TO_VERIFY_LEAF_SIGNATURE" && !dispatcher) {
+        console.warn(`Certificaatketen van ${url} is onvolledig — probeer het ontbrekende tussencertificaat zelf op te halen...`);
+        const reparatie = await probeerKetenTeRepareren(url).catch(() => null);
+        if (reparatie) {
+          console.warn(`Ontbrekend tussencertificaat gevonden via ${reparatie.issuerUrl}, opnieuw proberen.`);
+          dispatcher = reparatie.dispatcher;
+          continue; // meteen opnieuw fetchen met de gerepareerde keten
+        }
+      }
+
       console.warn(`Poging ${poging}/${pogingen} mislukt voor ${url}: ${fout.message}${oorzaakTekst(fout)}`);
       if (poging < pogingen) {
         await nieuweWacht(1000 * poging); // simpele backoff: 1s, 2s, 3s...
@@ -125,6 +251,7 @@ module.exports = {
   haalOp,
   parseerRssTekst,
   oorzaakTekst,
+  probeerKetenTeRepareren,
   GEBRUIKERSAGENT,
   MAX_LEEFTIJD_DAGEN,
   binnenLeeftijdsgrens,
