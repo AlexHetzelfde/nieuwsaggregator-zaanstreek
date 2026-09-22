@@ -16,6 +16,7 @@ const { scrapeWordpress } = require("./scrapers/wordpress-html");
 const { scrapeIbabs } = require("./scrapers/ibabs");
 const { scrapeRss } = require("./scrapers/rss");
 const { scrapeGeneriekeLijst } = require("./scrapers/generieke-lijst");
+const { scrapeGeminiRecept } = require("./scrapers/gemini-recept");
 const { scoorBericht } = require("./score");
 const { beoordeelBerichten } = require("./gemini");
 const { binnenLeeftijdsgrens, MAX_LEEFTIJD_DAGEN, oorzaakTekst } = require("./hulpmiddelen");
@@ -34,6 +35,7 @@ const SCRAPER_PER_TYPE = {
   ibabs: scrapeIbabs,
   rss: scrapeRss,
   "generieke-lijst": scrapeGeneriekeLijst,
+  "gemini-recept": scrapeGeminiRecept,
 };
 
 // --- Kleine logging-helpers, zodat elke fase duidelijk zichtbaar is in de
