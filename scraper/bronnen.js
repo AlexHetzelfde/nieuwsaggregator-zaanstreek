@@ -68,13 +68,6 @@ module.exports = [
     url: "https://www.dezaanseschans.nl/contact/actueel/",
   },
   {
-    id: "zaandijk-leeft",
-    naam: "Zaandijk Leeft! — Nieuws",
-    categorie: "lokaal",
-    type: "generieke-lijst",
-    url: "https://zaandijkleeft.nl/nieuws/",
-  },
-  {
     id: "hhnk-nieuws",
     naam: "Hoogheemraadschap Hollands Noorderkwartier — Nieuws",
     categorie: "lokaal",
