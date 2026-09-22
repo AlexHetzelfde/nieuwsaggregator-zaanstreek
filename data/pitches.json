@@ -1,5 +1,62 @@
 {
-  "gegenereerdOp": "2026-09-21T17:13:10.272Z",
-  "aantalBerichtenTotaal": 0,
-  "topPitches": []
+  "gegenereerdOp": "2026-09-22T07:19:54.944Z",
+  "aantalBerichtenTotaal": 32,
+  "topPitches": [
+    {
+      "bronId": "nos-binnenland",
+      "bronNaam": "NOS — Binnenland",
+      "categorie": "landelijk",
+      "titel": "Minister: geen garantie snelle oplossing voor onveiligheid asielkinderen noodopvang",
+      "url": "https://nos.nl/l/2631945",
+      "samenvatting": "Minister Van den Brink van Asiel zegt alles op alles te willen zetten om alle kinderen in de asielopvang op een veilige plek te krijgen. Hij kan alleen niet garanderen dat dit binnen zes maanden lukt, zoals de Onderzoeksraad voor de Veiligheid (OVV) wel dringend noodzakelijk vindt. De minister zegt afhankelijk te zijn van de medewerking van gemeenten, die voor voldoende goede opvangplekken moeten zorgen. De OVV kwam vandaag met een alarmerend onderzoek naar de situatie van asielkinderen in de noodopvang. Dat zijn de sporthallen, schepen en containerwoningen waar asielzoekers 'tijdelijk' worden",
+      "gepubliceerdOp": "2026-09-21T17:20:44.000Z",
+      "opgehaaldOp": "2026-09-22T07:16:39.417Z",
+      "score": 14,
+      "scoreToelichting": [
+        "raakt gemeentelijk beleidsterrein (+4)",
+        "raakt lokaal vertegenwoordigde sector (+3)",
+        "recency (+7, 0.6 dag(en) oud)"
+      ],
+      "aiBeoordeling": {
+        "lokaleInvalshoek": "ja",
+        "aanleiding": "De minister stelt dat gemeenten verantwoordelijk zijn voor voldoende veilige opvangplekken voor asielkinderen, naar aanleiding van een alarmerend OVV-rapport over de situatie in noodopvang.",
+        "voorgesteldeKop": "Hoe veilig zitten asielkinderen in de noodopvang in Zaanstreek-Waterland?",
+        "pitchUitleg": "De OVV slaat alarm over de veiligheid van kinderen in de noodopvang en de minister legt de bal bij gemeenten. In Zaanstreek-Waterland zijn diverse gemeenten (zoals Zaanstad, Purmerend en Edam-Volendam) betrokken bij de opvang van asielzoekers, soms in tijdelijke of noodlocaties. Het is relevant om te onderzoeken hoe deze gemeenten omgaan met de veiligheid van minderjarigeasielzoekers en of zij op koers liggen om aan de eisen te voldoen.",
+        "vervolgstappen": [
+          "Vraag bij de gemeenten in Zaanstreek-Waterland (Zaanstad, Purmerend, Wormerland, Oostzaan, Edam-Volendam, Waterland) op hoeveel locaties er minderjarige asielzoekers in noodopvang verblijven.",
+          "Interview de verantwoordelijke wethouders over de haalbaarheid van de termijn van zes maanden die de OVV eist.",
+          "Pas hoor en wederhoor toe door lokale maatschappelijke organisaties of de GGD te vragen naar de feitelijke situatie op de locaties."
+        ],
+        "onderbouwing": ""
+      },
+      "aiFout": null
+    },
+    {
+      "bronId": "nos-binnenland",
+      "bronNaam": "NOS — Binnenland",
+      "categorie": "landelijk",
+      "titel": "Aantal inbraken bij brandweerkazernes neemt snel toe, dit jaar al 85 keer raak",
+      "url": "https://nos.nl/l/2631969",
+      "samenvatting": "In ruim een maand tijd is er 25 keer ingebroken bij brandweerkazernes in heel het land. Dat blijkt uit nieuwe cijfers die de politie vanavond deelde in het televisieprogramma Opsporing Verzocht. Halverwege augustus waren er 60 inbraken gepleegd in brandweerkazernes. Inmiddels staat de teller op 85. Ter vergelijking: in heel 2025 werden er 18 van zulke inbraken gepleegd, in 2024 waren het er 17. Afgelopen nacht hadden dieven het gemunt op de kazerne van het brandweerkorps Maarn-Maarsbergen. Daar is apparatuur gestolen die de brandweer nodig heeft bij blussen of het bevrijden van mensen. Nog gee",
+      "gepubliceerdOp": "2026-09-21T20:34:30.000Z",
+      "opgehaaldOp": "2026-09-22T07:16:39.417Z",
+      "score": 7,
+      "scoreToelichting": [
+        "recency (+7, 0.4 dag(en) oud)"
+      ],
+      "aiBeoordeling": {
+        "lokaleInvalshoek": "ja",
+        "aanleiding": "Landelijk stijgt het aantal inbraken bij brandweerkazernes fors naar 85 dit jaar, met recente diefstallen van reddings- en blusapparatuur.",
+        "voorgesteldeKop": "Ook zorgen in Zaanstreek-Waterland om golf van inbraken bij brandweerkazernes",
+        "pitchUitleg": "De landelijke golf van inbraken bij brandweerkazernes roept de vraag op of de kazernes in Zaanstreek-Waterland (zoals in Zaandam, Purmerend en Volendam) ook doelwit zijn of extra maatregelen treffen. Veiligheidsregio Zaanstreek-Waterland beheert de posten en kan uitsluitsel geven over eventuele incidenten, buitgemaakte apparatuur en de beveiligingsstatus. Dit raakt direct de operationele paraatheid en de veiligheid in de regio.",
+        "vervolgstappen": [
+          "Neem contact op met Veiligheidsregio Zaanstreek-Waterland om te vragen of er in de regio ook is ingebroken of geprobeerd in te breken bij kazernes.",
+          "Vraag de veiligheidsregio en de lokale politie welke beveiligingsmaatregelen er momenteel worden genomen naar aanleiding van de landelijke cijfers.",
+          "Controleer of er specifieke kostbare apparatuur is gestolen die de paraatheid van lokale korpsen kan beïnvloeden."
+        ],
+        "onderbouwing": ""
+      },
+      "aiFout": null
+    }
+  ]
 }

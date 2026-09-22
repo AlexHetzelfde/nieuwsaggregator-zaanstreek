@@ -1,1 +1,562 @@
-[]
+[
+  {
+    "bronId": "zaanstad-hoorzittingen",
+    "bronNaam": "zaanstad-hoorzittingen",
+    "categorie": "lokaal",
+    "titel": "2026-11-03 Dinsdag 3 november 2026 om 17.15 uur - Evenementenvergunning Joy X Flow Festival op 11 juli 2026 - Stadhuis, Stadhuisplein 100, 1506 MZ Zaandam",
+    "url": "https://loket.zaanstad.nl/mozard/!suite92.scherm1007?mObj=366113",
+    "samenvatting": "",
+    "gepubliceerdOp": "2026-11-03T00:00:00.000Z",
+    "opgehaaldOp": "2026-09-22T07:16:58.916Z",
+    "score": 64,
+    "scoreToelichting": [
+      "belang (+4)",
+      "nabijheid (+4)",
+      "recency (+56, -41.7 dag(en) oud)"
+    ],
+    "aiBeoordeling": {
+      "oppakbaar": "nee",
+      "onderbouwing": "Het bericht betreft een evenementenvergunning voor een datum in het verleden (11 juli 2026) waarvan de publicatiedatum (3 november 2026) in de toekomst ligt, wat duidt op administratieve datafouten of een gebrek aan actualiteit. Er worden geen concrete maatschappelijke gevolgen of omvang genoemd die nu relevant zijn voor inwoners. Hierdoor ontbreekt de nieuwswaarde.",
+      "invalshoek": "",
+      "teCheckenBronnen": [
+        "Gemeente Zaanstad vergunningenloket",
+        "Organisatie Joy X Flow Festival"
+      ]
+    },
+    "aiFout": null
+  },
+  {
+    "bronId": "zaanstad-hoorzittingen",
+    "bronNaam": "zaanstad-hoorzittingen",
+    "categorie": "lokaal",
+    "titel": "2026-10-27 Dinsdag 27 oktober 2026 om 17:15 uur - Besluit op herzieningsverzoek inzake bestuurlijke boete kamergewijze verhuur Zuiddijk 13A Zaandam - Microsoft Teams",
+    "url": "https://loket.zaanstad.nl/mozard/!suite92.scherm1007?mObj=366104",
+    "samenvatting": "",
+    "gepubliceerdOp": "2026-10-27T00:00:00.000Z",
+    "opgehaaldOp": "2026-09-22T07:16:58.916Z",
+    "score": 56,
+    "scoreToelichting": [
+      "belang (+4)",
+      "nabijheid (+4)",
+      "recency (+48, -34.7 dag(en) oud)"
+    ],
+    "aiBeoordeling": {
+      "oppakbaar": "twijfel",
+      "onderbouwing": "Het bericht heeft grote nabijheid (Zaandam) en betreft een formeel besluit (belang), maar de samenvatting en titel bevatten geen inhoudelijke details over de inhoud van het herzieningsverzoek of de hoogte van de boete. Hierdoor is de concrete omvang en het effect op het dagelijks leven op basis van dit summiere agendapunt niet direct vast te stellen.",
+      "invalshoek": "Wat is de uitkomst van het herzieningsverzoek over de bestuurlijke boete voor kamergewijze verhuur aan de Zuiddijk 13A?",
+      "teCheckenBronnen": [
+        "Gemeente Zaanstad",
+        "Hoortafel / hoorzittingen Zaanstad"
+      ]
+    },
+    "aiFout": null
+  },
+  {
+    "bronId": "zaanstad-hoorzittingen",
+    "bronNaam": "zaanstad-hoorzittingen",
+    "categorie": "lokaal",
+    "titel": "2026-10-27 Dinsdag 27 oktober 2026 om 18:15 uur - Besluit bestuurlijke boete kamerverhuur Zuiddijk 13A Zaandam - Microsoft Teams",
+    "url": "https://loket.zaanstad.nl/mozard/!suite92.scherm1007?mObj=366106",
+    "samenvatting": "",
+    "gepubliceerdOp": "2026-10-27T00:00:00.000Z",
+    "opgehaaldOp": "2026-09-22T07:16:58.916Z",
+    "score": 56,
+    "scoreToelichting": [
+      "belang (+4)",
+      "nabijheid (+4)",
+      "recency (+48, -34.7 dag(en) oud)"
+    ],
+    "aiBeoordeling": {
+      "oppakbaar": "twijfel",
+      "onderbouwing": "Het bericht heeft een hoge nabijheid (Zaandam) en concreet belang (een bestuurlijke boete voor kamerverhuur), maar de inhoud is minimaal en bevat alleen een datum en titel van een hoorzitting via Microsoft Teams. Er is te weinig feitelijke informatie over de achtergrond of de hoogte van de boete om direct een artikel te schrijven.",
+      "invalshoek": "Gemeente Zaanstad behandelt een zaak over illegale of betwiste kamerverhuur aan de Zuiddijk in Zaandam.",
+      "teCheckenBronnen": [
+        "Gemeente Zaanstad",
+        "Hoors Zaanstad / bezwaarschriftencommissie"
+      ]
+    },
+    "aiFout": null
+  },
+  {
+    "bronId": "zaanstad-hoorzittingen",
+    "bronNaam": "zaanstad-hoorzittingen",
+    "categorie": "lokaal",
+    "titel": "2026-10-27 Dinsdag 27 oktober 2026 om 19:15 uur - Besluit bestuurlijke boete kamerverhuur Zuiddijk 13A Zaandam - Microsoft Teams",
+    "url": "https://loket.zaanstad.nl/mozard/!suite92.scherm1007?mObj=366107",
+    "samenvatting": "",
+    "gepubliceerdOp": "2026-10-27T00:00:00.000Z",
+    "opgehaaldOp": "2026-09-22T07:16:58.916Z",
+    "score": 56,
+    "scoreToelichting": [
+      "belang (+4)",
+      "nabijheid (+4)",
+      "recency (+48, -34.7 dag(en) oud)"
+    ],
+    "aiBeoordeling": {
+      "oppakbaar": "twijfel",
+      "onderbouwing": "Het bericht heeft een hoge nabijheid (Zaandam) en relevantie door een bestuurlijke maatregel (belang), maar de inhoud is uiterst summier en bevat enkel een datum en onderwerp zonder de afloop of details van het besluit.",
+      "invalshoek": "Wat is de beslissing van het bestuur over de opgelegde boete voor kamerverhuur aan de Zuiddijk in Zaandam?",
+      "teCheckenBronnen": [
+        "Gemeente Zaanstad",
+        "Hoortafel / hoorzittingen Zaanstad"
+      ]
+    },
+    "aiFout": null
+  },
+  {
+    "bronId": "zaanstad-hoorzittingen",
+    "bronNaam": "zaanstad-hoorzittingen",
+    "categorie": "lokaal",
+    "titel": "2026-10-20 Dinsdag 20 oktober 2026 om 17:15 uur - Omgevingsvergunning O2025049639 bouwen uitbouw met dakterras Erasmusstraat 12 Krommenie - Stadhuis, Stadhuisplein 100, 1506 MZ Zaandam",
+    "url": "https://loket.zaanstad.nl/mozard/!suite92.scherm1007?mObj=365771",
+    "samenvatting": "",
+    "gepubliceerdOp": "2026-10-20T00:00:00.000Z",
+    "opgehaaldOp": "2026-09-22T07:16:58.916Z",
+    "score": 48,
+    "scoreToelichting": [
+      "belang (+4)",
+      "nabijheid (+4)",
+      "recency (+40, -27.7 dag(en) oud)"
+    ],
+    "aiBeoordeling": {
+      "oppakbaar": "nee",
+      "onderbouwing": "Het bericht is een routinevolle bekendmaking van een omgevingsvergunning voor een uitbouw en dakterras aan de Erasmusstraat in Krommenie. Er is geen sprake van een grote omvang, een maatschappelijk probleem of een bekende betrokkene, waardoor de nieuwswaarde te gering is voor een journalistiek artikel.",
+      "invalshoek": "",
+      "teCheckenBronnen": [
+        "Gemeente Zaanstad",
+        "Omgevingsloket"
+      ]
+    },
+    "aiFout": null
+  },
+  {
+    "bronId": "zaanstad-hoorzittingen",
+    "bronNaam": "zaanstad-hoorzittingen",
+    "categorie": "lokaal",
+    "titel": "2026-10-20 Dinsdag 20 oktober 2026 om 18:15 uur - Omgevingsvergunning O2025049642 plaatsen bootlift Bornholmpier 11 te Zaandam - Stadhuis, Stadhuisplein 100, 1506 MZ Zaandam",
+    "url": "https://loket.zaanstad.nl/mozard/!suite92.scherm1007?mObj=365832",
+    "samenvatting": "",
+    "gepubliceerdOp": "2026-10-20T00:00:00.000Z",
+    "opgehaaldOp": "2026-09-22T07:16:58.916Z",
+    "score": 48,
+    "scoreToelichting": [
+      "belang (+4)",
+      "nabijheid (+4)",
+      "recency (+40, -27.7 dag(en) oud)"
+    ],
+    "aiBeoordeling": {
+      "oppakbaar": "nee",
+      "onderbouwing": "Het bericht betreft slechts een standaardkennisgeving van een omgevingsvergunning voor een bootlift in Zaandam zonder verdere maatschappelijke impact, conflicten of uitzonderlijke omvang. Hierdoor ontbreekt voldoende nieuwswaarde op basis van de criteria afwijking, belang en omvang.",
+      "invalshoek": "",
+      "teCheckenBronnen": [
+        "Gemeente Zaanstad",
+        "Omgevingsloket"
+      ]
+    },
+    "aiFout": null
+  },
+  {
+    "bronId": "zaanstad-hoorzittingen",
+    "bronNaam": "zaanstad-hoorzittingen",
+    "categorie": "lokaal",
+    "titel": "2026-10-21 Woensdag 21 oktober 2026 om 18:15 uur - Invorderingen last onder dwangsom 9559513 plaatsing serre Clusiuslaan 317 Zaandam - Stadhuis, Stadhuisplein 100, 1506 MZ Zaandam",
+    "url": "https://loket.zaanstad.nl/mozard/!suite92.scherm1007?mObj=366167",
+    "samenvatting": "",
+    "gepubliceerdOp": "2026-10-21T00:00:00.000Z",
+    "opgehaaldOp": "2026-09-22T07:16:58.916Z",
+    "score": 45,
+    "scoreToelichting": [
+      "nabijheid (+4)",
+      "recency (+41, -28.7 dag(en) oud)"
+    ],
+    "aiBeoordeling": {
+      "oppakbaar": "twijfel",
+      "onderbouwing": "Het bericht heeft een hoge nabijheid (Zaandam) en actuele planning, maar mist inhoudelijke context over de reden van de last onder dwangsom voor de serre. Het belang en de omvang voor de lezer zijn hierdoor onduidelijk zonder verdere informatie.",
+      "invalshoek": "Gemeente Zaanstad treedt handhavend op tegen de plaatsing van een serre aan de Clusiuslaan in Zaandam.",
+      "teCheckenBronnen": [
+        "Gemeente Zaanstad",
+        "Betrokken bewoner Clusiuslaan 317"
+      ]
+    },
+    "aiFout": null
+  },
+  {
+    "bronId": "zaanstad-hoorzittingen",
+    "bronNaam": "zaanstad-hoorzittingen",
+    "categorie": "lokaal",
+    "titel": "2026-10-14 Woensdag 14 oktober 2026 om 17:15 uur - Wijzigingsbesluit aanwijsbesluit bij parkeerverordening Zaanstad 2017 - Stadhuis, Stadhuisplein 100, 1506 MZ Zaandam",
+    "url": "https://loket.zaanstad.nl/mozard/!suite92.scherm1007?mObj=366140",
+    "samenvatting": "",
+    "gepubliceerdOp": "2026-10-14T00:00:00.000Z",
+    "opgehaaldOp": "2026-09-22T07:16:58.916Z",
+    "score": 41,
+    "scoreToelichting": [
+      "belang (+4)",
+      "nabijheid (+4)",
+      "recency (+33, -21.7 dag(en) oud)"
+    ],
+    "aiBeoordeling": {
+      "oppakbaar": "twijfel",
+      "onderbouwing": "Het bericht heeft een hoge nabijheid (Zaanstad) en directe gevolgen voor inwoners door een wijziging in de parkeerverordening (belang). Er is echter geen samenvatting of inhoud van het besluit beschikbaar, waardoor actualiteit en omvang niet volledig te beoordelen zijn.",
+      "invalshoek": "Wat verandert er concreet door het nieuwe wijzigingsbesluit van de parkeerverordening in Zaanstad?",
+      "teCheckenBronnen": [
+        "Gemeente Zaanstad",
+        "Parkeerverordening Zaanstad 2017"
+      ]
+    },
+    "aiFout": null
+  },
+  {
+    "bronId": "zaanstad-hoorzittingen",
+    "bronNaam": "zaanstad-hoorzittingen",
+    "categorie": "lokaal",
+    "titel": "2026-10-13 Dinsdag 13 oktober 2026 om 17:15 uur - Omgevingsvergunningen verplanten, kappen en herplanten bomen Spoorland en Weeshuisland Koog a/d Zaan - Stadhuis, Stadhuisplein 100, 1506 MZ Zaandam",
+    "url": "https://loket.zaanstad.nl/mozard/!suite92.scherm1007?mObj=366117",
+    "samenvatting": "",
+    "gepubliceerdOp": "2026-10-13T00:00:00.000Z",
+    "opgehaaldOp": "2026-09-22T07:16:58.916Z",
+    "score": 40,
+    "scoreToelichting": [
+      "belang (+4)",
+      "nabijheid (+4)",
+      "recency (+32, -20.7 dag(en) oud)"
+    ],
+    "aiBeoordeling": {
+      "oppakbaar": "nee",
+      "onderbouwing": "Het bericht is een standaardbekendmaking van een omgevingsvergunning voor bomen zonder verdere inhoudelijke context over de impact of het aantal betrokken bomen. Hiermee ontbreken voldoende concrete gevolgen voor het dagelijks leven en is de nieuwswaarde op dit moment te gering.",
+      "invalshoek": "",
+      "teCheckenBronnen": [
+        "Gemeente Zaanstad",
+        "Omgevingsloket"
+      ]
+    },
+    "aiFout": null
+  },
+  {
+    "bronId": "zaanstad-hoorzittingen",
+    "bronNaam": "zaanstad-hoorzittingen",
+    "categorie": "lokaal",
+    "titel": "2026-10-15 Donderdag 15 oktober 2026 om 14:00 uur - Afgewezen ontheffing om de geslotenverklaring van Czaar Peterstraat te Zaandam te mogen negeren - Stadhuis, Stadhuisplein 100, 1506 MZ Zaandam",
+    "url": "https://loket.zaanstad.nl/mozard/!suite92.scherm1007?mObj=366115",
+    "samenvatting": "",
+    "gepubliceerdOp": "2026-10-15T00:00:00.000Z",
+    "opgehaaldOp": "2026-09-22T07:16:58.916Z",
+    "score": 38,
+    "scoreToelichting": [
+      "nabijheid (+4)",
+      "recency (+34, -22.7 dag(en) oud)"
+    ],
+    "aiBeoordeling": {
+      "oppakbaar": "twijfel",
+      "onderbouwing": "Het bericht heeft een hoge nabijheid in Zaanstreek-Waterland en betreft een actueel besluit met directe impact op de verkeerssituatie ter plaatse, maar mist inhoudelijke context over de reden van de afwijzing en de betrokkene. De omvang en het maatschappelijk belang zijn hierdoor op basis van alleen de feiten lastig in te schatten.",
+      "invalshoek": "Wat is de reden dat de ontheffing voor de geslotenverklaring van de Czaar Peterstraat in Zaandam is afgewezen?",
+      "teCheckenBronnen": [
+        "Gemeente Zaanstad",
+        "Betrokken aanvrager ontheffing"
+      ]
+    },
+    "aiFout": null
+  },
+  {
+    "bronId": "zaanstad-hoorzittingen",
+    "bronNaam": "zaanstad-hoorzittingen",
+    "categorie": "lokaal",
+    "titel": "2026-10-07 Woensdag 7 oktober 2026 om 19:00 uur - Omgevingsvergunning O2026052058 omzetten naar drie onzelfstandige woonruimte Zwarte Ring 183 - Stadhuis, Stadhuisplein 100, 1506 MZ Zaandam",
+    "url": "https://loket.zaanstad.nl/mozard/!suite92.scherm1007?mObj=366165",
+    "samenvatting": "",
+    "gepubliceerdOp": "2026-10-07T00:00:00.000Z",
+    "opgehaaldOp": "2026-09-22T07:16:58.916Z",
+    "score": 33,
+    "scoreToelichting": [
+      "belang (+4)",
+      "nabijheid (+4)",
+      "recency (+25, -14.7 dag(en) oud)"
+    ],
+    "aiBeoordeling": {
+      "oppakbaar": "nee",
+      "onderbouwing": "Dit is een routinevolle bekendmaking van een omgevingsvergunning en mist inhoudelijke context over de impact of het maatschappelijk belang. Hoewel het lokaal in Zaandam speelt, ontbreken voldoende aanknopingspunten voor een journalistiek verhaal op basis van alleen dit administratieve bericht.",
+      "invalshoek": "",
+      "teCheckenBronnen": [
+        "Gemeente Zaanstad",
+        "Omgevingsloket"
+      ]
+    },
+    "aiFout": null
+  },
+  {
+    "bronId": "zaanstad-hoorzittingen",
+    "bronNaam": "zaanstad-hoorzittingen",
+    "categorie": "lokaal",
+    "titel": "2026-10-06 Dinsdag 6 oktober 2026 om 17:15 uur - Omgevingsvergunning afwijken omgevingsplan lichte horeca-functie locatie Paltrokstraat 6 Zaandam - Stadhuis, Stadhuisplein 100, 1506 MZ Zaandam",
+    "url": "https://loket.zaanstad.nl/mozard/!suite92.scherm1007?mObj=366116",
+    "samenvatting": "",
+    "gepubliceerdOp": "2026-10-06T00:00:00.000Z",
+    "opgehaaldOp": "2026-09-22T07:16:58.916Z",
+    "score": 32,
+    "scoreToelichting": [
+      "belang (+4)",
+      "nabijheid (+4)",
+      "recency (+24, -13.7 dag(en) oud)"
+    ],
+    "aiBeoordeling": {
+      "oppakbaar": "nee",
+      "onderbouwing": "Het bericht betreft slechts een standaardbekendmaking van een omgevingsvergunning voor lichte horeca aan de Paltrokstraat 6 in Zaandam. Er is geen sprake van bijzondere afwijkingen, grote omvang of maatschappelijke impact die verder gaat dan de wettelijke publicatie.",
+      "invalshoek": "",
+      "teCheckenBronnen": [
+        "Gemeente Zaanstad",
+        "Omgevingsloket"
+      ]
+    },
+    "aiFout": null
+  },
+  {
+    "bronId": "zaanstad-hoorzittingen",
+    "bronNaam": "zaanstad-hoorzittingen",
+    "categorie": "lokaal",
+    "titel": "2026-10-06 Dinsdag 6 oktober 2026 om 18:30 uur - Omgevingsvergunning O2025045428 bouwen 55 appartementen en 1 atelierwoning De Pijl Noorddijk 100 - Stadhuis, Stadhuisplein 100, 1506 MZ Zaandam",
+    "url": "https://loket.zaanstad.nl/mozard/!suite92.scherm1007?mObj=366124",
+    "samenvatting": "",
+    "gepubliceerdOp": "2026-10-06T00:00:00.000Z",
+    "opgehaaldOp": "2026-09-22T07:16:58.916Z",
+    "score": 32,
+    "scoreToelichting": [
+      "belang (+4)",
+      "nabijheid (+4)",
+      "recency (+24, -13.7 dag(en) oud)"
+    ],
+    "aiBeoordeling": {
+      "oppakbaar": "twijfel",
+      "onderbouwing": "Het bericht heeft een hoge nabijheid (Zaandam) en concreet belang door de bouwplannen van 55 appartementen en een atelierwoning, maar het is een summiere vooraankondiging zonder inhoudelijke details over de impact. De omvang is redelijk, maar er is geen sprake van een bekende lokale naam of een unieke gebeurtenis.",
+      "invalshoek": "Aan de Noorddijk 100 in Zaandam moeten in de toekomst 55 nieuwe appartementen en een atelierwoning verrijzen.",
+      "teCheckenBronnen": [
+        "Gemeente Zaanstad omgevingsloket",
+        "Bestemmingsplan Noorddijk 100"
+      ]
+    },
+    "aiFout": null
+  },
+  {
+    "bronId": "zaanstad-hoorzittingen",
+    "bronNaam": "zaanstad-hoorzittingen",
+    "categorie": "lokaal",
+    "titel": "2026-10-08 Donderdag 8 oktober 2026 om 14:15 uur - Onjuist aangeboden afval locatie Peperstraat te Zaandam - Stadhuis, Stadhuisplein 100, 1506 MZ Zaandam",
+    "url": "https://loket.zaanstad.nl/mozard/!suite92.scherm1007?mObj=366171",
+    "samenvatting": "",
+    "gepubliceerdOp": "2026-10-08T00:00:00.000Z",
+    "opgehaaldOp": "2026-09-22T07:16:58.916Z",
+    "score": 30,
+    "scoreToelichting": [
+      "nabijheid (+4)",
+      "recency (+26, -15.7 dag(en) oud)"
+    ],
+    "aiBeoordeling": {
+      "oppakbaar": "nee",
+      "onderbouwing": "Het bericht betreft een individuele hoorzitting over onjuist aangeboden afval aan de Peperstraat in Zaandam. Dit is een administratieve procedure rond een handhavingskwestie die onvoldoende algemeen belang of omvang heeft voor de nieuwsvorming.",
+      "invalshoek": "",
+      "teCheckenBronnen": [
+        "Gemeente Zaanstad",
+        "Hoortoets / bezwaarschriftencommissie"
+      ]
+    },
+    "aiFout": null
+  },
+  {
+    "bronId": "zaanstad-hoorzittingen",
+    "bronNaam": "zaanstad-hoorzittingen",
+    "categorie": "lokaal",
+    "titel": "2026-09-30 Woensdag 30 september 2026 om 17:15 uur - Handhavingsbesluit n.a.v. inspectie milieucontrole autobedrijf Aydis Oostzijde 170A te Zaandam - Microsoft Teams",
+    "url": "https://loket.zaanstad.nl/mozard/!suite92.scherm1007?mObj=365609",
+    "samenvatting": "",
+    "gepubliceerdOp": "2026-09-30T00:00:00.000Z",
+    "opgehaaldOp": "2026-09-22T07:16:58.916Z",
+    "score": 25,
+    "scoreToelichting": [
+      "belang (+4)",
+      "nabijheid (+4)",
+      "recency (+17, -7.7 dag(en) oud)"
+    ],
+    "aiBeoordeling": {
+      "oppakbaar": "twijfel",
+      "onderbouwing": "Het bericht heeft een hoge nabijheid (Zaandam) en betreft een concreet besluit met mogelijk milieugevolgen, wat raakt aan de criteria belang en nabijheid. Echter, het is slechts een kale aankondiging van een hoorzitting via Microsoft Teams over een handhavingsbesluit zonder inhoudelijke details over de aard van de milieucontrole.",
+      "invalshoek": "Wat is er aan de hand bij autobedrijf Aydis aan de Oostzijde in Zaandam dat een handhavingsbesluit uitlokte?",
+      "teCheckenBronnen": [
+        "Gemeente Zaanstad",
+        "Omgevingsdienst IJmond"
+      ]
+    },
+    "aiFout": null
+  },
+  {
+    "bronId": "zaanstad-hoorzittingen",
+    "bronNaam": "zaanstad-hoorzittingen",
+    "categorie": "lokaal",
+    "titel": "2026-09-30 Woensdag 30 september 2026 om 18:15 uur - AVG-inzagebesluit - Stadhuis, Stadhuisplein 100, 1506 MZ Zaandam",
+    "url": "https://loket.zaanstad.nl/mozard/!suite92.scherm1007?mObj=366091",
+    "samenvatting": "",
+    "gepubliceerdOp": "2026-09-30T00:00:00.000Z",
+    "opgehaaldOp": "2026-09-22T07:16:58.916Z",
+    "score": 25,
+    "scoreToelichting": [
+      "belang (+4)",
+      "nabijheid (+4)",
+      "recency (+17, -7.7 dag(en) oud)"
+    ],
+    "aiBeoordeling": {
+      "oppakbaar": "nee",
+      "onderbouwing": "Het bericht bevat enkel een kale datum, tijd en locatie voor een AVG-inzagebesluit in het stadhuis van Zaandam zonder verdere inhoud of context. Hierdoor ontbreekt voldoende nieuwswaarde op het gebied van belang, omvang en inzicht in een maatschappelijk probleem.",
+      "invalshoek": "",
+      "teCheckenBronnen": [
+        "Gemeente Zaanstad",
+        "Loket Zaanstad"
+      ]
+    },
+    "aiFout": null
+  },
+  {
+    "bronId": "zaanstad-hoorzittingen",
+    "bronNaam": "zaanstad-hoorzittingen",
+    "categorie": "lokaal",
+    "titel": "2026-09-30 Woensdag 30 september 2026 om 09:15 uur - Onjuist aangeboden afval locatie Vrieschgroenstraat te Zaandam - Stadhuis, Stadhuisplein 100, 1506 MZ Zaandam",
+    "url": "https://loket.zaanstad.nl/mozard/!suite92.scherm1007?mObj=366105",
+    "samenvatting": "",
+    "gepubliceerdOp": "2026-09-30T00:00:00.000Z",
+    "opgehaaldOp": "2026-09-22T07:16:58.916Z",
+    "score": 21,
+    "scoreToelichting": [
+      "nabijheid (+4)",
+      "recency (+17, -7.7 dag(en) oud)"
+    ],
+    "aiBeoordeling": {
+      "oppakbaar": "nee",
+      "onderbouwing": "Het bericht betreft enkel een standaard hoorzitting over onjuist aangeboden afval op een specifieke locatie in Zaandam, zonder aanduiding van grote omvang, maatschappelijk belang of unieke afwijking. Het voldoet daarmee onvoldoende aan de journalistieke criteria voor nieuwswaardigheid.",
+      "invalshoek": "",
+      "teCheckenBronnen": [
+        "Gemeente Zaanstad",
+        "Loket Zaanstad"
+      ]
+    },
+    "aiFout": null
+  },
+  {
+    "bronId": "zaanstad-hoorzittingen",
+    "bronNaam": "zaanstad-hoorzittingen",
+    "categorie": "lokaal",
+    "titel": "2026-09-30 Woensdag 30 september 2026 om 19:15 uur - Bestuurlijke boete opkoopbescherming Fluitekruidweg 160 Zaandam - Microsoft Teams",
+    "url": "https://loket.zaanstad.nl/mozard/!suite92.scherm1007?mObj=366093",
+    "samenvatting": "",
+    "gepubliceerdOp": "2026-09-30T00:00:00.000Z",
+    "opgehaaldOp": "2026-09-22T07:16:58.916Z",
+    "score": 21,
+    "scoreToelichting": [
+      "nabijheid (+4)",
+      "recency (+17, -7.7 dag(en) oud)"
+    ],
+    "aiBeoordeling": {
+      "oppakbaar": "twijfel",
+      "onderbouwing": "Het bericht heeft een hoge nabijheid (Zaandam) en betreft een bestuurlijke maatregel (belang), maar de inhoud is erg summier en vermeldt alleen een datum en adres zonder details over de hoogte of reden van de boete. Het is een vooraankondiging van een hoorzitting via Microsoft Teams, waardoor de omvang en impact nog onduidelijk zijn.",
+      "invalshoek": "Waarom legt de gemeente Zaanstad een bestuurlijke boete op voor de opkoopbescherming aan de Fluitekruidweg 160 in Zaandam?",
+      "teCheckenBronnen": [
+        "Gemeente Zaanstad",
+        "Hoortafel / hoorzittingen Zaanstad"
+      ]
+    },
+    "aiFout": null
+  },
+  {
+    "bronId": "ibabs-collegeberichten",
+    "bronNaam": "Zaanstad — Collegeberichten (iBabs)",
+    "categorie": "lokaal",
+    "titel": "Bestuurlijke vertegenwoordiging en benoeming verbonden partijen",
+    "itemId": "25d2be67-9720-4c2b-99de-c39fc13c8823",
+    "url": "https://zaanstad.bestuurlijkeinformatie.nl/Document/View/ad67406c-8abf-473e-8dd9-15122294c42e",
+    "samenvatting": "Raadsinformatiebrief — Hamming, J. — Actieve informatievoorziening — MOZARD ZAAKNUMMER PAGINA gemeente Zaanstad 10407589 1/5 Raadsinformatiebrief 1 Onderwerp Bestuurlijke vertegenwoordiging en benoeming verbonden partijen Portefeuillehouder J. Hamming Portefeuille Bestuurlijke organisatie Aan de leden van de gemeenteraad Zaanstad, Inleiding De gemeente is actief in verschillende verbonden partijen, zowel publiekrechtelijke als privaatrechtelijke rechtsvormen. Bij de start van een nieuwe bestuursperiode wijzen de raad en het college de (plaatsvervangende) bestuurlijke vertegenwoordigers in verbonden partijen aan. Het is expliciet aan de raad om in geval van de gemeenschappelijke regelingen de Vervoerregio Amsterdam, en de recreatieschappen Twiske – Waterland en Alkmaarder- en Uitgeestermeer de leden van het Algemeen Bestuur (AB) aan te wijzen. Toelichting Voor een rechtmatige bestuurlijke vertegenwoordiging in verbonden partijen moet het college en de raad (plaatsvervangende) bestuurlijke vertegenwoordigers aanwijzen. Op grond van de Wet gemeenschappelijke regelingen bestaat het bestuur van een gemeenschappelijke regeling met een openbaar lichaam uit een algemeen bestuur (AB), een dagelijks bestuur (DB) en een voorzitter. Het AB is het hoofd van de gemeenschappelijke regeling en bestaat uit leden die door de deelnemende bestuursorganen van de gemeenten worden aangewezen: • Wanneer er sprake is van een collegeregeling benoemt het college het lid of leden in het AB. • Wanneer er sprake is van een raadsregeling benoemt de raad het lid of leden in het AB. • Bij gemengde regelingen (raads- en collegebevoegdheden) is het ook aan de raad om AB leden aan te wijzen. • Het AB benoemt vervolgens in de eerstvolgende vergadering de leden van het DB en de voorzitter. In geval van de gemeenschappelijke regelingen Vervoerregio Amsterdam en de recreatieschappen Twiske-Waterland en Alkmaarder- en Uitgeestermeer is de raad het bevoegde orgaan (en niet het college) om uit hun midden en uit het college bestuurlijke vertegenwoordigers aan te wijzen. Het college doet een voordracht aan de raad. De gemeenschappelijke regelingen regelen hierover het volgende: Gemeenschappelijke regeling Vervoerregio Amsterdam De leden van de regioraad worden door de raden van de deelnemende gemeenten, uit hun midden, de voorzitters inbegrepen en / of uit het college van burgemeester en wethouders aangewezen. Op basis van een genoemde maatstaf in de gemeenschappelijke regeling heeft de gemeente Zaanstad zeven leden in de regioraad. Op 8 september 2026 besluit de raad over de invulling van de twee vacante posities, wethouder De Boer heeft zich naast 2 raadsleden kandidaat gesteld. In artikel 17 lid 2 van de GR Vervoerregio Amsterdam is aangegeven dat alleen gemeenten onder de 40.000 inwoners plaatsvervangers kunnen aanwijzen. 1 Op deze raadsinformatiebrief volgt geen actie van de Agendacommissie. Wanneer u een onderwerp hieruit wilt bespreken dan kunt u dit doen door een raadsinstrument in te zetten. Bijvoorbeeld een rondvraag (primair gericht aan het colleg",
+    "gepubliceerdOp": "2026-09-17T00:00:00.000Z",
+    "opgehaaldOp": "2026-09-22T07:16:27.605Z",
+    "documentInhoudOpgehaald": true,
+    "score": 15,
+    "scoreToelichting": [
+      "belang (+4)",
+      "voor het eerst (+2)",
+      "primeur/eerstehands bron (+3)",
+      "nabijheid (+4)",
+      "recency (+2, 5.3 dag(en) oud)"
+    ],
+    "aiBeoordeling": null,
+    "aiFout": "dagcap bereikt"
+  },
+  {
+    "bronId": "ibabs-collegeberichten",
+    "bronNaam": "Zaanstad — Collegeberichten (iBabs)",
+    "categorie": "lokaal",
+    "titel": "Raadsinformatiebrief voornemen tot aanwijzen Stationsstraat 54 in Koog aan de Zaan als gemeentelijk",
+    "itemId": "af593d4f-7f9d-4494-98ec-a92c4b922ad6",
+    "url": "https://zaanstad.bestuurlijkeinformatie.nl/Document/View/eb21d233-d133-43b8-8571-6bf4cabacb7f",
+    "samenvatting": "Raadsinformatiebrief — Doeves - de Boer, M.  — Actieve informatievoorziening — MOZARD ZAAKNUMMER PAGINA gemeente Zaanstad 10664012 1/3 Raadsinformatiebrief 1 Onderwerp Raadsinformatiebrief voornemen tot aanwijzen Stationsstraat 54 in Koog aan de Zaan als gemeentelijk monument Portefeuillehouder M. de Boer Portefeuille Monumenten en Erfgoed Aan de leden van de gemeenteraad Zaanstad, Inleiding Met deze brief informeren wij u over het besluit van het college van burgemeester en wethouders om het voornemen uit te spreken om het pand Stationsstraat 54 te Koog aan de Zaan aan te wijzen als gemeentelijk monument. Het college acht het van belang de raad hierover te informeren, omdat voor het pand een sloopmelding is ingediend en de voorgenomen aanwijzing gevolgen heeft voor de verdere procedure rondom het behoud van het gebouw. Het betreft een voornemen tot aanwijzen en niet een definitief besluit. In de komende periode worden de betrokken belangen nader onderzocht en afgewogen, waarna het college een definitief besluit zal nemen. Toelichting Cultuurhistorische waarden geven aanleiding tot bescherming Het college heeft voornemen geuit tot aanwijzing als gemeentelijk monument vanwege de cultuurhistorische, architectuurhistorische en stedenbouwkundige waarden van het pand. Het gebouw betreft de voormalige Nutsspaarbank uit 1907 en is een van de laatste historische panden in de Stationsstraat. Het pand vertegenwoordigt een belangrijke periode in de ontwikkeling van Koog aan de Zaan en de Zaanstreek en is ontworpen door architect Geert Stapenséa. Daarnaast heeft de Adviescommissie Welstand en Monumenten positief geadviseerd over plaatsing op de gemeentelijke monumentenlijst. Sloopdreiging maakt een zorgvuldige beoordeling noodzakelijk Voor het pand is op 5 augustus 2026 een sloopmelding ontvangen. Daarnaast heeft Vereniging Zaans Erfgoed op 13 augustus 2026 een verzoek ingediend om het pand aan te wijzen als gemeentelijk monument. Het college acht het wenselijk om de monumentale waarden van het pand zorgvuldig te onderzoeken en af te wegen voordat onomkeerbare wijzigingen plaatsvinden. Daarom is gekozen voor het starten van een aanwijzingsprocedure waardoor voorbescherming van toepassing wordt. De monumentenprocedure staat los van de kraak- en handhavingssituatie Rondom het pand spelen vraagstukken met betrekking tot illegale bewoning en veiligheid. Deze trajecten staan juridisch los van de monumentenprocedure. De aanleiding voor het voornemen tot aanwijzing wordt gevormd door de erfgoedwaarden van het pand, de voordracht van Vereniging Zaans Erfgoed en de bestaande sloopdreiging. Eventuele besluitvorming over het vrijmaken van het pand behoort tot de verantwoordelijkheid van de officier van justitie en rechterlijke autoriteiten. De gemeente heeft hierin geen beslissende rol. Project Guisweg De voorgenomen aanwijzing raakt aan andere gemeentelijke opgaven, waaronder de gebiedsontwikkeling rondom de Guisweg en de gesprekken over grondverwerving met dezelfde eigenaar. Het college heeft onderzocht of het pand noodzakelijk is voor de uitvo",
+    "gepubliceerdOp": "2026-09-17T00:00:00.000Z",
+    "opgehaaldOp": "2026-09-22T07:16:27.605Z",
+    "documentInhoudOpgehaald": true,
+    "score": 13,
+    "scoreToelichting": [
+      "belang (+4)",
+      "primeur/eerstehands bron (+3)",
+      "nabijheid (+4)",
+      "recency (+2, 5.3 dag(en) oud)"
+    ],
+    "aiBeoordeling": null,
+    "aiFout": "dagcap bereikt"
+  },
+  {
+    "bronId": "zaanstad-hoorzittingen",
+    "bronNaam": "zaanstad-hoorzittingen",
+    "categorie": "lokaal",
+    "titel": "2026-09-23 Woensdag 23 september 2026 om 14:00 uur - Invorderingsbeschikking 10050376 vanwege sloopwerkzaamheden Vlusch 30 te Krommenie - Stadhuis, Stadhuisplein 100, 1506 MZ Zaandam",
+    "url": "https://loket.zaanstad.nl/mozard/!suite92.scherm1007?mObj=366109",
+    "samenvatting": "",
+    "gepubliceerdOp": "2026-09-23T00:00:00.000Z",
+    "opgehaaldOp": "2026-09-22T07:16:58.916Z",
+    "score": 13,
+    "scoreToelichting": [
+      "nabijheid (+4)",
+      "recency (+9, -0.7 dag(en) oud)"
+    ],
+    "aiBeoordeling": null,
+    "aiFout": "dagcap bereikt"
+  },
+  {
+    "bronId": "zaanstad-hoorzittingen",
+    "bronNaam": "zaanstad-hoorzittingen",
+    "categorie": "lokaal",
+    "titel": "2026-09-22 Dinsdag 22 september 2026 om 17.15 uur - Bestuurlijke boete kamerverhuur woning Twiskeweg 302 Zaandam. - Stadhuis, Stadhuisplein 100, 1506 MZ Zaandam",
+    "url": "https://loket.zaanstad.nl/mozard/!suite92.scherm1007?mObj=366057",
+    "samenvatting": "",
+    "gepubliceerdOp": "2026-09-22T00:00:00.000Z",
+    "opgehaaldOp": "2026-09-22T07:16:58.915Z",
+    "score": 12,
+    "scoreToelichting": [
+      "nabijheid (+4)",
+      "recency (+8, 0.3 dag(en) oud)"
+    ],
+    "aiBeoordeling": null,
+    "aiFout": "dagcap bereikt"
+  },
+  {
+    "bronId": "ibabs-collegeberichten",
+    "bronNaam": "Zaanstad — Collegeberichten (iBabs)",
+    "categorie": "lokaal",
+    "titel": "Besluitenlijst BW Zaanstad 8-9-26",
+    "itemId": "c19cefe9-d2fa-4199-9705-d3b2991151ea",
+    "url": "https://zaanstad.bestuurlijkeinformatie.nl/Document/View/a4da0b40-692f-4c37-a967-daeaa05d1e2e",
+    "samenvatting": "Besluitenlijst B&W — Ter kennisname — Besluitenlijst B&W Zaanstad Datum 08-09-2026 Voorzitter J. Hamming Aanwezigen J. van 't Veer, M. Doeves – de Boer, L. Graaff, S. Groenewoud, J. Hamming, R. Karst, H. van der Laan, S. Onclin en E. Sahin 5.1 Algemene Vergadering van Aandeelhouders Betaalbare Koopwoningen Zaanstad Holding B.V. De besluiten van het college en de bijlagen bij dit besluit zijn geheim tot deze zijn besproken in de Algemene Vergadering van Aandeelhouders op 21 september. Daarna volgt een aangepaste besluitenlijst met de besluiten en bijlagen erop vermeld. 5.2 Versnelde investering klimaatinstallaties stadhuis Bijlagen: BenW Besluitnota Versnelde investering klimaatinstallaties stadhuis 10583110 Raad aanbiedingsbrief Versnelde investering klimaatinstallaties stadhuis 10583110 Raadsvoorstel Versnelde investering klimaatinstallaties stadhuis 10583110 Besluit: 1. In te stemmen met het voorstel aan de raad een investeringskrediet van in totaal € 3,6 mln. beschikbaar te stellen voor het vervroegd uitvoeren van vervanging van de systemen voor de sturing van de verwarming, koeling, ventilatie en verlichting van het stadhuis. 2. Het raadsvoorstel inzake het investeringskrediet van totaal € 3,6 mln. voor het vervroegd uitvoeren van vervanging van de systemen voor de sturing van de verwarming, koeling, ventilatie en verlichting van het stadhuis ter besluitvorming voor te leggen aan de raad. Pagina 2 5.3 Subsidieregeling decentrale politieke partijen Bijlagen: BenW besluitnota Subsidieregeling decentrale politieke partijen 10573417 Bijlage Subsidieregeling decentrale politieke partijen Zaanstad 10573417 Besluit: 1. De Subsidieregeling decentrale politieke partijen Zaanstad vast te stellen, inhoudende: de regulering van subsidies aan lokale politieke partijen. 2. Akkoord gaan met de besteding van de decentralisatie-uitkering ondersteuning decentrale politieke partijen aan dit specifieke doel. 5.4 Opstellen Omgevingsprogramma Kostenverhaal en Financiële Bijdrage Bijlagen: BenW besluitnota Opstellen Omgevingsprogramma Kostenverhaal en Financiële Bijdrage 10315529 Raad aanbiedingsbrief Opstellen Omgevingsprogramma Kostenverhaal en Financiële Bijdrage 10315529 Raadsvoorstel Opstellen Omgevingsprogramma Kostenverhaal en Financiële Bijdrage 10315529 Bijlage 1 Factsheet Inkomsten GKZ 10315529 Bijlage 2 Evaluatie nota GKZ en WKKVW 10315529 Besluit: 1. Kennis te nemen van de evaluatie (bijlage 2) van de nota’s Gebiedsoverstijgende Kosten Zaanstad (GKZ) en Wijkgebonden Kosten Kogerveldwijk (WKKVW). 2. In te stemmen met het voorstel aan de raad om akkoord te gaan met voornemen van het college om een Programma Kostenverhaal en Financiële Bijdrage op te gaan stellen inhoudende: - dat de raad akkoord wordt gevraagd met het gaan samenbrengen van de door de raad vastgestelde projectenlijst uit het addendum bij de Omgevingsvisie en de beleidsmatige uitgangspunten uit de Nota Gebiedsoverstijgende Kosten Zaanstad (GKZ) en de Nota Wijkgebonden Kosten Kogerveldwijk (WKKVW) in één door het college vast te",
+    "gepubliceerdOp": "2026-09-17T00:00:00.000Z",
+    "opgehaaldOp": "2026-09-22T07:16:27.605Z",
+    "documentInhoudOpgehaald": true,
+    "score": 10,
+    "scoreToelichting": [
+      "belang (+4)",
+      "nabijheid (+4)",
+      "recency (+2, 5.3 dag(en) oud)"
+    ],
+    "aiBeoordeling": null,
+    "aiFout": "dagcap bereikt"
+  }
+]
