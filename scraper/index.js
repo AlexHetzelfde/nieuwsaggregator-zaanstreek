@@ -12,31 +12,19 @@ const fs = require("fs/promises");
 const path = require("path");
 
 const bronnen = require("./bronnen");
-const { scrapeWordpress } = require("./scrapers/wordpress-html");
-const { scrapeIbabs } = require("./scrapers/ibabs");
-const { scrapeRss } = require("./scrapers/rss");
-const { scrapeGeneriekeLijst } = require("./scrapers/generieke-lijst");
-const { scrapeGeminiRecept } = require("./scrapers/gemini-recept");
+const { scraperVoorType } = require("./scraper-register");
 const { scoorBericht } = require("./score");
 const { beoordeelBerichten } = require("./gemini");
 const { binnenLeeftijdsgrens, MAX_LEEFTIJD_DAGEN, oorzaakTekst } = require("./hulpmiddelen");
 
 const DATA_MAP = path.join(__dirname, "..", "data");
-const DAGCAP_GEMINI = Number(process.env.DAGCAP_GEMINI || 18);
+const DAGCAP_GEMINI = Number(process.env.DAGCAP_GEMINI || 25);
 const AANTAL_PITCHES = Number(process.env.AANTAL_PITCHES || 10);
 // Hoeveel punten een landelijk bericht moet "inleveren" bij het samenstellen
 // van de pitches — lokaal nieuws krijgt zo voorrang, tenzij een landelijk
 // bericht ook ná aftrek van deze marge nog steeds hoger scoort (d.w.z. het
 // lokale aanbod die dag merkbaar zwakker is).
 const LOKALE_VOORKEURSMARGE = Number(process.env.LOKALE_VOORKEURSMARGE || 5);
-
-const SCRAPER_PER_TYPE = {
-  "wordpress-html": scrapeWordpress,
-  ibabs: scrapeIbabs,
-  rss: scrapeRss,
-  "generieke-lijst": scrapeGeneriekeLijst,
-  "gemini-recept": scrapeGeminiRecept,
-};
 
 // --- Kleine logging-helpers, zodat elke fase duidelijk zichtbaar is in de
 // Actions-log: een kopregel, en aan het eind hoelang die fase duurde. ---
@@ -85,7 +73,7 @@ async function scrapeAlleBronnen(gezieneUrls) {
   const alleBerichten = [];
 
   for (const bron of bronnen) {
-    const scraper = SCRAPER_PER_TYPE[bron.type];
+    const scraper = scraperVoorType(bron.type);
     if (!scraper) {
       console.warn(`[${bron.id}] Onbekend brontype "${bron.type}" — overgeslagen.`);
       continue;
