@@ -32,6 +32,10 @@ jobs:
         working-directory: scraper
         run: npm install
 
+      - name: bronnen.js valideren
+        working-directory: scraper
+        run: node valideer-bronnen.js
+
       - name: Scraper draaien
         working-directory: scraper
         env:
