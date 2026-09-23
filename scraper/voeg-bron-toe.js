@@ -1,9 +1,17 @@
 // voeg-bron-toe.js
 //
-// Eenmalig, lokaal te draaien hulpprogramma: haalt een nieuwe bron op, laat
-// Gemini de HTML-structuur analyseren tot een "recept" (CSS-selectors),
-// test dat recept tegen de echte pagina, en voegt de bron pas toe aan
-// bronnen.js als het recept écht werkt (minstens 3 gevonden berichten).
+// Eenmalig, lokaal (of via de "Bron toevoegen"-workflow) te draaien
+// hulpprogramma: haalt een nieuwe bron op en probeert 'm zo automatisch
+// mogelijk te herkennen, in drie stappen — elke stap alleen ingeschakeld
+// als de vorige niet lukt:
+//   1. RSS/Atom-feed?              — betrouwbaarst, kost niets.
+//   2. Generieke CSS-patronen?     — gratis, snel, geen AI nodig.
+//   3. Gemini-gegenereerd recept   — voor sites met een eigen structuur;
+//      krijgt bij een zwakke eerste poging automatisch een herkansing.
+// Een bron wordt pas toegevoegd als 'ie écht werkt (minstens 3 gevonden
+// berichten), en de foutmeldingen zijn bedoeld om zelf te kunnen inschatten
+// of het de moeite waard is om het nog eens te proberen — zonder dat je
+// daarvoor eerst iemand anders hoeft te raadplegen.
 //
 // Gebruik (vanuit de map scraper/):
 //   npm install                                  (eenmalig)
@@ -25,6 +33,8 @@ const fs = require("fs/promises");
 const path = require("path");
 const cheerio = require("cheerio");
 const { oorzaakTekst, probeerKetenTeRepareren, haalOpMetCookies, haalDatumUitTekst } = require("./hulpmiddelen");
+const { probeerGeneriekePatronen } = require("./scrapers/generieke-lijst");
+const { valideerBronnen } = require("./valideer-bronnen");
 
 const GEMINI_MODEL = "gemini-flash-lite-latest";
 const GEBRUIKERSAGENT =
@@ -68,6 +78,49 @@ async function haalBronPagina(url) {
   throw new Error(`Kon ${url} niet ophalen na meerdere reparatiepogingen`);
 }
 
+/** Print een korte, controleerbare voorproef van de gevonden berichten. */
+function toonVoorbeeld(resultaten) {
+  resultaten.slice(0, 3).forEach((r, i) => console.log(`  ${i + 1}. "${r.titel}" — datum: ${r.datum || "(geen datum gevonden)"}`));
+}
+
+/**
+ * Beoordeelt een testresultaat in drie categorieën:
+ *   - te weinig berichten            -> niet toevoegen, wel de moeite van
+ *                                        een herkansing waard.
+ *   - genoeg berichten, geen datums  -> WEL toevoegen (net als de generieke-
+ *                                        patronen-route dat ook al deed),
+ *                                        maar met een duidelijke waarschuwing
+ *                                        — ook de moeite van een herkansing
+ *                                        waard, ter verbetering.
+ *   - genoeg berichten, (bijna) allemaal met datum -> gewoon toevoegen.
+ */
+function beoordeelTest(resultaten) {
+  if (resultaten.length < MINIMUM_GEVONDEN_BERICHTEN) {
+    return {
+      goedGenoeg: false,
+      magToevoegen: false,
+      reden: `Te weinig berichten gevonden (${resultaten.length}, minimaal ${MINIMUM_GEVONDEN_BERICHTEN} nodig).`,
+    };
+  }
+  const zonderDatum = resultaten.filter((r) => !r.datum).length;
+  if (zonderDatum === resultaten.length) {
+    return {
+      goedGenoeg: false,
+      magToevoegen: true,
+      reden: `${resultaten.length} berichten gevonden, maar geen enkele met een herkenbare datum.`,
+      waarschuwing: `Geen van de ${resultaten.length} berichten had een herkenbare datum — ze zouden dagelijks als "te oud" worden gezien. Overweeg het recept in bronnen.js handmatig te verbeteren.`,
+    };
+  }
+  if (zonderDatum > 0) {
+    return {
+      goedGenoeg: true,
+      magToevoegen: true,
+      waarschuwing: `${zonderDatum} van ${resultaten.length} berichten hadden geen datum — die zouden dagelijks als "te oud" worden gezien.`,
+    };
+  }
+  return { goedGenoeg: true, magToevoegen: true };
+}
+
 async function main() {
   const [, , url, bronId, categorie = "lokaal"] = process.argv;
   const apiKey = process.env.GEMINI_API_KEY;
@@ -90,63 +143,118 @@ async function main() {
   try {
     html = await haalBronPagina(url);
   } catch (fout) {
-    console.error(`Kon de pagina niet ophalen: ${fout.message}${oorzaakTekst(fout)}`);
+    console.error(`\n❌ Kon de pagina niet ophalen: ${fout.message}${oorzaakTekst(fout)}`);
+    console.error("Controleer of de URL klopt en of de site normaal bereikbaar is in een browser.");
     process.exit(1);
   }
 
-  // Stap 1: is er een RSS/Atom-feed? Dat is betrouwbaarder dan Gemini-
-  // gegenereerde selectors en kost geen Gemini-call, dus die proberen we
-  // eerst.
   const $ = cheerio.load(html);
+
+  // Stap 1: RSS/Atom-feed? Betrouwbaarder dan wat dan ook, en kost niets.
   const feedHref = $('link[type="application/rss+xml"], link[type="application/atom+xml"]').attr("href");
   if (feedHref) {
     const feedUrl = new URL(feedHref, url).toString();
     console.log(`Feed gevonden: ${feedUrl}`);
     console.log('Geen Gemini nodig — dit werkt al met het bestaande "wordpress-html"-scraper-type (probeert feeds eerst).');
-    await voegBronToe({ id: bronId, naam: bronId, categorie, type: "wordpress-html", url });
-    console.log(`\n✓ Bron "${bronId}" toegevoegd aan bronnen.js.`);
+    await rondAf({ id: bronId, naam: bronId, categorie, type: "wordpress-html", url });
     return;
   }
 
-  // Stap 2: geen feed — Gemini vragen de structuur te herkennen.
-  console.log("Geen RSS-feed gevonden — Gemini analyseert de HTML-structuur...");
+  // Stap 2: generieke CSS-patronen — gratis, snel, geen AI nodig. Dit is
+  // exact dezelfde functie die de dagelijkse run zelf ook gebruikt voor dit
+  // brontype (scrapers/generieke-lijst.js), dus wat hier werkt, werkt daar
+  // ook gegarandeerd hetzelfde.
+  console.log("Geen RSS-feed gevonden — generieke patronen proberen...");
+  const generiek = probeerGeneriekePatronen($, { id: bronId, naam: bronId, categorie, url });
+  if (generiek) {
+    console.log(`Generiek patroon "${generiek.selector}" werkt — geen Gemini nodig.`);
+    const voorbeeld = generiek.berichten.map((b) => ({ titel: b.titel, datum: b.gepubliceerdOp }));
+    toonVoorbeeld(voorbeeld);
+    const zonderDatum = generiek.berichten.filter((b) => !b.gepubliceerdOp).length;
+    if (zonderDatum > 0) {
+      console.warn(`\n⚠️  ${zonderDatum} van ${generiek.berichten.length} berichten hadden geen datum — die zouden dagelijks als "te oud" worden gezien. Overweeg later een specifieker recept via Gemini te laten maken.`);
+    }
+    await rondAf({ id: bronId, naam: bronId, categorie, type: "generieke-lijst", url });
+    return;
+  }
+  console.log("Generieke patronen leverden niets op — Gemini inschakelen.");
+
+  // Stap 3: Gemini vragen de structuur te herkennen, met één automatische
+  // herkansing (met feedback over wat er mis was) als de eerste poging niet
+  // genoeg oplevert.
   const htmlVoorGemini = html
     .replace(/<script[\s\S]*?<\/script>/gi, "")
     .replace(/<style[\s\S]*?<\/style>/gi, "")
     .slice(0, MAX_HTML_TEKENS_VOOR_GEMINI);
 
-  const recept = await vraagGeminiOmRecept(htmlVoorGemini, apiKey);
+  let recept = await vraagGeminiOmRecept(htmlVoorGemini, apiKey);
   if (!recept) {
-    console.error("Gemini kon geen bruikbaar recept maken (of de site is JS-gerenderd, zoals iBabs). Niet toegevoegd.");
+    console.error("\n❌ Gemini kon geen herhalend berichten-blok herkennen op deze pagina.");
+    console.error('Dit gebeurt meestal bij sites die met JavaScript worden opgebouwd (zoals iBabs) of achter een inlogscherm zitten — dat soort bronnen kan dit hulpmiddel (nog) niet automatisch toevoegen. Handmatig uitzoeken (of een eigen scraper, zoals ibabs.js) is dan nodig.');
     process.exit(1);
   }
   console.log("Voorgesteld recept:", JSON.stringify(recept, null, 2));
 
-  // Stap 3: recept testen tegen de echte, al opgehaalde pagina.
-  const testResultaten = testRecept($, recept, url);
+  let testResultaten = testRecept($, recept, url);
+  let beoordeling = beoordeelTest(testResultaten);
   console.log(`\nTest: ${testResultaten.length} bericht(en) gevonden met dit recept.`);
-  testResultaten.slice(0, 3).forEach((r, i) => console.log(`  ${i + 1}. "${r.titel}" — datum: ${r.datum || "(geen datum gevonden)"}`));
+  toonVoorbeeld(testResultaten);
 
-  if (testResultaten.length < MINIMUM_GEVONDEN_BERICHTEN) {
-    console.error(`\nTe weinig berichten gevonden (${testResultaten.length}, minimaal ${MINIMUM_GEVONDEN_BERICHTEN} nodig) — recept werkt waarschijnlijk niet. NIET automatisch toegevoegd.`);
-    console.error("Stuur dit resultaat door om samen verder uit te zoeken, of pas het recept handmatig aan.");
+  if (!beoordeling.goedGenoeg) {
+    console.warn(`\n${beoordeling.reden} Ik vraag Gemini om een tweede poging, met die informatie erbij...`);
+    const tweedeRecept = await vraagGeminiOmRecept(htmlVoorGemini, apiKey, { vorigRecept: recept, probleem: beoordeling.reden });
+    if (tweedeRecept) {
+      const tweedeTest = testRecept($, tweedeRecept, url);
+      const tweedeBeoordeling = beoordeelTest(tweedeTest);
+      console.log(`Tweede poging: ${tweedeTest.length} bericht(en) gevonden.`);
+      toonVoorbeeld(tweedeTest);
+
+      const beterDanEerst = tweedeTest.length > testResultaten.length || (tweedeBeoordeling.goedGenoeg && !beoordeling.goedGenoeg);
+      if (beterDanEerst) {
+        console.log("Tweede poging is beter — dit recept gebruiken.");
+        recept = tweedeRecept;
+        testResultaten = tweedeTest;
+        beoordeling = tweedeBeoordeling;
+      } else {
+        console.log("Tweede poging leverde niets beters op — eerste recept blijft staan.");
+      }
+    } else {
+      console.warn("Tweede poging bij Gemini leverde geen bruikbaar recept op — eerste resultaat blijft staan.");
+    }
+  }
+
+  if (!beoordeling.magToevoegen) {
+    console.error(`\n❌ ${beoordeling.reden}`);
+    console.error("Ook na een herkansing lukte het niet. Mogelijk staat het nieuws op een andere pagina van deze site (bijvoorbeeld een specifieke /nieuws/-pagina in plaats van de homepage), of heeft de site een ongebruikelijke opbouw die meer maatwerk nodig heeft. Probeer eventueel een andere URL van dezelfde site.");
     process.exit(1);
   }
-
-  const zonderDatum = testResultaten.filter((r) => !r.datum).length;
-  if (zonderDatum > 0) {
-    console.warn(`\nLet op: ${zonderDatum} van ${testResultaten.length} berichten hadden geen datum — die zouden dagelijks als "te oud" worden gezien. Overweeg het recept te verbeteren.`);
+  if (beoordeling.waarschuwing) {
+    console.warn(`\n⚠️  ${beoordeling.waarschuwing}`);
   }
 
-  await voegBronToe({ id: bronId, naam: bronId, categorie, type: "gemini-recept", url, selectors: recept });
-  console.log(`\n✓ Bron "${bronId}" toegevoegd aan bronnen.js met een Gemini-gegenereerd recept.`);
-  console.log("Commit en push bronnen.js om 'm mee te nemen in de volgende dagelijkse run.");
+  await rondAf({ id: bronId, naam: bronId, categorie, type: "gemini-recept", url, selectors: recept });
 }
 
-async function vraagGeminiOmRecept(html, apiKey) {
-  const prompt = `Je krijgt de HTML van een nieuwsoverzichtspagina. Zoek het herhalende
+async function vraagGeminiOmRecept(html, apiKey, herkansingContext) {
+  const basisInstructie = `Je krijgt de HTML van een nieuwsoverzichtspagina. Zoek het herhalende
 HTML-blok dat één nieuwsbericht voorstelt, en geef CSS-selectors terug
-waarmee daaruit de titel, de link en de publicatiedatum te halen zijn.
+waarmee daaruit de titel, de link en de publicatiedatum te halen zijn.`;
+
+  const herkansingInstructie = herkansingContext
+    ? `
+
+Dit is een TWEEDE poging voor dezelfde pagina. Het vorige recept was:
+${JSON.stringify(herkansingContext.vorigRecept)}
+Probleem daarmee: ${herkansingContext.probleem}
+Probeer een ANDER, beter passend recept — bijvoorbeeld een breder of juist
+specifieker itemSelector. Let op: als de datum geen eigen element heeft maar
+wél ergens in de titeltekst zelf verwerkt zit (bijvoorbeeld "2026-09-22
+Dinsdag 22 september 2026 om 17.15 uur - ..."), zet datumSelector dan
+gerust op null — de titeltekst wordt daarna automatisch alsnog op een datum
+doorzocht.`
+    : "";
+
+  const prompt = `${basisInstructie}${herkansingInstructie}
 
 Geef ALLEEN geldig JSON terug, exact dit formaat, geen markdown-fences,
 geen andere tekst:
@@ -235,6 +343,30 @@ function testRecept($, recept, baseUrl) {
     resultaten.push({ titel, link: new URL(link, baseUrl).toString(), datum });
   });
   return resultaten;
+}
+
+/**
+ * Schrijft de bron weg én controleert meteen (dezelfde check die ook als
+ * losse stap in de workflow draait, vóór de commit) of bronnen.js daarna
+ * nog klopt — dubbele id's, een onbekend type, een ongeldige url. Zo krijg
+ * je een begrijpelijke melding op het moment zelf, in plaats van pas een
+ * aparte, kortere CI-foutmelding verderop.
+ */
+async function rondAf(bron) {
+  await voegBronToe(bron);
+
+  delete require.cache[require.resolve("./bronnen")];
+  const bijgewerkteBronnen = require("./bronnen");
+  const fouten = valideerBronnen(bijgewerkteBronnen);
+  if (fouten.length > 0) {
+    console.error("\n❌ Bron toegevoegd, maar de validatie erna faalt:");
+    for (const fout of fouten) console.error(`  - ${fout}`);
+    console.error("Dit voorkomt dat de wijziging gecommit wordt — controleer bronnen.js.");
+    process.exit(1);
+  }
+
+  console.log(`\n✓ Bron "${bron.id}" toegevoegd aan bronnen.js${bron.selectors ? " met een Gemini-gegenereerd recept" : ""}.`);
+  console.log("Commit en push bronnen.js om 'm mee te nemen in de volgende dagelijkse run.");
 }
 
 async function voegBronToe(bron) {
