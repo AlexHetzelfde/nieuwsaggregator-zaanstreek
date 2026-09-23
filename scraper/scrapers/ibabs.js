@@ -38,6 +38,15 @@ const KOLOMMEN = [
   ["typeselectie", true],
   ["afhandelingselectie", true],
   ["registrationdate", true],
+  // Niet elk iBabs-rapport gebruikt hetzelfde kolomschema — "Ingekomen
+  // stukken" heeft bijvoorbeeld geen "datumbericht"/"registrationdate",
+  // maar "datum" ("Datum invoer") en "datumpublicatie" ("Datum publicatie").
+  // Onschadelijk om dit voor ALLE ibabs-rapporten op te vragen: een rapport
+  // dat deze velden niet heeft, geeft er gewoon niets voor terug (zoals we
+  // al zagen bij datumbericht/registrationdate voor dít rapport) — het
+  // breekt niets voor rapporten die het al bij het oude kon.
+  ["datum", true],
+  ["datumpublicatie", true],
 ];
 
 const GEBRUIKERSAGENT =
@@ -86,9 +95,21 @@ async function scrapeIbabs(bron, gezieneUrls = new Set()) {
 
   const alleBerichten = rijen.map((rij) => normaliseerRij(rij, bron)).filter((b) => b.titel);
 
-  const zonderDatum = alleBerichten.filter((b) => !b.gepubliceerdOp).length;
-  if (zonderDatum > 0) {
-    console.warn(`[${bron.id}] ${zonderDatum} van ${alleBerichten.length} berichten hadden geen herkenbare datum (datumbericht/registrationdate kon niet geparsed worden) — die tellen mee als "te oud" en worden overgeslagen.`);
+  const zonderDatum = alleBerichten.filter((b) => !b.gepubliceerdOp);
+  if (zonderDatum.length > 0) {
+    console.warn(`[${bron.id}] ${zonderDatum.length} van ${alleBerichten.length} berichten hadden geen herkenbare datum (datumbericht/registrationdate kon niet geparsed worden) — die tellen mee als "te oud" en worden overgeslagen.`);
+    // Diagnostisch, geen gok: laat de ruwe datumvelden van een paar
+    // voorbeelden zien. Als dit structureel is voor dit rapport (zoals bij
+    // ingekomen-stukken), zien we hier meteen het échte veld/formaat in
+    // plaats van daar blind naar te moeten raden.
+    const voorbeelden = rijen
+      .filter((rij) => !parseerNlDatum(rij.datumbericht) && !parseerNlDatum(rij.registrationdate))
+      .slice(0, 3);
+    for (const rij of voorbeelden) {
+      console.warn(
+        `[${bron.id}]   voorbeeld — datumbericht: ${JSON.stringify(rij.datumbericht)}, registrationdate: ${JSON.stringify(rij.registrationdate)}, alle velden: ${Object.keys(rij).join(", ")}`
+      );
+    }
   }
 
   // Filter 1: niet ouder dan MAX_LEEFTIJD_DAGEN, via de centrale functie in
@@ -175,7 +196,11 @@ function normaliseerRij(rij, bron) {
     samenvatting: [rij.typeselectie, rij.portefeuillehouderselectie, rij.afhandelingselectie]
       .filter(Boolean)
       .join(" — "),
-    gepubliceerdOp: parseerNlDatum(rij.datumbericht) || parseerNlDatum(rij.registrationdate),
+    gepubliceerdOp:
+      parseerNlDatum(rij.datumbericht) ||
+      parseerNlDatum(rij.datumpublicatie) ||
+      parseerNlDatum(rij.datum) ||
+      parseerNlDatum(rij.registrationdate),
     opgehaaldOp: new Date().toISOString(),
   };
 }
