@@ -85,8 +85,12 @@ module.exports = [
     id: "nh-actueel",
     naam: "Provincie Noord-Holland — Actueel",
     categorie: "lokaal",
-    type: "generieke-lijst",
-    url: "https://www.noord-holland.nl/Actueel",
+    // De /Actueel-pagina zelf heeft een opmaak die geen van de generieke
+    // patronen herkent (0 berichten, structureel). De provincie heeft
+    // echter een eigen RSS-feed met exact dezelfde content, mét nette
+    // pubDate's — dus die gebruiken we in plaats van HTML te scrapen.
+    type: "rss",
+    url: "https://www.noord-holland.nl/pnhnieuws",
   },
   {
     id: "nh-cultuur",
