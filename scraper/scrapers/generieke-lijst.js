@@ -17,7 +17,7 @@
 // heeft is het signaal om deze scraper voor die specifieke bron te verfijnen.
 
 const cheerio = require("cheerio");
-const { haalOp, parseerRssTekst, oorzaakTekst } = require("../hulpmiddelen");
+const { haalOp, parseerRssTekst, oorzaakTekst, haalDatumUitTekst } = require("../hulpmiddelen");
 
 // Volgorde van kandidaat-selectors voor één nieuwsitem-blok, breed naar smal.
 const ITEM_SELECTORS = [
@@ -61,7 +61,17 @@ async function scrapeGeneriekeLijst(bron) {
   }
 }
 
-function scrapeHtml($, bron) {
+/**
+ * Probeert de vaste lijst kandidaat-selectors, breed naar smal, tegen een
+ * al-geladen cheerio-document. Puur functie — geen logging, geen fetch —
+ * zodat dit ook door voeg-bron-toe.js hergebruikt kan worden om dit gratis
+ * te proberen vóórdat Gemini wordt ingeschakeld. Eén implementatie, niet
+ * twee die uit elkaar kunnen lopen (zoals eerder het geval was).
+ *
+ * Geeft { selector, berichten } terug zodra een selector minstens 3
+ * bruikbare berichten oplevert, anders null.
+ */
+function probeerGeneriekePatronen($, bron) {
   for (const selector of ITEM_SELECTORS) {
     const berichten = [];
     $(selector).each((_, el) => {
@@ -82,7 +92,10 @@ function scrapeHtml($, bron) {
         titel,
         url: new URL(link, bron.url).toString(),
         samenvatting: $(el).find("p").first().text().trim().slice(0, 400),
-        gepubliceerdOp: parseerDatum(datumTekst),
+        // Zelfde fallback als de andere scrapers: als er geen (bruikbaar)
+        // datum-element is, kijk of de titel/item-tekst zelf een datum
+        // bevat (zoals bij loket.zaanstad.nl).
+        gepubliceerdOp: parseerDatum(datumTekst) || haalDatumUitTekst(titel) || haalDatumUitTekst($(el).text()),
         opgehaaldOp: new Date().toISOString(),
       });
     });
@@ -90,16 +103,24 @@ function scrapeHtml($, bron) {
     // Zodra een selector minstens een paar bruikbare berichten oplevert,
     // gaan we daarvan uit — anders proberen we de volgende, bredere selector.
     if (berichten.length >= 3) {
-      const zonderDatum = berichten.filter((b) => !b.gepubliceerdOp).length;
-      if (zonderDatum > 0) {
-        console.warn(`[${bron.id}] ${zonderDatum} van ${berichten.length} berichten (selector "${selector}") hadden geen herkenbare datum — die tellen nu mee als "te oud" bij de leeftijdsfilter.`);
-      }
-      return dedupliceerOpUrl(berichten);
+      return { selector, berichten: dedupliceerOpUrl(berichten) };
     }
   }
+  return null;
+}
 
-  console.warn(`[${bron.id}] Geen van de generieke patronen leverde berichten op — deze bron heeft waarschijnlijk maatwerk nodig.`);
-  return [];
+function scrapeHtml($, bron) {
+  const resultaat = probeerGeneriekePatronen($, bron);
+  if (!resultaat) {
+    console.warn(`[${bron.id}] Geen van de generieke patronen leverde berichten op — deze bron heeft waarschijnlijk maatwerk nodig.`);
+    return [];
+  }
+
+  const zonderDatum = resultaat.berichten.filter((b) => !b.gepubliceerdOp).length;
+  if (zonderDatum > 0) {
+    console.warn(`[${bron.id}] ${zonderDatum} van ${resultaat.berichten.length} berichten (selector "${resultaat.selector}") hadden geen herkenbare datum — die tellen nu mee als "te oud" bij de leeftijdsfilter.`);
+  }
+  return resultaat.berichten;
 }
 
 function dedupliceerOpUrl(berichten) {
@@ -117,4 +138,4 @@ function parseerDatum(tekst) {
   return isNaN(d.getTime()) ? null : d.toISOString();
 }
 
-module.exports = { scrapeGeneriekeLijst };
+module.exports = { scrapeGeneriekeLijst, probeerGeneriekePatronen };
