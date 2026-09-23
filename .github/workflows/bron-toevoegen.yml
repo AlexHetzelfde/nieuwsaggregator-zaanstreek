@@ -48,6 +48,10 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: node voeg-bron-toe.js "${{ inputs.url }}" "${{ inputs.bron_id }}" "${{ inputs.categorie }}"
 
+      - name: bronnen.js valideren (laatste check vóór commit)
+        working-directory: scraper
+        run: node valideer-bronnen.js
+
       - name: bronnen.js committen
         run: |
           git config user.name "nieuwsaggregator-bot"
