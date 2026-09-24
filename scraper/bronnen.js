@@ -121,4 +121,11 @@ module.exports = [
     type: "generieke-lijst",
     url: "https://www.odnhn.nl/Menu/Over_ons/Nieuws/2022",
   },
+  {
+    id: "omgevingsdienstnoordzeekanaal",
+    naam: "omgevingsdienstnoordzeekanaal",
+    categorie: "lokaal",
+    type: "wordpress-html",
+    url: "https://odnzkg.nl/nieuws/",
+  },
 ];
