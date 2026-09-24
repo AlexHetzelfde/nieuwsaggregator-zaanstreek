@@ -114,4 +114,11 @@ module.exports = [
     type: "wordpress-html",
     url: "https://zaandijkleeft.nl/",
   },
+  {
+    id: "OmgevingsdienstNHN",
+    naam: "OmgevingsdienstNHN",
+    categorie: "lokaal",
+    type: "generieke-lijst",
+    url: "https://www.odnhn.nl/Menu/Over_ons/Nieuws/2022",
+  },
 ];
