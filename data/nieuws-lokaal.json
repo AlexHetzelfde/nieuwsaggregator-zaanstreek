@@ -1,129 +1,319 @@
 [
   {
-    "bronId": "zaanstad-hoorzittingen",
-    "bronNaam": "zaanstad-hoorzittingen",
+    "bronId": "ibabs-ingekomen-stukken",
+    "bronNaam": "Zaanstad — Ingekomen stukken (iBabs)",
     "categorie": "lokaal",
-    "titel": "2026-10-21 Woensdag 21 oktober 2026 om 17:15 uur - Sluiting pand i.v.m. fraude, misbruik en verboden wapenbezit locatie Middellandse Zee 51 te Zaandam - Stadhuis, Stadhuisplein 100, 1506 MZ Zaandam",
-    "url": "https://loket.zaanstad.nl/mozard/!suite92.scherm1007?mObj=366174",
-    "samenvatting": "",
-    "gepubliceerdOp": "2026-10-21T00:00:00.000Z",
-    "opgehaaldOp": "2026-09-23T19:16:37.107Z",
-    "score": 47,
+    "titel": "Mail met opinie - Wegkijken van Villa Westerweide lost niets op (17-9)",
+    "itemId": "a04faea9-fa73-48f1-b07d-d41f5452c328",
+    "url": "https://zaanstad.bestuurlijkeinformatie.nl/Document/View/4531f257-aaa1-44fe-ae41-c559d9a1ace3",
+    "samenvatting": "Van: @live.nl> Verzonden: maandag 14 september 2026 16:06 Aan: Mailbox Raadsgriffie <raadsgriffie@zaanstad.nl> Onderwerp: Opinie: Wegkijken van Villa Westerweide lost niets op (17/9) Geachte leden van de raad, Graag stel ik u in kennis van het door mij geschreven opiniestuk over Villa Westerweide. Aanstaande donderdag ontvangt u als raad ook een petitie hierover (een initiatief van ). Ik vraag u of u bijgevoegd stuk en de petitie wilt meenemen in uw overwegingen. Voor het gemak heb ik mijn opiniestuk hieronder geplakt. Bij voorbaat dank. Met vriendelijke groet, Zaandam 06- Opinie: Wegkijken van Villa Westerweide lost niets op: Tackel dakloosheid, niet de daklozen Elke ochtend ontwaak ik in mijn warme bed, loop naar beneden om koffie te zetten, onze katten te knuffelen en ontbijt voor mijn dochter te maken. Ik tel mijn zegeningen en besef dat dit niet voor iedereen vanzelfsprekend is. Voor de bezoekers van inloophuis Villa Westerweide is het leven op straat koud en hard. Toch besloot de Zaanstadse gemeenteraad onlangs met een nipte meerderheid de reddingspoging voor deze onmisbare opvang te verwerpen. Een onbegrijpelijke keuze die puur om geld draait. Het behoud kost zes ton per jaar, maar door deze bezuiniging snijdt de gemeente zichzelf in de vingers. Het wegvallen van de inloopvoorziening heeft desastreuze gevolgen voor de daklozen én het Zaandamse straatbeeld. Dakloze mensen worden dagelijks door duizenden passanten bekeken, maar bijna niemand ziet hen echt. Bij Villa Westerweide daarentegen worden zij met open armen ontvangen. Men kan er douchen, eten en rusten. Bovendien beschikt de Villa over een gecontroleerde gebruikersruimte, wat de veiligheid op straat vergroot. U ontvangt niet vaak e-mail van @live.nl. Ontdek waarom dit belangrijk is Waarschuwing!: Deze e-mail is afkomstig van buiten onze organisatie. Wees extra voorzichtig met linkjes en bijlagen. Zeker als je de afzender niet herkent. Lokale partijen en initiatiefnemers houden hun hart vast voor de gevolgen van de voorgenomen sluiting eind 2026. Als het inloophuis sluit, verdwijnt de problematiek namelijk niet; die verplaatst zich naar onze parken en speeltuinen. De kosten voor politie-inzet, crisiszorg en overlast worden dan vele malen hoger. Uit onderzoek blijkt dat een dakloze de samenleving tussen de 30.000 en 85.000 euro per jaar kost. Het levert dus veel meer op om die zes ton te investeren in goede opvang, dan om mensen aan hun lot over te laten. Het overvolle Leger des Heils biedt bovendien geen laagdrempelige daginloop zoals de Villa. Ik begrijp dat het lastig is om de mens achter de statistieken te zien. Zowel vorig jaar als dit jaar stond ik in de raadszaal om hier via een betoog persoonlijk voor te waarschuwen. Als vrijwilliger zag ik de schrijnende realiteit. Een onverzekerde man met een gebroken pols had zonder hulp van de Villa geen adequate zorg gekregen. Een negentienjarige zwangere zou zonder tussenkomst van de Villa op straat zijn bevallen. Een man van in de zevent",
+    "gepubliceerdOp": "2026-09-21T00:00:00.000Z",
+    "opgehaaldOp": "2026-09-24T05:51:05.556Z",
+    "documentInhoudOpgehaald": true,
+    "score": 17,
     "scoreToelichting": [
       "belang (+4)",
+      "nieuws van morgen (+2)",
+      "primeur/eerstehands bron (+3)",
       "nabijheid (+4)",
-      "recency (+39, -27.2 dag(en) oud)"
+      "recency (+4, 3.2 dag(en) oud)"
     ],
     "aiBeoordeling": {
       "oppakbaar": "ja",
-      "onderbouwing": "Dit bericht heeft een hoge nieuwswaarde vanwege de grote maatschappelijke impact (belang en omvang) en de fysieke nabijheid in Zaandam. Het betreft een actuele en ingrijpende maatregel rondom fraude, misbruik en verboden wapenbezit.",
-      "invalshoek": "Gemeente sluit pand aan de Middellandse Zee in Zaandam vanwege fraude, misbruik en verboden wapenbezit.",
+      "onderbouwing": "Het bericht heeft grote nabijheid (Zaandam) en concreet belang omdat het gaat om een recente gemeentelijke bezuiniging op opvang Villa Westerweide en een aankomende petitie voor de raad. De omvang is aanzienlijk (zes ton per jaar, maatschappelijke kosten) en het draagt bij aan het inzicht in een lokaal maatschappelijk probleem en de gevolgen voor het dagelijks leven.",
+      "invalshoek": "Wat zijn de gevolgen van de sluiting van inloophuis Villa Westerweide voor daklozen en het Zaandamse straatbeeld nu de raad een reddingspoging verwierp?",
       "teCheckenBronnen": [
-        "Gemeente Zaanstad",
-        "Lokale politie Zaanstreek-Waterland"
+        "Gemeente Zaanstad (Raadsgriffie / iBabs)",
+        "Initiatiefnemers van de petitie / vrijwilligers Villa Westerweide"
       ]
     },
     "aiFout": null
   },
   {
-    "bronId": "zaanstad-hoorzittingen",
-    "bronNaam": "zaanstad-hoorzittingen",
+    "bronId": "nh-actueel",
+    "bronNaam": "Provincie Noord-Holland — Actueel",
     "categorie": "lokaal",
-    "titel": "2026-10-13 Dinsdag 13 oktober 2026 om 18:45 uur - Geweigerde omgevingsvergunning O2026053804 Brikstraat 40 te Zaandam - Stadhuis, Stadhuisplein 100, 1506 MZ Zaandam",
-    "url": "https://loket.zaanstad.nl/mozard/!suite92.scherm1007?mObj=366185",
-    "samenvatting": "",
-    "gepubliceerdOp": "2026-10-13T00:00:00.000Z",
-    "opgehaaldOp": "2026-09-23T19:16:37.107Z",
-    "score": 38,
+    "titel": "Noord-Holland brengt gebiedskennis in bij landelijke stikstofaanpak",
+    "url": "https://www.noord-holland.nl/Actueel/Archief/2026/September_2026/Noord_Holland_brengt_gebiedskennis_in_bij_landelijke_stikstofaanpak",
+    "samenvatting": "Samen met het Rijk werkt Noord-Holland aan een geborgde aanpak die natuur herstelt, stikstofuitstoot vermindert en zo ruimte biedt voor vergunningverlening.",
+    "gepubliceerdOp": "2026-09-23T11:59:32.000Z",
+    "opgehaaldOp": "2026-09-24T05:51:22.831Z",
+    "score": 11,
     "scoreToelichting": [
       "belang (+4)",
-      "nabijheid (+4)",
-      "recency (+30, -19.2 dag(en) oud)"
+      "recency (+7, 0.7 dag(en) oud)"
     ],
     "aiBeoordeling": {
-      "oppakbaar": "nee",
-      "onderbouwing": "Het bericht vermeldt enkel een geweigerde omgevingsvergunning op de Brikstraat 40 te Zaandam zonder verdere context over de impact, achtergrond of schaal. Hierdoor ontbreken concrete gevolgen voor het dagelijks leven en is er onvoldoende nieuwswaarde om dit nu op te pakken.",
-      "invalshoek": "",
+      "oppakbaar": "twijfel",
+      "onderbouwing": "Het bericht heeft nabijheid (Noord-Holland) en raakt het belang van vergunningverlening, maar de tekst blijft erg algemeen en abstract over de daadwerkelijke lokale gevolgen voor Zaanstreek-Waterland. Er worden geen concrete maatregelen, data of specifieke locaties genoemd.",
+      "invalshoek": "Wat betekent de inbreng van gebiedskennis door Noord-Holland concreet voor de stikstofruimte en vergunningen in Zaanstreek-Waterland?",
       "teCheckenBronnen": [
-        "Gemeente Zaanstad",
-        "Omgevingsloket"
+        "Provincie Noord-Holland",
+        "Gemeenten in Zaanstreek-Waterland"
       ]
     },
     "aiFout": null
   },
   {
-    "bronId": "ibabs-collegeberichten",
-    "bronNaam": "Zaanstad — Collegeberichten (iBabs)",
+    "bronId": "nh-actueel",
+    "bronNaam": "Provincie Noord-Holland — Actueel",
     "categorie": "lokaal",
-    "titel": "Aanbesteding dyslexiezorg 2026",
-    "itemId": "5133e092-544a-4434-b135-5e90a167294c",
-    "url": "https://zaanstad.bestuurlijkeinformatie.nl/Document/View/670e0128-f998-43d7-a1c1-5a3e996fd9b9",
-    "samenvatting": "Raadsinformatiebrief — Doeves - de Boer, M.  — Actieve informatievoorziening — MOZARD ZAAKNUMMER PAGINA gemeente Zaanstad 10552564 1/2 Raadsinformatiebrief 1 Onderwerp Aanbesteding dyslexiezorg 2026 Portefeuillehouder M. Doeves-de Boer Portefeuille Jeugdbeleid en (specialistische) Jeugdhulp Aan de leden van de gemeenteraad Zaanstad, Inleiding Gemeenten zijn op grond van de Jeugdwet verantwoordelijk voor het bieden van dyslexiezorg aan kinderen in het basisonderwijs met Ernstige Dyslexie (ED). De huidige bovenregionale overeenkomst voor dyslexiezorg loopt af op 31 december 2026 en kan niet worden verlengd. Met deze brief informeren wij u over de voorgenomen aanbesteding van dyslexiezorg vanaf 2027 en de keuzes die daarin gemaakt worden. Toelichting Nieuwe aanbesteding noodzakelijk Omdat de huidige overeenkomst afloopt, zijn gemeenten genoodzaakt een nieuwe aanbesteding te starten. Dit gebeurt in bovenregionaal verband, waarbij de gemeente Amsterdam optreedt als penvoerder namens de deelnemende gemeenten. De nieuwe aanbesteding heeft als doel om ook vanaf 2027 passende, toegankelijke en kwalitatief goede dyslexiezorg te blijven bieden aan kinderen die hiervoor in aanmerking komen. Voorgenomen inkoopstrategie Op basis van ambtelijke voorbereiding en regionale afstemming is gekozen om de huidige systematiek van dyslexiezorg voort te zetten. Dit betekent dat: • diagnose en behandeling worden gecontracteerd als samenhangende trajecten • gebruik wordt gemaakt van trajectfinanciering • de opzet van de overeenkomst grotendeels gelijk blijft aan de huidige situatie Voor deze keuze is gekozen omdat: • de huidige werkwijze naar behoren functioneert • continuïteit voor kinderen, ouders, scholen en aanbieders wordt geborgd • de omvang van de opdracht vraagt om een proportionele en uitvoerbare aanbesteding • kostenontwikkelingen stabiel en beheersbaar zijn • er onvoldoende capaciteit en tijd beschikbaar is voor grote stelselwijzigingen Belangrijkste inhoudelijke accenten in het nieuwe Programma van Eisen Hoewel de systematiek grotendeels wordt voortgezet, zijn in het nieuwe Programma van Eisen enkele inhoudelijke accenten aangebracht. Zo wordt sterker ingezet op monitoring en datasturing. Aanbieders worden verplicht gegevens aan te leveren over onder andere behandelduur, aantal behandelingen en cliënttevredenheid. Daarnaast ontwikkelen gemeenten een eigen monitor en wordt gewerkt met voortgangsrapportages rondom behandeling. Ook wordt de samenwerking tussen onderwijs en zorg versterkt door meer inzicht te verkrijgen in verwijspatronen en door een nauwere samenwerking met scholen. Verder is er meer aandacht voor de leefwereld van het kind, de draagkracht van ouders en culturele 1 Op deze raadsinformatiebrief volgt geen actie van de Agendacommissie. Wanneer u een onderwerp hieruit wilt bespreken dan kunt u dit doen door een raadsinstrument in te zetten. Bijvoorbeeld een rondvraag (primair gericht aan het college van B&W of een agenda-initiatief (primair gericht aan de collega fracties)). Vermeld altijd in het raadsinstrument: wat u wilt bes",
-    "gepubliceerdOp": "2026-09-22T00:00:00.000Z",
-    "opgehaaldOp": "2026-09-23T19:15:59.967Z",
-    "documentInhoudOpgehaald": true,
-    "score": 15,
+    "titel": "Start vervangen bomen langs N242 bij Winkel en Nieuwe Niedorp",
+    "url": "https://www.noord-holland.nl/Actueel/Archief/2026/September_2026/Start_vervangen_bomen_langs_N242_bij_Winkel_en_Nieuwe_Niedorp",
+    "samenvatting": "De provincie Noord-Holland start in oktober 2026 met de tweede fase van het verwijderen van populieren en het aanplanten van nieuwe bomen langs de N242. Het gaat om het traject tussen de Westfrieschedijk en de Terdiekerweg, in de gemeente Hollands Kroon. Het verwijderen van de bomen is nodig in verband met de verkeersveiligheid.",
+    "gepubliceerdOp": "2026-09-22T14:16:02.000Z",
+    "opgehaaldOp": "2026-09-24T05:51:22.831Z",
+    "score": 11,
     "scoreToelichting": [
       "voor het eerst (+2)",
       "primeur/eerstehands bron (+3)",
-      "nabijheid (+4)",
-      "recency (+6, 1.8 dag(en) oud)"
+      "recency (+6, 1.6 dag(en) oud)"
     ],
     "aiBeoordeling": {
-      "oppakbaar": "ja",
-      "onderbouwing": "Dit bericht heeft een hoge nabijheid omdat het de gemeente Zaanstad betreft en raakt direct het belang van inwoners met kinderen in het basisonderwijs vanwege de aanbesteding van dyslexiezorg vanaf 2027. Het draagt bij aan een beter inzicht in de eigen omgeving en concrete gevolgen voor het dagelijks leven door de continuïteit en nieuwe accenten in de zorg. Daarnaast is het actueel als vooraankondiging van de gemeenteraadsreductie en inkoopstrategie.",
-      "invalshoek": "Wat betekent de nieuwe aanbesteding voor de dyslexiezorg vanaf 2027 voor Zaanse basisschoolleerlingen en ouders?",
+      "oppakbaar": "nee",
+      "onderbouwing": "Het bericht mist nabijheid, aangezien het project plaatsvindt langs de N242 bij Winkel en Nieuwe Niedorp in de gemeente Hollands Kroon, wat buiten de regio Zaanstreek-Waterland ligt. Daardoor heeft het geen directe concrete gevolgen voor het dagelijks leven van inwoners in ons werkgebied.",
+      "invalshoek": "",
+      "teCheckenBronnen": []
+    },
+    "aiFout": null
+  },
+  {
+    "bronId": "nh-actueel",
+    "bronNaam": "Provincie Noord-Holland — Actueel",
+    "categorie": "lokaal",
+    "titel": "Elysian Aircraft: een nieuwe luchtvaartdroom vanuit Noord-Holland",
+    "url": "https://www.noord-holland.nl/Actueel/Archief/2026/September_2026/Elysian_Aircraft_een_nieuwe_luchtvaartdroom_vanuit_Noord_Holland",
+    "samenvatting": "Gedeputeerde Economie en juryvoorzitter van de Ondernemingsverkiezing Noord-Holland Esther Rommel bracht op 17 september een werkbezoek aan Elysian Aircraft in Hoofddorp. Het bedrijf won de Ondernemingsverkiezing Noord-Holland in de categorie De Belofte, omdat het met succes werkt aan een elektrisch passagiersvliegtuig voor vluchten met een actieradius tot 1.000 kilometer. Iedereen in de sector dacht dat onmogelijk was, maar Elysian is zo’n vliegtuig al aan het bouwen.",
+    "gepubliceerdOp": "2026-09-22T12:14:21.000Z",
+    "opgehaaldOp": "2026-09-24T05:51:22.831Z",
+    "score": 8,
+    "scoreToelichting": [
+      "voor het eerst (+2)",
+      "recency (+6, 1.7 dag(en) oud)"
+    ],
+    "aiBeoordeling": {
+      "oppakbaar": "nee",
+      "onderbouwing": "Het bericht mist lokale nabijheid voor Zaanstreek-Waterland, aangezien het werkbezoek plaatsvond in Hoofddorp (Haarlemmermeer) en er geen directe link met de Zaanstreek wordt gelegd. Ook ontbreken concrete gevolgen voor het dagelijks leven van inwoners in ons werkgebied.",
+      "invalshoek": "",
       "teCheckenBronnen": [
-        "Raadsinformatiebrief Aanbesteding dyslexiezorg 2026",
-        "Gemeente Zaanstad"
+        "Provincie Noord-Holland",
+        "Elysian Aircraft"
       ]
     },
     "aiFout": null
   },
   {
-    "bronId": "hhnk-nieuws",
-    "bronNaam": "Hoogheemraadschap Hollands Noorderkwartier — Nieuws",
+    "bronId": "nh-actueel",
+    "bronNaam": "Provincie Noord-Holland — Actueel",
     "categorie": "lokaal",
-    "titel": "Persleidingbreuk",
-    "url": "https://www.hhnk.nl/persleidingbreuk",
-    "samenvatting": "De situatie in het gebied dat is getroffen door de persleidingbreuk in Amsterdam-Noord blijft zich voorzichtig positief ontwikkelen.",
-    "gepubliceerdOp": "2026-09-23T00:00:00.000Z",
-    "opgehaaldOp": "2026-09-23T19:16:28.046Z",
+    "titel": "Eerste fase nieuwe natuur in Schoorl afgerond: onderdeel van het Natuurnetwerk Nederland",
+    "url": "https://www.noord-holland.nl/Actueel/Archief/2026/September_2026/Eerste_fase_nieuwe_natuur_in_Schoorl_afgerond_onderdeel_van_het_Natuurnetwerk_Nederland",
+    "samenvatting": "De provincie Noord‑Holland en Stichting Jelgersma van der Hoop hebben de eerste fase afgerond van een project waarin landbouwgrond bij Schoorl verandert in natuur. Het project draagt bij aan het Natuurnetwerk Nederland (NNN). Dit is het landelijke netwerk dat natuurgebieden beter met elkaar verbindt en biodiversiteit versterkt.",
+    "gepubliceerdOp": "2026-09-22T13:24:36.000Z",
+    "opgehaaldOp": "2026-09-24T05:51:22.831Z",
+    "score": 8,
+    "scoreToelichting": [
+      "voor het eerst (+2)",
+      "recency (+6, 1.7 dag(en) oud)"
+    ],
+    "aiBeoordeling": {
+      "oppakbaar": "nee",
+      "onderbouwing": "Het bericht mist lokale nabijheid omdat Schoorl in de gemeente Bergen ligt en geen deel uitmaakt van de regio Zaanstreek-Waterland. Hierdoor heeft het geen directe invloed op het dagelijks leven van inwoners in deze regio, ondanks dat het voldoet aan actualiteit en de criteria rondom nieuwe natuur.",
+      "invalshoek": "",
+      "teCheckenBronnen": [
+        "Provincie Noord-Holland",
+        "Stichting Jelgersma van der Hoop"
+      ]
+    },
+    "aiFout": null
+  },
+  {
+    "bronId": "nh-actueel",
+    "bronNaam": "Provincie Noord-Holland — Actueel",
+    "categorie": "lokaal",
+    "titel": "Grondruil maakt aanleg van extra bos in Wieringermeer mogelijk",
+    "url": "https://www.noord-holland.nl/Actueel/Archief/2026/September_2026/Grondruil_maakt_aanleg_van_extra_bos_in_Wieringermeer_mogelijk",
+    "samenvatting": "De geplande bosverbinding tussen het Robbenoordbos en het Dijkgatbos (Wieringermeer) komt weer een stap dichterbij.",
+    "gepubliceerdOp": "2026-09-23T11:38:25.000Z",
+    "opgehaaldOp": "2026-09-24T05:51:22.831Z",
+    "score": 7,
+    "scoreToelichting": [
+      "recency (+7, 0.8 dag(en) oud)"
+    ],
+    "aiBeoordeling": {
+      "oppakbaar": "nee",
+      "onderbouwing": "Het bericht gaat over de Wieringermeer, wat fysiek niet in de regio Zaanstreek-Waterland ligt. Daarmee wordt niet voldaan aan het criterium nabijheid voor een lokaal journalist in dit werkgebied.",
+      "invalshoek": "",
+      "teCheckenBronnen": [
+        "Provincie Noord-Holland"
+      ]
+    },
+    "aiFout": null
+  },
+  {
+    "bronId": "nh-actueel",
+    "bronNaam": "Provincie Noord-Holland — Actueel",
+    "categorie": "lokaal",
+    "titel": "Provincie Noord-Holland zet extra in op water en bodem",
+    "url": "https://www.noord-holland.nl/Actueel/Archief/2026/September_2026/Provincie_Noord_Holland_zet_extra_in_op_water_en_bodem",
+    "samenvatting": "Noord-Holland krijgt vaker te maken met lange droge perioden, zware regenbuien, verzilting en bodemdaling. Om ook in de toekomst ruimte te houden voor wonen, werken, natuur en recreatie, maken Gedeputeerde Staten nu keuzes.",
+    "gepubliceerdOp": "2026-09-23T10:44:12.000Z",
+    "opgehaaldOp": "2026-09-24T05:51:22.831Z",
     "score": 7,
     "scoreToelichting": [
       "recency (+7, 0.8 dag(en) oud)"
     ],
     "aiBeoordeling": {
       "oppakbaar": "twijfel",
-      "onderbouwing": "Het bericht heeft hoge actualiteit en nabijheid omdat het de nasleep van een persleidingbreuk betreft, maar het mist concrete details over de omvang en het effect op inwoners in Zaanstreek-Waterland. De ontwikkeling is positief, maar het is onduidelijk of dit direct gevolgen heeft voor het dagelijks leven of een maatschappelijk probleem verduidelijkt.",
-      "invalshoek": "Wat zijn de concrete gevolgen en de huidige status van de persleidingbreuk in Amsterdam-Noord voor de nabije omgeving?",
+      "onderbouwing": "Het bericht heeft nabijheid (Noord-Holland) en actueel belang wat betreft water en bodem, maar blijft erg algemeen van aard. Er worden geen concrete besluiten of lokale gevolgen voor Zaanstreek-Waterland genoemd. Daarom is het onvoldoende concreet voor een direct lokaal nieuwsbericht.",
+      "invalshoek": "Wat betekenen de nieuwe keuzes van de provincie over water en bodem concreet voor projecten in Zaanstreek-Waterland?",
       "teCheckenBronnen": [
-        "Hoogheemraadschap Hollands Noorderkwartier",
-        "Gemeente Amsterdam",
-        "Waternet"
+        "Provincie Noord-Holland",
+        "Hoogheemraadschap Hollands Noorderkwartier"
       ]
     },
     "aiFout": null
   },
   {
-    "bronId": "hhnk-nieuws",
-    "bronNaam": "Hoogheemraadschap Hollands Noorderkwartier — Nieuws",
+    "bronId": "nh-actueel",
+    "bronNaam": "Provincie Noord-Holland — Actueel",
     "categorie": "lokaal",
-    "titel": "Mijn HHNK en bereikbaarheid Belastingen op 28 september",
-    "url": "https://www.hhnk.nl/mijn-hhnk-en-bereikbaarheid-belastingen-op-28-september",
-    "samenvatting": "Op maandag 28 september vindt er groot onderhoud plaats aan het belastingsysteem. U kunt die dag geen gebruik maken van Mijn HHNK.",
-    "gepubliceerdOp": "2026-09-23T00:00:00.000Z",
-    "opgehaaldOp": "2026-09-23T19:16:28.046Z",
-    "score": 7,
+    "titel": "TNO-onderzoek biedt richting voor economie van Noord-Holland",
+    "url": "https://www.noord-holland.nl/Actueel/Archief/2026/September_2026/TNO_onderzoek_biedt_richting_voor_economie_van_Noord_Holland",
+    "samenvatting": "TNO onderzocht welke economische activiteiten van strategisch belang zijn voor Noord-Holland, Nederland en Europa. Het onderzoek kijkt niet alleen naar economische groei, maar ook naar de bijdrage aan maatschappelijke opgaven, zoals duurzaamheid, gezondheid, veiligheid en een sterke, weerbare economie.",
+    "gepubliceerdOp": "2026-09-22T11:51:12.000Z",
+    "opgehaaldOp": "2026-09-24T05:51:22.831Z",
+    "score": 6,
     "scoreToelichting": [
-      "recency (+7, 0.8 dag(en) oud)"
+      "recency (+6, 1.8 dag(en) oud)"
+    ],
+    "aiBeoordeling": {
+      "oppakbaar": "twijfel",
+      "onderbouwing": "Het bericht heeft een grote omvang en raakt aan de economie, maar mist concrete nabijheid en directe gevolgen voor inwoners in Zaanstreek-Waterland omdat het op provinciaal niveau blijft. De criteria nabijheid en belang scoren hierdoor te laag voor een directe lokale publicatie.",
+      "invalshoek": "Wat betekent het strategische TNO-onderzoek voor de economische toekomst en bedrijven in Zaanstreek-Waterland?",
+      "teCheckenBronnen": [
+        "Provincie Noord-Holland",
+        "TNO"
+      ]
+    },
+    "aiFout": null
+  },
+  {
+    "bronId": "nh-actueel",
+    "bronNaam": "Provincie Noord-Holland — Actueel",
+    "categorie": "lokaal",
+    "titel": "Asfaltonderzoek en wegafsluitingen bij Het Schouw",
+    "url": "https://www.noord-holland.nl/Actueel/Archief/2026/September_2026/Asfaltonderzoek_en_wegafsluitingen_bij_Het_Schouw",
+    "samenvatting": "De provincie Noord-Holland werkt samen met de aannemer aan de voorbereiding van de nieuwe inrichting van kruispunt Het Schouw. De plannen worden nu uitgewerkt. Als onderdeel van deze voorbereiding onderzoekt de provincie van maandag 21 september tot en met woensdag 7 oktober 2026 de kwaliteit van het asfalt op en rond het kruispunt Het Schouw.",
+    "gepubliceerdOp": "2026-09-17T15:04:55.000Z",
+    "opgehaaldOp": "2026-09-24T05:51:22.831Z",
+    "score": 6,
+    "scoreToelichting": [
+      "belang (+4)",
+      "voor het eerst (+2)"
+    ],
+    "aiBeoordeling": {
+      "oppakbaar": "ja",
+      "onderbouwing": "Het bericht heeft betrekking op nabijheid in Zaanstreek-Waterland en leidt door wegafsluitingen tot concrete gevolgen voor het dagelijks leven van inwoners (belang). De actualiteit en het 'nieuws van morgen'-aspect zijn sterk vanwege de geplande wegafsluitingen tussen 21 september en 7 oktober 2026.",
+      "invalshoek": "Welke omleidingsroutes en verkeershinder kunnen automobilisten verwachten tijdens het asfaltonderzoek bij kruispunt Het Schouw?",
+      "teCheckenBronnen": [
+        "Provincie Noord-Holland",
+        "GEMEENTE_WATERLAND",
+        "AANNEMER"
+      ]
+    },
+    "aiFout": null
+  },
+  {
+    "bronId": "nh-actueel",
+    "bronNaam": "Provincie Noord-Holland — Actueel",
+    "categorie": "lokaal",
+    "titel": "Vervanging Huygenfietsbrug start begin november",
+    "url": "https://www.noord-holland.nl/Actueel/Archief/2026/September_2026/Vervanging_Huygenfietsbrug_start_begin_november",
+    "samenvatting": "De Huygenfietsbrug is vanaf november tot en met april afgesloten voor fietsers. De brug naast de N242, van de Huygendijk naar de Schermerdijk, is verouderd en wordt vervangen en verbreed.",
+    "gepubliceerdOp": "2026-09-21T16:06:27.000Z",
+    "opgehaaldOp": "2026-09-24T05:51:22.831Z",
+    "score": 5,
+    "scoreToelichting": [
+      "recency (+5, 2.6 dag(en) oud)"
     ],
     "aiBeoordeling": {
       "oppakbaar": "nee",
-      "onderbouwing": "Het bericht gaat over regulier onderhoud aan een digitaal belastingsysteem met beperkte nabijheid en impact. Hoewel het binnen Zaanstreek-Waterland speelt, ontbreken criteria zoals grote omvang of een concreet maatschappelijk probleem dat diepere journalistieke aandacht rechtvaardigt.",
+      "onderbouwing": "Het bericht voldoet wel aan de criteria actualiteit, belang en omvang, maar mist nabijheid tot de Zaanstreek-Waterland omdat de Huygendijk en Schermerdijk bij de N242 in Dijk en Waard/Alkmaar liggen. Daarmee draagt het ook niet bij aan het inzicht in de eigen leefomgeving van de lokale lezer.",
       "invalshoek": "",
+      "teCheckenBronnen": []
+    },
+    "aiFout": null
+  },
+  {
+    "bronId": "nh-actueel",
+    "bronNaam": "Provincie Noord-Holland — Actueel",
+    "categorie": "lokaal",
+    "titel": "Burgemeester Sebastiaan Nieuwland van Uitgeest beëdigd",
+    "url": "https://www.noord-holland.nl/Actueel/Archief/2026/September_2026/Burgemeester_Sebastiaan_Nieuwland_van_Uitgeest_beedigd",
+    "samenvatting": "Commissaris van de Koning Arthur van Dijk heeft Sebastiaan Nieuwland op 17 september 2026 beëdigd als burgemeester van de gemeente Uitgeest na zijn herbenoeming.",
+    "gepubliceerdOp": "2026-09-17T16:05:54.000Z",
+    "opgehaaldOp": "2026-09-24T05:51:22.831Z",
+    "score": 5,
+    "scoreToelichting": [
+      "voor het eerst (+2)",
+      "primeur/eerstehands bron (+3)"
+    ],
+    "aiBeoordeling": {
+      "oppakbaar": "twijfel",
+      "onderbouwing": "Het bericht heeft nabijheid (Uitgeest valt in de regio Zaanstreek-Waterland) en actualiteit door de beëdiging op 17 september 2026. Het mist echter concrete gevolgen voor het dagelijks leven en de omvang is beperkt, aangezien het om een herbenoeming en formele beëdiging gaat.",
+      "invalshoek": "Sebastiaan Nieuwland is op 17 september 2026 door Commissaris van de Koning Arthur van Dijk beëdigd als burgemeester van Uitgeest na zijn herbenoeming.",
       "teCheckenBronnen": [
-        "Hoogheemraadschap Hollands Noorderkwartier"
+        "Gemeente Uitgeest",
+        "Provincie Noord-Holland"
+      ]
+    },
+    "aiFout": null
+  },
+  {
+    "bronId": "nh-actueel",
+    "bronNaam": "Provincie Noord-Holland — Actueel",
+    "categorie": "lokaal",
+    "titel": "Provincie onderzocht routes naar sportclubs om fietsen en lopen aantrekkelijker te maken",
+    "url": "https://www.noord-holland.nl/Actueel/Archief/2026/September_2026/Provincie_onderzocht_routes_naar_sportclubs_om_fietsen_en_lopen_aantrekkelijker_te_maken",
+    "samenvatting": "De provincie Noord-Holland wil dat mensen vaker op de fiets stappen of gaan lopen. Om dat aantrekkelijker te maken heeft de provincie de routes naar 10 sportclubs onder de loep genomen.",
+    "gepubliceerdOp": "2026-09-18T14:55:04.000Z",
+    "opgehaaldOp": "2026-09-24T05:51:22.831Z",
+    "score": 2,
+    "scoreToelichting": [
+      "recency (+2, 5.6 dag(en) oud)"
+    ],
+    "aiBeoordeling": {
+      "oppakbaar": "twijfel",
+      "onderbouwing": "Het bericht heeft een hoge nabijheid, maar mist concrete details over welke sportclubs in Zaanstreek-Waterland zijn onderzocht en welke gevolgen dit heeft voor inwoners. Het blijft nu bij een algemene vooraankondiging van de provincie zonder directe maatregelen.",
+      "invalshoek": "Welke sportclubs in Zaanstreek-Waterland zijn onderzocht door de provincie en wanneer worden de wandel- en fietsroutes aangepakt?",
+      "teCheckenBronnen": [
+        "Provincie Noord-Holland",
+        "Lokale sportclubs in Zaanstreek-Waterland"
+      ]
+    },
+    "aiFout": null
+  },
+  {
+    "bronId": "nh-actueel",
+    "bronNaam": "Provincie Noord-Holland — Actueel",
+    "categorie": "lokaal",
+    "titel": "Luchtkwaliteit op lange termijn verbeterd, maar afgelopen jaren stagnatie",
+    "url": "https://www.noord-holland.nl/Actueel/Archief/2026/September_2026/Luchtkwaliteit_op_lange_termijn_verbeterd_maar_afgelopen_jaren_stagnatie",
+    "samenvatting": "De luchtkwaliteit in de IJmond, het Havengebied Amsterdam en Haarlemmermeer is op langere termijn gezien verbeterd, maar lijkt de laatste jaren te stagneren.",
+    "gepubliceerdOp": "2026-09-18T10:50:43.000Z",
+    "opgehaaldOp": "2026-09-24T05:51:22.831Z",
+    "score": 1,
+    "scoreToelichting": [
+      "recency (+1, 5.8 dag(en) oud)"
+    ],
+    "aiBeoordeling": {
+      "oppakbaar": "twijfel",
+      "onderbouwing": "Het bericht heeft betrekking op nabijheid (IJmond grenst aan Zaanstreek-Waterland) en actualiteit, en raakt het belang van inwoners via de luchtkwaliteit. De omvang is groot, maar het mist een concrete lokale maatregel of besluit voor specifiek Zaanstreek-Waterland.",
+      "invalshoek": "Wat betekent de gestagneerde luchtkwaliteit in de nabijgelegen IJmond en het Havengebied voor de inwoners van de Zaanstreek?",
+      "teCheckenBronnen": [
+        "Provincie Noord-Holland",
+        "GGD Zaanstreek-Waterland"
       ]
     },
     "aiFout": null

@@ -1,170 +1,60 @@
 {
-  "gegenereerdOp": "2026-09-23T19:19:03.627Z",
-  "aantalBerichtenTotaal": 25,
+  "gegenereerdOp": "2026-09-24T05:54:10.328Z",
+  "aantalBerichtenTotaal": 16,
   "topPitches": [
     {
-      "bronId": "zaanstad-hoorzittingen",
-      "bronNaam": "zaanstad-hoorzittingen",
+      "bronId": "ibabs-ingekomen-stukken",
+      "bronNaam": "Zaanstad — Ingekomen stukken (iBabs)",
       "categorie": "lokaal",
-      "titel": "2026-10-21 Woensdag 21 oktober 2026 om 17:15 uur - Sluiting pand i.v.m. fraude, misbruik en verboden wapenbezit locatie Middellandse Zee 51 te Zaandam - Stadhuis, Stadhuisplein 100, 1506 MZ Zaandam",
-      "url": "https://loket.zaanstad.nl/mozard/!suite92.scherm1007?mObj=366174",
-      "samenvatting": "",
-      "gepubliceerdOp": "2026-10-21T00:00:00.000Z",
-      "opgehaaldOp": "2026-09-23T19:16:37.107Z",
-      "score": 47,
+      "titel": "Mail met opinie - Wegkijken van Villa Westerweide lost niets op (17-9)",
+      "itemId": "a04faea9-fa73-48f1-b07d-d41f5452c328",
+      "url": "https://zaanstad.bestuurlijkeinformatie.nl/Document/View/4531f257-aaa1-44fe-ae41-c559d9a1ace3",
+      "samenvatting": "Van: @live.nl> Verzonden: maandag 14 september 2026 16:06 Aan: Mailbox Raadsgriffie <raadsgriffie@zaanstad.nl> Onderwerp: Opinie: Wegkijken van Villa Westerweide lost niets op (17/9) Geachte leden van de raad, Graag stel ik u in kennis van het door mij geschreven opiniestuk over Villa Westerweide. Aanstaande donderdag ontvangt u als raad ook een petitie hierover (een initiatief van ). Ik vraag u of u bijgevoegd stuk en de petitie wilt meenemen in uw overwegingen. Voor het gemak heb ik mijn opiniestuk hieronder geplakt. Bij voorbaat dank. Met vriendelijke groet, Zaandam 06- Opinie: Wegkijken van Villa Westerweide lost niets op: Tackel dakloosheid, niet de daklozen Elke ochtend ontwaak ik in mijn warme bed, loop naar beneden om koffie te zetten, onze katten te knuffelen en ontbijt voor mijn dochter te maken. Ik tel mijn zegeningen en besef dat dit niet voor iedereen vanzelfsprekend is. Voor de bezoekers van inloophuis Villa Westerweide is het leven op straat koud en hard. Toch besloot de Zaanstadse gemeenteraad onlangs met een nipte meerderheid de reddingspoging voor deze onmisbare opvang te verwerpen. Een onbegrijpelijke keuze die puur om geld draait. Het behoud kost zes ton per jaar, maar door deze bezuiniging snijdt de gemeente zichzelf in de vingers. Het wegvallen van de inloopvoorziening heeft desastreuze gevolgen voor de daklozen én het Zaandamse straatbeeld. Dakloze mensen worden dagelijks door duizenden passanten bekeken, maar bijna niemand ziet hen echt. Bij Villa Westerweide daarentegen worden zij met open armen ontvangen. Men kan er douchen, eten en rusten. Bovendien beschikt de Villa over een gecontroleerde gebruikersruimte, wat de veiligheid op straat vergroot. U ontvangt niet vaak e-mail van @live.nl. Ontdek waarom dit belangrijk is Waarschuwing!: Deze e-mail is afkomstig van buiten onze organisatie. Wees extra voorzichtig met linkjes en bijlagen. Zeker als je de afzender niet herkent. Lokale partijen en initiatiefnemers houden hun hart vast voor de gevolgen van de voorgenomen sluiting eind 2026. Als het inloophuis sluit, verdwijnt de problematiek namelijk niet; die verplaatst zich naar onze parken en speeltuinen. De kosten voor politie-inzet, crisiszorg en overlast worden dan vele malen hoger. Uit onderzoek blijkt dat een dakloze de samenleving tussen de 30.000 en 85.000 euro per jaar kost. Het levert dus veel meer op om die zes ton te investeren in goede opvang, dan om mensen aan hun lot over te laten. Het overvolle Leger des Heils biedt bovendien geen laagdrempelige daginloop zoals de Villa. Ik begrijp dat het lastig is om de mens achter de statistieken te zien. Zowel vorig jaar als dit jaar stond ik in de raadszaal om hier via een betoog persoonlijk voor te waarschuwen. Als vrijwilliger zag ik de schrijnende realiteit. Een onverzekerde man met een gebroken pols had zonder hulp van de Villa geen adequate zorg gekregen. Een negentienjarige zwangere zou zonder tussenkomst van de Villa op straat zijn bevallen. Een man van in de zevent",
+      "gepubliceerdOp": "2026-09-21T00:00:00.000Z",
+      "opgehaaldOp": "2026-09-24T05:51:05.556Z",
+      "documentInhoudOpgehaald": true,
+      "score": 17,
       "scoreToelichting": [
         "belang (+4)",
-        "nabijheid (+4)",
-        "recency (+39, -27.2 dag(en) oud)"
-      ],
-      "aiBeoordeling": {
-        "oppakbaar": "ja",
-        "onderbouwing": "Dit bericht heeft een hoge nieuwswaarde vanwege de grote maatschappelijke impact (belang en omvang) en de fysieke nabijheid in Zaandam. Het betreft een actuele en ingrijpende maatregel rondom fraude, misbruik en verboden wapenbezit.",
-        "invalshoek": "Gemeente sluit pand aan de Middellandse Zee in Zaandam vanwege fraude, misbruik en verboden wapenbezit.",
-        "teCheckenBronnen": [
-          "Gemeente Zaanstad",
-          "Lokale politie Zaanstreek-Waterland"
-        ]
-      },
-      "aiFout": null
-    },
-    {
-      "bronId": "ibabs-collegeberichten",
-      "bronNaam": "Zaanstad — Collegeberichten (iBabs)",
-      "categorie": "lokaal",
-      "titel": "Aanbesteding dyslexiezorg 2026",
-      "itemId": "5133e092-544a-4434-b135-5e90a167294c",
-      "url": "https://zaanstad.bestuurlijkeinformatie.nl/Document/View/670e0128-f998-43d7-a1c1-5a3e996fd9b9",
-      "samenvatting": "Raadsinformatiebrief — Doeves - de Boer, M.  — Actieve informatievoorziening — MOZARD ZAAKNUMMER PAGINA gemeente Zaanstad 10552564 1/2 Raadsinformatiebrief 1 Onderwerp Aanbesteding dyslexiezorg 2026 Portefeuillehouder M. Doeves-de Boer Portefeuille Jeugdbeleid en (specialistische) Jeugdhulp Aan de leden van de gemeenteraad Zaanstad, Inleiding Gemeenten zijn op grond van de Jeugdwet verantwoordelijk voor het bieden van dyslexiezorg aan kinderen in het basisonderwijs met Ernstige Dyslexie (ED). De huidige bovenregionale overeenkomst voor dyslexiezorg loopt af op 31 december 2026 en kan niet worden verlengd. Met deze brief informeren wij u over de voorgenomen aanbesteding van dyslexiezorg vanaf 2027 en de keuzes die daarin gemaakt worden. Toelichting Nieuwe aanbesteding noodzakelijk Omdat de huidige overeenkomst afloopt, zijn gemeenten genoodzaakt een nieuwe aanbesteding te starten. Dit gebeurt in bovenregionaal verband, waarbij de gemeente Amsterdam optreedt als penvoerder namens de deelnemende gemeenten. De nieuwe aanbesteding heeft als doel om ook vanaf 2027 passende, toegankelijke en kwalitatief goede dyslexiezorg te blijven bieden aan kinderen die hiervoor in aanmerking komen. Voorgenomen inkoopstrategie Op basis van ambtelijke voorbereiding en regionale afstemming is gekozen om de huidige systematiek van dyslexiezorg voort te zetten. Dit betekent dat: • diagnose en behandeling worden gecontracteerd als samenhangende trajecten • gebruik wordt gemaakt van trajectfinanciering • de opzet van de overeenkomst grotendeels gelijk blijft aan de huidige situatie Voor deze keuze is gekozen omdat: • de huidige werkwijze naar behoren functioneert • continuïteit voor kinderen, ouders, scholen en aanbieders wordt geborgd • de omvang van de opdracht vraagt om een proportionele en uitvoerbare aanbesteding • kostenontwikkelingen stabiel en beheersbaar zijn • er onvoldoende capaciteit en tijd beschikbaar is voor grote stelselwijzigingen Belangrijkste inhoudelijke accenten in het nieuwe Programma van Eisen Hoewel de systematiek grotendeels wordt voortgezet, zijn in het nieuwe Programma van Eisen enkele inhoudelijke accenten aangebracht. Zo wordt sterker ingezet op monitoring en datasturing. Aanbieders worden verplicht gegevens aan te leveren over onder andere behandelduur, aantal behandelingen en cliënttevredenheid. Daarnaast ontwikkelen gemeenten een eigen monitor en wordt gewerkt met voortgangsrapportages rondom behandeling. Ook wordt de samenwerking tussen onderwijs en zorg versterkt door meer inzicht te verkrijgen in verwijspatronen en door een nauwere samenwerking met scholen. Verder is er meer aandacht voor de leefwereld van het kind, de draagkracht van ouders en culturele 1 Op deze raadsinformatiebrief volgt geen actie van de Agendacommissie. Wanneer u een onderwerp hieruit wilt bespreken dan kunt u dit doen door een raadsinstrument in te zetten. Bijvoorbeeld een rondvraag (primair gericht aan het college van B&W of een agenda-initiatief (primair gericht aan de collega fracties)). Vermeld altijd in het raadsinstrument: wat u wilt bes",
-      "gepubliceerdOp": "2026-09-22T00:00:00.000Z",
-      "opgehaaldOp": "2026-09-23T19:15:59.967Z",
-      "documentInhoudOpgehaald": true,
-      "score": 15,
-      "scoreToelichting": [
-        "voor het eerst (+2)",
+        "nieuws van morgen (+2)",
         "primeur/eerstehands bron (+3)",
         "nabijheid (+4)",
-        "recency (+6, 1.8 dag(en) oud)"
+        "recency (+4, 3.2 dag(en) oud)"
       ],
       "aiBeoordeling": {
         "oppakbaar": "ja",
-        "onderbouwing": "Dit bericht heeft een hoge nabijheid omdat het de gemeente Zaanstad betreft en raakt direct het belang van inwoners met kinderen in het basisonderwijs vanwege de aanbesteding van dyslexiezorg vanaf 2027. Het draagt bij aan een beter inzicht in de eigen omgeving en concrete gevolgen voor het dagelijks leven door de continuïteit en nieuwe accenten in de zorg. Daarnaast is het actueel als vooraankondiging van de gemeenteraadsreductie en inkoopstrategie.",
-        "invalshoek": "Wat betekent de nieuwe aanbesteding voor de dyslexiezorg vanaf 2027 voor Zaanse basisschoolleerlingen en ouders?",
+        "onderbouwing": "Het bericht heeft grote nabijheid (Zaandam) en concreet belang omdat het gaat om een recente gemeentelijke bezuiniging op opvang Villa Westerweide en een aankomende petitie voor de raad. De omvang is aanzienlijk (zes ton per jaar, maatschappelijke kosten) en het draagt bij aan het inzicht in een lokaal maatschappelijk probleem en de gevolgen voor het dagelijks leven.",
+        "invalshoek": "Wat zijn de gevolgen van de sluiting van inloophuis Villa Westerweide voor daklozen en het Zaandamse straatbeeld nu de raad een reddingspoging verwierp?",
         "teCheckenBronnen": [
-          "Raadsinformatiebrief Aanbesteding dyslexiezorg 2026",
-          "Gemeente Zaanstad"
+          "Gemeente Zaanstad (Raadsgriffie / iBabs)",
+          "Initiatiefnemers van de petitie / vrijwilligers Villa Westerweide"
         ]
       },
       "aiFout": null
     },
     {
-      "bronId": "nos-binnenland",
-      "bronNaam": "NOS — Binnenland",
-      "categorie": "landelijk",
-      "titel": "Honderden ziekenhuisuniformen wekelijks weggegooid, verdwaalde pen boosdoener",
-      "url": "https://nos.nl/l/2632168",
-      "samenvatting": "Een verdwaalde pen kan voor een hoop onnodig afval zorgen, merken Nederlandse ziekenhuizen. Uit een rondgang van RTL Nieuws blijkt dat wekelijks honderden uniformen in de prullenbak belanden. Aan de lopende band gaan balpennen of stiften mee de was in, waardoor witte uniformen er blauw gevlekt uit komen. Het is een \"hardnekkig probleem\", zegt wasserij CleanLease tegen RTL Nieuws. De wasserij wast de pakken van tientallen ziekenhuizen, waaronder die van het UMC Utrecht. Dat ziekenhuis doet nu een oproep aan het zorgpersoneel om de broek- en jaszakken beter te controleren. Boosdoener Aan het beg",
-      "gepubliceerdOp": "2026-09-23T12:15:11.000Z",
-      "opgehaaldOp": "2026-09-23T19:16:11.746Z",
-      "score": 11,
+      "bronId": "nh-actueel",
+      "bronNaam": "Provincie Noord-Holland — Actueel",
+      "categorie": "lokaal",
+      "titel": "Asfaltonderzoek en wegafsluitingen bij Het Schouw",
+      "url": "https://www.noord-holland.nl/Actueel/Archief/2026/September_2026/Asfaltonderzoek_en_wegafsluitingen_bij_Het_Schouw",
+      "samenvatting": "De provincie Noord-Holland werkt samen met de aannemer aan de voorbereiding van de nieuwe inrichting van kruispunt Het Schouw. De plannen worden nu uitgewerkt. Als onderdeel van deze voorbereiding onderzoekt de provincie van maandag 21 september tot en met woensdag 7 oktober 2026 de kwaliteit van het asfalt op en rond het kruispunt Het Schouw.",
+      "gepubliceerdOp": "2026-09-17T15:04:55.000Z",
+      "opgehaaldOp": "2026-09-24T05:51:22.831Z",
+      "score": 6,
       "scoreToelichting": [
-        "raakt lokaal vertegenwoordigde sector (+3)",
-        "recency (+8, 0.3 dag(en) oud)"
+        "belang (+4)",
+        "voor het eerst (+2)"
       ],
       "aiBeoordeling": {
-        "lokaleInvalshoek": "ja",
-        "aanleiding": "Landelijk probleem met ziekenhuisuniformen die door inktvlekken van pennen worden weggegooid bij wasserij CleanLease, die voor tientallen ziekenhuizen werkt.",
-        "voorgesteldeKop": "Ook in Zaanstreek-Waterland ziekenhuisuniformen verloren door 'verdwaalde pen'",
-        "pitchUitleg": "Wasserij CleanLease wast uniformen voor tientallen ziekenhuizen in Nederland. Onderzoek of ziekenhuizen in de regio, zoals het BovenIJ Ziekenhuis (actief in Waterland/Amsterdam-Noord) of nabijgelegen locaties waar regionaal zorgpersoneel werkt, kampen met hetzelfde verspillingseffect door pennen in broekzakken. Dit raakt direct de duurzaamheidsdoelen en operationele kosten van lokale zorginstellingen.",
-        "vervolgstappen": [
-          "Neem contact op met wasserij CleanLease om te vragen welke ziekenhuizen in Zaanstreek-Waterland door hen beleverd worden.",
-          "Bel de communicatieafdeling of facilitaire dienst van het BovenIJ Ziekenhuis en andere relevante regionale zorginstellingen om te vragen of zij dit probleem herkennen en hoeveel uniformen bij hen wekelijks sneuvelen.",
-          "Pas hoor-wederhoor toe op de vraag of het personeel in de regio inmiddels strenger wordt gecontroleerd op pennen in zakken."
-        ],
-        "onderbouwing": ""
-      },
-      "aiFout": null
-    },
-    {
-      "bronId": "nos-binnenland",
-      "bronNaam": "NOS — Binnenland",
-      "categorie": "landelijk",
-      "titel": "Kabinet wil kortere WW, maar extra banen levert dat bijna niet op",
-      "url": "https://nos.nl/l/2632134",
-      "samenvatting": "Het verkorten van de maximale duur van een werkloosheiduitkering naar één jaar zorgt er niet voor dat veel mensen snel weer aan het werk zijn. Slechts 8000 mensen met een WW-uitkering zullen na die periode een nieuwe voltijdsbaan hebben, stelt het Centraal Planbureau. Volgens het CPB levert het kabinetsplan om de WW te versoberen het kabinet wel degelijk geld op, maar het planbureau spreekt tegelijkertijd van \"een beperkte toename van de structurele werkgelegenheid\". Het kabinet had het plan om de WW per 1 januari 2029 met een jaar te verkorten juist ontwikkeld zodat mensen die buiten hun schu",
-      "gepubliceerdOp": "2026-09-23T07:53:25.000Z",
-      "opgehaaldOp": "2026-09-23T19:16:11.746Z",
-      "score": 10,
-      "scoreToelichting": [
-        "raakt lokaal vertegenwoordigde sector (+3)",
-        "recency (+7, 0.5 dag(en) oud)"
-      ],
-      "aiBeoordeling": {
-        "lokaleInvalshoek": "ja",
-        "aanleiding": "Het kabinet wil de maximale duur van de WW-uitkering per 1 januari 2029 verkorten naar één jaar, wat volgens het CPB nauwelijks extra banen oplevert maar wel impact heeft op werkzoekenden.",
-        "voorgesteldeKop": "Kabinet wil WW verkorten naar één jaar: wat betekent dit voor werkzoekenden in Zaanstreek-Waterland?",
-        "pitchUitleg": "De plannen van het kabinet om de WW in te korten raken ook werkzoekenden en uitkeringsgerechtigden in de regio Zaanstreek-Waterland. Lokale UWV-kantoren en re-integratiebedrijven krijgen te maken met een grotere druk om mensen binnen twaalf maanden aan het werk te helpen. Lokale uitzendbureaus, vakbonden en gemeentelijke sociale diensten kunnen vertellen of deze maatregel in de praktijk haalbaar is gezien de regionale arbeidsmarkt.",
-        "vervolgstappen": [
-          "Neem contact op met het UWV om cijfers op te vragen over het aantal WW-uitkeringen in de gemeenten Zaanstad, Purmerend, Wormerland, Oostzaan, Edam-Volendam en Waterland.",
-          "Vraag lokale vakbonden (FNV/CNV) en werkgeversorganisaties in de Zaanstreek om een reactie op de voorgenomen WW-verkorting.",
-          "Interview een lokale re-integratiecoach of uitzendbureau-eigenaar over de kansen op de regionale arbeidsmarkt voor langdurig werkzoekenden.",
-          "Pas hoor-wederhoor toe door lokale wethouders Sociale Zaken te vragen of zij vrezen voor een instroom vanuit de WW naar de bijstand."
-        ],
-        "onderbouwing": ""
-      },
-      "aiFout": null
-    },
-    {
-      "bronId": "nos-binnenland",
-      "bronNaam": "NOS — Binnenland",
-      "categorie": "landelijk",
-      "titel": "Kinderboekenschrijver Sjoerd Kuyper, bekend van Het zakmes, overleden",
-      "url": "https://nos.nl/l/2632187",
-      "samenvatting": "De Nederlandse schrijver Sjoerd Kuyper (74) is na een kort ziekbed in zijn woonplaats Bergen overleden. Dat meldt zijn uitgever Hoogland & Van Klaveren. Kuyper was ruim vijftig jaar schrijver en is vooral bekend door zijn werk voor kinderen, hoewel hij ook voor volwassenen schreef. Generaties groeiden op met zijn boeken over de kleuter Robin. Vier van de boeken uit deze reeks werden met een Griffel bekroond, waarvan een met een Gouden. Die ging naar Robin en God. Voor drie andere Robin-boeken kreeg Kuyper een Zilveren Griffel uitgereikt, net als voor de jeugdromans Bizar en Hotel De Grote L. D",
-      "gepubliceerdOp": "2026-09-23T14:03:39.000Z",
-      "opgehaaldOp": "2026-09-23T19:16:11.745Z",
-      "score": 8,
-      "scoreToelichting": [
-        "recency (+8, 0.2 dag(en) oud)"
-      ],
-      "aiBeoordeling": {
-        "lokaleInvalshoek": "ja",
-        "aanleiding": "De uitgever van overleden kinderboekenschrijver Sjoerd Kuyper is Hoogland & Van Klaveren, een uitgeverij gevestigd in Hoorn, nabij de regio Zaanstreek-Waterland, en zijn boeken worden breed gelezen en uitgeleend op regionale scholen en bibliotheken.",
-        "voorgesteldeKop": "Zaanse bibliotheken en scholen herdenken overleden kinderboekenschrijver Sjoerd Kuyper",
-        "pitchUitleg": "Na het overlijden van de bekende kinderboekenschrijver Sjoerd Kuyper kan de regio worden belicht via de lokale bibliotheken (zoals BovenWater en Bibliotheek Zaanstad) en basisscholen. Er kan worden onderzocht hoe populair zijn boeken, zoals de Robin-reeks en Hotel De Grote L, zijn onder lokale jeugd en of er speciale herdenkingsactiviteiten of voorleesuurtjes worden georganiseerd.",
-        "vervolgstappen": [
-          "Neem contact op met Bibliotheek Zaanstad en Bibliotheek Waterland om te peilen hoe vaak de boeken van Sjoerd Kuyper worden uitgeleend.",
-          "Benader een aantal basisscholen of lokale kinderboekhandels in de regio om te vragen hoe zijn werk in het onderwijs wordt gebruikt.",
-          "Check de uitleencijfers en inventariseer welke titels van Kuyper het meest aanwezig zijn in de regionale collecties."
-        ],
-        "onderbouwing": ""
-      },
-      "aiFout": null
-    },
-    {
-      "bronId": "nos-binnenland",
-      "bronNaam": "NOS — Binnenland",
-      "categorie": "landelijk",
-      "titel": "Week na railsabotage zijn daders nog spoorloos, ProRail pleit voor surveillancedrones",
-      "url": "https://nos.nl/l/2632069",
-      "samenvatting": "Een week na de grote spoorsabotage op Prinsjesdag is niet veel meer duidelijk over de daders. De politie en Openbaar Ministerie doen geen uitspraken over het lopende onderzoek en niemand heeft de actie opgeëist. Spoorbeheerder ProRail denkt dat drones in de toekomst zouden kunnen helpen om de pakkans te vergroten. ProRail heeft zo'n 300 camera's bij overwegen en nog eens 6000 op stations. Die worden in Utrecht centraal gemonitord, in de Smart Monitoring Room van het Operations Control Center Rail. Via een muur vol videoschermen worden notoire probleempunten continu gevolgd, AI meldt het als zi",
-      "gepubliceerdOp": "2026-09-22T15:55:09.000Z",
-      "opgehaaldOp": "2026-09-23T19:16:11.747Z",
-      "score": 7,
-      "scoreToelichting": [
-        "recency (+7, 1.1 dag(en) oud)"
-      ],
-      "aiBeoordeling": {
-        "lokaleInvalshoek": "ja",
-        "aanleiding": "ProRail pleit voor de inzet van surveillancedrones na railsabotage, terwijl het spoornetwerk in Zaanstreek-Waterland drukke forenstrajecten kent met diverse kritieke spooroverweg- en stationlocaties.",
-        "voorgesteldeKop": "Zaanse spooroverweg in vizier? ProRail wil drones inzetten na sabotages",
-        "pitchUitleg": "Naar aanleiding van de landelijke oproep van ProRail voor surveillancedrones om spoorbeveiliging te verbeteren, onderzoeken we hoe kwetsbaar het spoornetwerk in Zaanstreek-Waterland is. We kijken specifiek naar de locaties van camera's en knelpunten op drukke trajecten zoals Zaandam-Amsterdam en Purmerend, en hoe de lokale beveiliging en handhaving hierop aansluiten.",
-        "vervolgstappen": [
-          "Neem contact op met ProRail om te vragen hoe het beveiligings- en cameratoezicht is geregeld op de spoorlijnen door Zaanstreek-Waterland en of hier ook pilots met drones worden overwogen.",
-          "Vraag vervoerders zoals NS en Connexxion (R-net trein) of zij extra kwetsbaarheden of incidenten hebben opgemerkt op de lokale trajecten.",
-          "Interview lokale politie of gemeenten in Zaanstreek-Waterland (bijv. Zaanstad of Purmerend) over hun zicht op de veiligheid rondom de spoorlijnen."
-        ],
-        "onderbouwing": ""
+        "oppakbaar": "ja",
+        "onderbouwing": "Het bericht heeft betrekking op nabijheid in Zaanstreek-Waterland en leidt door wegafsluitingen tot concrete gevolgen voor het dagelijks leven van inwoners (belang). De actualiteit en het 'nieuws van morgen'-aspect zijn sterk vanwege de geplande wegafsluitingen tussen 21 september en 7 oktober 2026.",
+        "invalshoek": "Welke omleidingsroutes en verkeershinder kunnen automobilisten verwachten tijdens het asfaltonderzoek bij kruispunt Het Schouw?",
+        "teCheckenBronnen": [
+          "Provincie Noord-Holland",
+          "GEMEENTE_WATERLAND",
+          "AANNEMER"
+        ]
       },
       "aiFout": null
     }
