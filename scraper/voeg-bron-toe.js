@@ -182,9 +182,19 @@ async function main() {
   // Stap 3: Gemini vragen de structuur te herkennen, met één automatische
   // herkansing (met feedback over wat er mis was) als de eerste poging niet
   // genoeg oplevert.
+  //
+  // Navigatiemenu's, headers en footers eruit filteren vóórdat we afkappen —
+  // nieuwsinhoud staat daar zo goed als nooit in, en sommige sites (zoals
+  // zaantheater.nl) hebben zulke uitgebreide menu's dat die anders de hele
+  // MAX_HTML_TEKENS_VOOR_GEMINI-grens opsouperen voordat de content aan bod
+  // komt — Gemini zou dan alleen het menu te zien krijgen, en terecht geen
+  // herhalend berichten-blok vinden.
   const htmlVoorGemini = html
     .replace(/<script[\s\S]*?<\/script>/gi, "")
     .replace(/<style[\s\S]*?<\/style>/gi, "")
+    .replace(/<nav[\s\S]*?<\/nav>/gi, "")
+    .replace(/<header[\s\S]*?<\/header>/gi, "")
+    .replace(/<footer[\s\S]*?<\/footer>/gi, "")
     .slice(0, MAX_HTML_TEKENS_VOOR_GEMINI);
 
   let recept = await vraagGeminiOmRecept(htmlVoorGemini, apiKey);
