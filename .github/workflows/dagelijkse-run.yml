@@ -1,15 +1,20 @@
 name: Dagelijkse nieuwsrun
 
-# Deze workflow heeft GEEN eigen 'schedule' meer — hij wordt getriggerd door
-# een externe cron-job (cron-job.org) die elke avond een workflow_dispatch-
-# call doet naar de GitHub API. Reden: GitHub's eigen schedule-cron kan bij
-# drukte flink vertragen, en wordt na 60 dagen inactiviteit van de repo
-# automatisch uitgezet. Een externe, betrouwbare trigger lost dat op.
+# Draait automatisch elke avond via GitHub's eigen schedule (zie 'cron'
+# hieronder) — geen externe cron-service meer nodig. Cron-tijden in GitHub
+# Actions zijn ALTIJD in UTC; 21:00 UTC komt overeen met 23:00 in Nederland
+# in de winter (CET, UTC+1). In de zomer (CEST, UTC+2, van eind maart tot
+# eind oktober) is 21:00 UTC dus 23:00 - 1 = 22:00 uur Nederlandse tijd — een
+# uur eerder dan bedoeld. Dat is de prijs van één vaste cron-tijd; wil je het
+# hele jaar door precies 23:00 Nederlandse tijd, dan zijn er twee cron-regels
+# nodig (één voor winter, één voor zomer, elk actief op de juiste maanden).
 #
 # Je kunt 'm ook nog altijd gewoon handmatig starten via de Actions-tab
 # ("Run workflow") — handig om te testen.
 on:
   workflow_dispatch: {}
+  schedule:
+    - cron: "0 21 * * *"
 
 permissions:
   contents: write # nodig om de data/*.json bestanden terug te committen
